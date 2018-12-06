@@ -11,7 +11,7 @@ namespace ITP213
 {
 
 
-    public partial class Format
+    public partial class OverseasInternMain
     {
     }
 }

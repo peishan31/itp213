@@ -98,6 +98,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="Default.aspx" />
+    <Content Include="OverseasInternMain.aspx" />
     <Content Include="Format.aspx" />
     <Content Include="Images\favicon.png" />
     <Content Include="packages.config" />
@@ -132,6 +133,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OverseasInternMain.aspx.cs">
+      <DependentUpon>OverseasInternMain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OverseasInternMain.aspx.designer.cs">
+      <DependentUpon>OverseasInternMain.aspx</DependentUpon>
     </Compile>
     <Compile Include="Format.aspx.cs">
       <DependentUpon>Format.aspx</DependentUpon>

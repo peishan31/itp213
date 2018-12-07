@@ -108,6 +108,7 @@
     <Content Include="Random.aspx" />
     <Content Include="Site.master" />
     <Content Include="Test.aspx" />
+    <Content Include="Testing.aspx" />
     <Content Include="Yooo.aspx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -169,6 +170,13 @@
     </Compile>
     <Compile Include="Test.aspx.designer.cs">
       <DependentUpon>Test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Testing.aspx.cs">
+      <DependentUpon>Testing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Testing.aspx.designer.cs">
+      <DependentUpon>Testing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Yooo.aspx.cs">
       <DependentUpon>Yooo.aspx</DependentUpon>

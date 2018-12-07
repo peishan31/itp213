@@ -29,10 +29,61 @@
     <!-- Page Content -->
     <h1>Overseas Internships</h1>
     <hr/>
-    <div class="container mt-5 mb-5 pb-5">
+    <div class="container mt-5 mb-4">
         <div class="card pl-3 pr-3">
-            <div class="p-5 text-center m-md-3">
-                <!--to be continued-->
+            <div class="pb-5 text-center m-md-3">
+                <h1 class="font-weight-light mt-3 mb-3">
+                    <strong>South East Asia</strong>
+                </h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <article>
+                            <h2>
+                            <a href="#">Thailand</a>
+                            </h2>
+                        </article>
+                    </div>
+                    <div class="col-md-4">
+                        <article>
+                            <h2>
+                            <a href="#">Vietnam</a>
+                            </h2>
+                        </article>
+                    </div>
+                    <div class="col-md-4">
+                        <article>
+                            <h2>
+                            <a href="#">Indonesia</a>
+                            </h2>
+                        </article>
+                    </div>
+                </div>
+                <h1 class="font-weight-light mt-3 mb-3">
+                    <strong>East Asia</strong>
+                </h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <article>
+                            <h2>
+                            <a href="#">China</a>
+                            </h2>
+                        </article>
+                    </div>
+                    <div class="col-md-4">
+                        <article>
+                            <h2>
+                            <a href="#">South Korea</a>
+                            </h2>
+                        </article>
+                    </div>
+                    <div class="col-md-4">
+                        <article>
+                            <h2>
+                            <a href="#">Japan</a>
+                            </h2>
+                        </article>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

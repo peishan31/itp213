@@ -94,6 +94,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\ITP213.mdf" />
+    <Content Include="App_Data\ITP213_log.ldf">
+      <DependentUpon>ITP213.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\all.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\style.css" />

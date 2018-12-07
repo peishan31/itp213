@@ -498,11 +498,11 @@ ServiceFabricBackup/
 
 # SQL Server files
 
-#*.mdf
+*.mdf
 
-#*.ldf
+*.ldf
 
-#*.ndf
+*.ndf
 
 
 

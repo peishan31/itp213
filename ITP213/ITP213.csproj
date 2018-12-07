@@ -109,6 +109,7 @@
     <Content Include="Site.master" />
     <Content Include="Test.aspx" />
     <Content Include="Testing.aspx" />
+    <Content Include="testingtwo.aspx" />
     <Content Include="Yooo.aspx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -177,6 +178,13 @@
     </Compile>
     <Compile Include="Testing.aspx.designer.cs">
       <DependentUpon>Testing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="testingtwo.aspx.cs">
+      <DependentUpon>testingtwo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="testingtwo.aspx.designer.cs">
+      <DependentUpon>testingtwo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Yooo.aspx.cs">
       <DependentUpon>Yooo.aspx</DependentUpon>

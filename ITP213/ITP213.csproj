@@ -101,6 +101,7 @@
     <Content Include="Content\all.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="CreateAnnouncement.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="OverseasInternMain.aspx" />
     <Content Include="Format.aspx" />
@@ -110,8 +111,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Site.master" />
-    <Content Include="Testing.aspx" />
-    <Content Include="testingtwo.aspx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -127,9 +126,20 @@
     <Content Include="Scripts\jquery.easing.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\script.min.js" />
+    <Content Include="TripAllocation.aspx" />
+    <Content Include="ViewAnnouncement.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateAnnouncement.aspx.cs">
+      <DependentUpon>CreateAnnouncement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateAnnouncement.aspx.designer.cs">
+      <DependentUpon>CreateAnnouncement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Announcement.cs" />
+    <Compile Include="DAL\AnnouncementDAO.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -159,19 +169,19 @@
     <Compile Include="Site.master.designer.cs">
       <DependentUpon>Site.master</DependentUpon>
     </Compile>
-    <Compile Include="Testing.aspx.cs">
-      <DependentUpon>Testing.aspx</DependentUpon>
+    <Compile Include="TripAllocation.aspx.cs">
+      <DependentUpon>TripAllocation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Testing.aspx.designer.cs">
-      <DependentUpon>Testing.aspx</DependentUpon>
+    <Compile Include="TripAllocation.aspx.designer.cs">
+      <DependentUpon>TripAllocation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="testingtwo.aspx.cs">
-      <DependentUpon>testingtwo.aspx</DependentUpon>
+    <Compile Include="ViewAnnouncement.aspx.cs">
+      <DependentUpon>ViewAnnouncement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="testingtwo.aspx.designer.cs">
-      <DependentUpon>testingtwo.aspx</DependentUpon>
+    <Compile Include="ViewAnnouncement.aspx.designer.cs">
+      <DependentUpon>ViewAnnouncement.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />

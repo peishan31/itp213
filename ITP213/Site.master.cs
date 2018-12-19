@@ -11,6 +11,16 @@ namespace ITP213
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["name"] != null) {
+                lblName.Text = Session["name"].ToString();
+            }
+            else{
+                Response.Redirect("login.aspx");
+            }
+        }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
 
         }
     }

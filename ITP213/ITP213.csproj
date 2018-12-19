@@ -103,6 +103,9 @@
     <Content Include="Content\style.css" />
     <Content Include="CreateAnnouncement.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Images\trip_background.jpg" />
+    <Content Include="login.aspx" />
+    <Content Include="Logout.aspx" />
     <Content Include="OverseasInternMain.aspx" />
     <Content Include="Format.aspx" />
     <Content Include="Images\favicon.png" />
@@ -130,7 +133,9 @@
     <Content Include="ViewAllocatedTrip.aspx" />
     <Content Include="ViewAnnouncement.aspx" />
     <Content Include="ViewIndividualAnnouncement.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateAnnouncement.aspx.cs">
@@ -142,12 +147,28 @@
     </Compile>
     <Compile Include="DAL\Announcement.cs" />
     <Compile Include="DAL\AnnouncementDAO.cs" />
+    <Compile Include="DAL\Login.cs" />
+    <Compile Include="DAL\LoginDAO.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="OverseasInternMain.aspx.cs">
       <DependentUpon>OverseasInternMain.aspx</DependentUpon>

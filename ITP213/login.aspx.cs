@@ -49,11 +49,43 @@ namespace ITP213
             if (Request.Cookies["authcookie"] != null) {
                 DAL.Login loginObj = LoginDAO.getLoginByEmailAndPassword(Request.Cookies["authcookie"]["email"], Request.Cookies["authcookie"]["password"]);
                 if (loginObj != null) {
-                    Session["email"] = loginObj.email;
-                    Session["name"] = loginObj.name;
+                    // account Table
+                    Session["accountID"] = loginObj.accountID;
                     Session["accountType"] = loginObj.accountType;
-                    Response.Redirect("~/Default.aspx");
+                    Session["name"] = loginObj.name;
+                    Session["email"] = loginObj.email;
+                    Session["mobile"] = loginObj.mobile;
+                    Session["dateOfBirth"] = loginObj.dateOfBirth;
+                    
                     //lblError.Text = "Yayy! Succeeded";
+                    if (Session["accountType"].ToString() == "student")
+                    {
+                        // student table
+                        DAL.Login studentObj = LoginDAO.getStudentTableByAccountID(loginObj.accountID);
+                        Session["adminNo"] = studentObj.adminNo;
+                        Session["school"] = studentObj.studentSchool;
+                        Session["course"] = studentObj.course;
+                        Session["allergies"] = studentObj.allergies;
+                        Session["dietaryNeeds"] = studentObj.dietaryNeeds;
+                        Session["parentID"] = studentObj.parentID;
+
+                    }
+                    else if (Session["accountType"].ToString() == "parent")
+                    {
+                        // parent table
+                        DAL.Login parentObj = LoginDAO.getParentTableByAccountID(loginObj.accountID);
+                        Session["parentID"] = parentObj.parentID;
+                        Session["adminNo"] = parentObj.adminNo;
+                    }
+                    else if (Session["accountType"].ToString() == "lecturer")
+                    {
+                        // lecturer table
+                        DAL.Login lecturerObj = LoginDAO.getLecturerTableByAccountID(loginObj.accountID);
+                        Session["staffID"] = lecturerObj.staffID;
+                        Session["school"] = lecturerObj.lecturerSchool;
+                        Session["staffRole"] = lecturerObj.staffRole;
+                    }
+                    Response.Redirect("~/Default.aspx");
                 }
             }
         }
@@ -76,9 +108,42 @@ namespace ITP213
             DAL.Login loginObj = LoginDAO.getLoginByEmailAndPassword(tbEmail.Text, password);
             if (loginObj != null)
             {
-                Session["email"] = tbEmail.Text;
-                Session["name"] = loginObj.name;
+                // account Table
+                // **storing almost all columns except for password
+                Session["accountID"] = loginObj.accountID;
                 Session["accountType"] = loginObj.accountType;
+                Session["name"] = loginObj.name;
+                Session["email"] = tbEmail.Text;
+                Session["mobile"] = loginObj.mobile;
+                Session["dateOfBirth"] = loginObj.dateOfBirth;
+
+                if (Session["accountType"].ToString() == "student")
+                {
+                    // student table
+                    DAL.Login studentObj = LoginDAO.getStudentTableByAccountID(loginObj.accountID);
+                    Session["adminNo"] = studentObj.adminNo;
+                    Session["school"] = studentObj.studentSchool;
+                    Session["course"] = studentObj.course;
+                    Session["allergies"] = studentObj.allergies;
+                    Session["dietaryNeeds"] = studentObj.dietaryNeeds;
+                    Session["parentID"] = studentObj.parentID;
+
+                }
+                else if (Session["accountType"].ToString() == "parent")
+                {
+                    // parent table
+                    DAL.Login parentObj = LoginDAO.getParentTableByAccountID(loginObj.accountID);
+                    Session["parentID"] = parentObj.parentID;
+                    Session["adminNo"] = parentObj.adminNo;
+                }
+                else if (Session["accountType"].ToString() == "lecturer")
+                {
+                    // lecturer table
+                    DAL.Login lecturerObj = LoginDAO.getLecturerTableByAccountID(loginObj.accountID);
+                    Session["staffID"] = lecturerObj.staffID;
+                    Session["school"] = lecturerObj.lecturerSchool;
+                    Session["staffRole"] = lecturerObj.staffRole;
+                }
 
                 if (cbRememberMe.Checked) {
                     Response.Cookies["authcookie"]["email"] = tbEmail.Text;

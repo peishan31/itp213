@@ -30,7 +30,7 @@
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1>Title</h1> <!--2. Change the title!-->
+    <h1><asp:Label ID="lblTitle" runat="server" Text="Label"></asp:Label></h1> <!--2. Change the title!-->
     <hr/>
     <p> <!--3. This is where you code all your features-->
 

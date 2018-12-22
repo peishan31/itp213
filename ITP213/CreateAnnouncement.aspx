@@ -9,7 +9,7 @@
 
             <a href="/Default.aspx" style="color:#D6D6D6">Home</a>
         </li>
-        <li class="breadcrumb-item active"><asp:Label ID="lblTitle" runat="server" Text="Create an announcement"></asp:Label></li> <!--1. Change the name!-->
+        <li class="breadcrumb-item active"><asp:Label ID="lblTitle" runat="server" Text="Create Announcement"></asp:Label></li> <!--1. Change the name!-->
     </ol>
     <style>
         .breadcrumb
@@ -28,7 +28,7 @@
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1><asp:Label ID="lblTitle2" runat="server" Text="Create an announcement"></asp:Label></h1> <!--2. Change the title!-->
+    <h1><asp:Label ID="lblTitle2" runat="server" Text="Create Announcement"></asp:Label></h1> <!--2. Change the title!-->
     <hr/>
     <!--//Page Content-->
     <br />

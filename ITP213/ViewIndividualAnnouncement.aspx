@@ -11,9 +11,9 @@
             <a href="/Default.aspx" style="color:#D6D6D6">Home</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="/ViewAnnouncement.aspx" style="color:#D6D6D6">View All Announcement</a>
+            <a href="/ViewAnnouncement.aspx" style="color:#D6D6D6">View Announcements</a>
         </li>
-        <li class="breadcrumb-item active">View Announcement</li> <!--1. Change the name!-->
+        <li class="breadcrumb-item active">View Individual Announcement</li> <!--1. Change the name!-->
     </ol>
     <style>
         .breadcrumb

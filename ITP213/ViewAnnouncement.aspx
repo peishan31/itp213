@@ -30,7 +30,7 @@
 
             <a href="/Default.aspx" style="color:#D6D6D6">Home</a>
         </li>
-        <li class="breadcrumb-item active">View all announcements</li> <!--1. Change the name!-->
+        <li class="breadcrumb-item active">View Announcements</li> <!--1. Change the name!-->
     </ol>
     <style>
         .breadcrumb
@@ -49,7 +49,7 @@
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1>View all announcements</h1> <!--2. Change the title!-->
+    <h1>View Announcements</h1> <!--2. Change the title!-->
     <hr/>
     <p> <!--3. This is where you code all your features-->
     <asp:Menu ID="Menu1" runat="server" CssClass="tabs" Orientation="Horizontal" OnMenuItemClick="Menu1_MenuItemClick">

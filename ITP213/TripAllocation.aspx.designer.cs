@@ -22,6 +22,15 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.DropDownList ddlSchool;
         
         /// <summary>
+        /// lblCourses control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCourses;
+        
+        /// <summary>
         /// ddlCourses control.
         /// </summary>
         /// <remarks>
@@ -29,6 +38,15 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCourses;
+        
+        /// <summary>
+        /// btnAddStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddStudent;
         
         /// <summary>
         /// lbStudents control.
@@ -40,13 +58,13 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.ListBox lbStudents;
         
         /// <summary>
-        /// Button1 control.
+        /// btnRemoveStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnRemoveStudent;
         
         /// <summary>
         /// lbSelectedStudents control.
@@ -58,6 +76,24 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.ListBox lbSelectedStudents;
         
         /// <summary>
+        /// ddlLecturerDepartment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlLecturerDepartment;
+        
+        /// <summary>
+        /// btnAddLecturer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddLecturer;
+        
+        /// <summary>
         /// lbLecturers control.
         /// </summary>
         /// <remarks>
@@ -67,13 +103,13 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.ListBox lbLecturers;
         
         /// <summary>
-        /// Button2 control.
+        /// btnRemoveLecturer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Button btnRemoveLecturer;
         
         /// <summary>
         /// lbSelectedLecturers control.
@@ -112,22 +148,22 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.DropDownList ddlCountry;
         
         /// <summary>
-        /// TextBox2 control.
+        /// tbDepartureDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox tbDepartureDate;
         
         /// <summary>
-        /// TextBox3 control.
+        /// tbArrivalDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox3;
+        protected global::System.Web.UI.WebControls.TextBox tbArrivalDate;
         
         /// <summary>
         /// btnCreate control.
@@ -137,5 +173,14 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCreate;
+        
+        /// <summary>
+        /// lblMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMsg;
     }
 }

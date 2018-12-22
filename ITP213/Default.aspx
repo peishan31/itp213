@@ -7,11 +7,9 @@
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
 
-        <li class="breadcrumb-item">
-
-            <a href="#" style="color:#D6D6D6">Home</a>
+        <li class="breadcrumb-item active" style="color:#031A82; cursor:pointer;">
+            Home
         </li>
-        <li class="breadcrumb-item active">Your current page</li> <!--1. Change the name!-->
     </ol>
     <style>
         .breadcrumb
@@ -19,18 +17,11 @@
         background-color: #FFFFFF !important;
             
         }
-        .breadcrumb > .breadcrumb-item
-        {
-        color: #031A82 !important;
-        }
-        .breadcrumb .breadcrumb-item+.breadcrumb-item::before{
-            color: #D6D6D6;
-        }
     </style>
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1><asp:Label ID="lblTitle" runat="server" Text="Label"></asp:Label></h1> <!--2. Change the title!-->
+    <h1><asp:Label ID="lblTitle" runat="server" Text="Home"></asp:Label></h1> <!--2. Change the title!-->
     <hr/>
     <p> <!--3. This is where you code all your features-->
 

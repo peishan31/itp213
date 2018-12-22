@@ -13,6 +13,15 @@ namespace ITP213 {
     public partial class ViewAllocatedTrip {
         
         /// <summary>
+        /// panelAlert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelAlert;
+        
+        /// <summary>
         /// Menu1 control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,24 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.View View1;
         
         /// <summary>
+        /// RepeaterStudyTrips control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterStudyTrips;
+        
+        /// <summary>
+        /// PanelStudyTrips control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelStudyTrips;
+        
+        /// <summary>
         /// View2 control.
         /// </summary>
         /// <remarks>
@@ -49,12 +76,30 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.View View2;
         
         /// <summary>
-        /// View3 control.
+        /// RepeaterImmersionTrips control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View View3;
+        protected global::System.Web.UI.WebControls.Repeater RepeaterImmersionTrips;
+        
+        /// <summary>
+        /// PanelImmersionTrips control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelImmersionTrips;
+        
+        /// <summary>
+        /// lblTesting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTesting;
     }
 }

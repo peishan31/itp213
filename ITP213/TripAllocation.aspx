@@ -85,13 +85,7 @@
                                 Student&#39;s school:
             <asp:DropDownList ID="ddlSchool" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlSchool_SelectedIndexChanged">
                 <asp:ListItem Value="--Please Select--">--Please Select--</asp:ListItem>
-                <asp:ListItem Value="SBM">School of Business Management</asp:ListItem>
-                <asp:ListItem Value="SCL">School of Chemical &amp; Life Sciences</asp:ListItem>
-                <asp:ListItem Value="SID">School of Design</asp:ListItem>
-                <asp:ListItem Value="SEG">School of Engineering</asp:ListItem>
-                <asp:ListItem Value="SHSS">School of Health &amp; Social Sciences</asp:ListItem>
                 <asp:ListItem Value="SIT">School of Information Technology</asp:ListItem>
-                <asp:ListItem Value="SIDM">School of Interactive &amp; Digital Media</asp:ListItem>
             </asp:DropDownList>
                             </p>
                         </div>
@@ -124,13 +118,7 @@
                                 Lecturer&#39;s department:
             <asp:DropDownList ID="ddlLecturerDepartment" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlLecturerDepartment_SelectedIndexChanged">
                 <asp:ListItem Value="--Please Select--">--Please Select--</asp:ListItem>
-                <asp:ListItem Value="SBM">School of Business Management</asp:ListItem>
-                <asp:ListItem Value="SCL">School of Chemical &amp; Life Sciences</asp:ListItem>
-                <asp:ListItem Value="SID">School of Design</asp:ListItem>
-                <asp:ListItem Value="SEG">School of Engineering</asp:ListItem>
-                <asp:ListItem Value="SHSS">School of Health &amp; Social Sciences</asp:ListItem>
                 <asp:ListItem Value="SIT">School of Information Technology</asp:ListItem>
-                <asp:ListItem Value="SIDM">School of Interactive &amp; Digital Media</asp:ListItem>
             </asp:DropDownList>
                             </p>
                         </div>

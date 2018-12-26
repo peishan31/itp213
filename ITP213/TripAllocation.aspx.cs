@@ -184,7 +184,7 @@ namespace ITP213
                     ddlCourses.Items.Add(new ListItem("Infocomm & Security", "C80"));
                     ddlCourses.Items.Add(new ListItem("Information Technology", "C85"));
                 }
-                else if (ddlSchool.SelectedValue.ToString() == "SBM")
+                /*else if (ddlSchool.SelectedValue.ToString() == "SBM")
                 {
                     ddlCourses.Items.Clear();
                     ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
@@ -262,7 +262,7 @@ namespace ITP213
                     ddlCourses.Items.Clear();
                     lblCourses.Visible = false;
                     ddlCourses.Visible = false;
-                }
+                }*/
                 
                 }
             

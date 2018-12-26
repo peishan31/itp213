@@ -73,7 +73,15 @@ namespace ITP213
                 {
                     errorMsg += Environment.NewLine + "<br>-Please check who can see the announcement";
                 }
-                DateTime temp;
+                /*try
+                {
+                    DateTime temp = Convert.ToDateTime(tbTimeDue.Text);
+                }
+                catch
+                {
+                    errorMsg += "<br>-  Invalid DateTime format!"; // **************** not fully working!!!!!
+                }*/
+                /*
                 if (DateTime.TryParse(tbTimeDue.Text, out temp))
                 {
                     // Valid
@@ -85,29 +93,48 @@ namespace ITP213
                     // Invalid
                     panelAlert.Visible = true;
                     errorMsg += "<br>-  Invalid DateTime format!"; // **************** not fully working!!!!!
-                }
-                lblMsg.Text = errorMsg;
+                }*/
+                
+            }
+            DateTime temp;
+            if (DateTime.TryParse(tbTimeDue.Text, out temp))
+            {
+                // Valid
+                //panelAlert.Visible = true;
+                //errorMsg += "<br>-Valid DateTime format!";
             }
             else
             {
-                // Yay :)
-                string studentView = "False";
-                string lecturerView = "False";
-                if (cbStudents.Checked == true)
-                {
-                    studentView = "True";
-                }
-                if (cbLecturers.Checked == true)
-                {
-                    lecturerView = "True";
-                }
-                AnnouncementDAO.insertAnnouncement(tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text);
-                panelSuccess.Visible = true;
-                panelAlert.Visible = false;
-                lblSuccess.ForeColor = System.Drawing.Color.Green;
-                lblSuccess.Text = "Announcement created successfully!!";
-                
+                // Invalid
+                panelAlert.Visible = true;
+                errorMsg += "<br>-  Invalid DateTime format!"; // **************** not fully working!!!!!
             }
+            lblMsg.Text = errorMsg;
+
+                // Yay :)
+                if (errorMsg == "Sorry please ensure that you have entered everything correctly:")
+                {
+                    string studentView = "False";
+                    string lecturerView = "False";
+                    if (cbStudents.Checked == true)
+                    {
+                        studentView = "True";
+                    }
+                    if (cbLecturers.Checked == true)
+                    {
+                        lecturerView = "True";
+                    }
+                    AnnouncementDAO.insertAnnouncement(tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text);
+                    panelSuccess.Visible = true;
+                    panelAlert.Visible = false;
+                    lblSuccess.ForeColor = System.Drawing.Color.Green;
+                    lblSuccess.Text = "Announcement created successfully!!";
+                }
+                else
+                {
+                    panelAlert.Visible = true;
+                    lblMsg.Text = errorMsg;
+                }
         }
     }
 }

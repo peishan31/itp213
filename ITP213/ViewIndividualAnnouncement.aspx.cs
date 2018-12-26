@@ -14,7 +14,7 @@ namespace ITP213
         {
             string id = Request.QueryString["AnnouncementID"];
             //=============================================================================================================================
-            Announcement obj = AnnouncementDAO.getAnnouncementByAdminNo(Convert.ToInt32(id)); 
+            Announcement obj = AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id)); 
             lblAnnouncementTitle.Text = obj.announcementTitle;
             lblAnnouncementMessage.Text = obj.announcementMessage;
             //=============================================================================================================================

@@ -202,6 +202,117 @@ namespace ITP213.DAL
             return result;
         }
 
+        public static TripAllocation getTripByTripID(int tripID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM overseasTrip INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE overseasTrip.tripID = @tripID; SELECT staffID FROM overseasTrip INNER JOIN overseasEnrolledLecturer on overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE overseasTrip.tripID = @tripID;
+             */
+            string sqlStr = "SELECT * FROM overseasTrip WHERE overseasTrip.tripID = @tripID;";
+
+
+            TripAllocation obj = new TripAllocation();   
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr, myConn);
+            da.SelectCommand.Parameters.AddWithValue("tripID", tripID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                DataRow row = ds.Tables["resultTable"].Rows[0];  // Sql command returns only one record
+                obj.departureDate = row["departureDate"].ToString();
+                obj.arrivalDate = row["arrivalDate"].ToString();
+                obj.tripType = row["tripType"].ToString();
+                obj.tripName = row["tripName"].ToString();
+                obj.country = row["country"].ToString();
+            }
+            else
+            {
+                obj = null;
+            }
+
+            return obj;
+        }
+
+        public static List<TripAllocation> getStudentNameByTripID(int tripID)
+        {
+            List<TripAllocation> resultList = new List<TripAllocation>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM overseasEnrolledStudent INNER JOIN student on student.adminNo = overseasEnrolledStudent.adminNo INNER JOIN account on account.accountID = student.accountID where tripID=30
+             */
+            string sqlStr = "SELECT * FROM overseasEnrolledStudent INNER JOIN student on student.adminNo = overseasEnrolledStudent.adminNo INNER JOIN account on account.accountID = student.accountID where tripID = @tripID";
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr, myConn);
+            da.SelectCommand.Parameters.AddWithValue("tripID", tripID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    TripAllocation obj = new TripAllocation();
+                    obj.name = row["name"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+
+            return resultList;
+
+        }
+
+        public static List<TripAllocation> getLecturerNameByTripID(int tripID)
+        {
+            List<TripAllocation> resultList = new List<TripAllocation>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            //SELECT * FROM overseasEnrolledLecturer INNER JOIN lecturer on lecturer.staffID = overseasEnrolledLecturer.staffID INNER JOIN account on account.accountID = lecturer.accountID where tripID=30;
+             */
+            string sqlStr = "SELECT * FROM overseasEnrolledLecturer INNER JOIN lecturer on lecturer.staffID = overseasEnrolledLecturer.staffID INNER JOIN account on account.accountID = lecturer.accountID where tripID=@tripID;";
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr, myConn);
+            da.SelectCommand.Parameters.AddWithValue("tripID", tripID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    TripAllocation obj = new TripAllocation();
+                    obj.name = row["name"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+
+            return resultList;
+
+        }
         // ViewAllocatedTrip.aspx : Study Trip & Immersion Trip
         public static List<TripAllocation> displayStudyTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID 
         {
@@ -317,6 +428,8 @@ namespace ITP213.DAL
                     obj.tripName = row["tripName"].ToString();
                     obj.tripType = row["tripType"].ToString();
                     obj.overseasTripStatus = row["overseasTripStatus"].ToString();
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
                     resultList.Add(obj);
                 }
             }
@@ -355,6 +468,8 @@ namespace ITP213.DAL
                     obj.tripName = row["tripName"].ToString();
                     obj.tripType = row["tripType"].ToString();
                     obj.overseasTripStatus = row["overseasTripStatus"].ToString();
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
                     resultList.Add(obj);
                 }
             }
@@ -363,6 +478,30 @@ namespace ITP213.DAL
                 resultList = null;
             }
             return resultList;
+        }
+
+        /*
+        DELETE FROM withdrawTripRequest WHERE tripID = 25;
+        DELETE FROM overseasEnrolledLecturer where tripID = 25;
+        DELETE FROM overseasEnrolledStudent where tripID = 25;
+        DELETE FROM overseasTrip WHERE tripID = 25;
+        */
+        public static int deleteById(int tripID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            string sqlStr = "DELETE FROM withdrawTripRequest WHERE tripID = @tripID; DELETE FROM overseasEnrolledLecturer where tripID = @tripID; DELETE FROM overseasEnrolledStudent where tripID = @tripID;DELETE FROM overseasTrip WHERE tripID = @tripID;";
+
+
+
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr, myConn);
+            cmd.Parameters.AddWithValue("tripID", tripID);
+            int result = cmd.ExecuteNonQuery();
+            return result;
         }
     }
 }

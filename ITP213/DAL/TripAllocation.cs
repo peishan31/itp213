@@ -21,5 +21,6 @@ namespace ITP213.DAL
         public string overseasTripStatus { set; get; }
         public string departureDate { set; get; } // on hold
         public string arrivalDate { set; get; } // on hold
+        public string country { set; get; }
     }
 }

@@ -36,9 +36,10 @@
     <hr/>
     <p> <!--3. This is where you code all your features-->
         <p><asp:Label ID="lblAnnouncementMessage" runat="server" Text="Label"></asp:Label> <br /></p>
-            
+        <% if (Session["accountType"].ToString() == "lecturer") {%>
         <asp:button runat="server" class="btn btn-danger" text="Delete" id="btnDelete" OnClick="btnDelete_Click" />
         <asp:Button ID="btnUpdate" class="btn btn-warning" runat="server" Text="Update" OnClick="btnUpdate_Click" />
+        <% } %>
     </p>
     <!--//Page Content-->
 </asp:Content>

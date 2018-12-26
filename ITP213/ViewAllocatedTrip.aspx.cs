@@ -104,12 +104,6 @@ namespace ITP213
             }
         }
 
-        protected void Menu1_MenuItemClick(object sender, MenuEventArgs e)
-        {
-            int index = Int32.Parse(e.Item.Value);
-            MultiView1.ActiveViewIndex = index;
-        }
-
         protected void Repeater1_ItemCommand(object source, RepeaterCommandEventArgs e) // for repeater study trip
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -119,6 +113,42 @@ namespace ITP213
                     string name = e.CommandArgument.ToString();
                     lblTesting.Text = name;
                 }
+            }
+        }
+
+        protected void btnStudyTripsWithdraw_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        protected void btnStudyTrips_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                Response.Redirect("/StudentWithdrawalRequest.aspx?tripID="+name);
+            }
+        }
+
+        protected void EditTrip_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                Response.Redirect("/TripAllocation.aspx?tripID=" + name);
+            }
+        }
+
+        protected void delete_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                DAL.TripAllocationDAO.deleteById(Convert.ToInt32(name));
+                Response.Redirect("/ViewAllocatedTrip.aspx");
             }
         }
     }

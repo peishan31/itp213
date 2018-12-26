@@ -22,8 +22,15 @@
 
     <!--Date time picker-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/i18n/jquery-ui-timepicker-addon-i18n.js'></script>
+   
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css'>
+    <!--Tab-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
    
 </head>
 <body id="page-top">
@@ -119,12 +126,15 @@
                         </li>
                     <% } %>
                     <% if (currentAccountType == "lecturer") {%>
-                    <li class="nav-item">
-
-                        <a class="nav-link" href="/ReportInjury.aspx">
-                        <i class="fas fa-fw fa-file-alt"></i>
-                        <span>Report Injury</span>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-fw fa-file-alt"></i>
+                            <span>Injury Report</span>
                         </a>
+                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                            <a class="dropdown-item" href="/ReportInjury.aspx">Report Injury</a>
+                            <a class="dropdown-item" href="/ViewInjuryReport.aspx">View Injury Report</a>
+                        </div>
                     </li>
                     <% } %>
                     <li class="nav-item">

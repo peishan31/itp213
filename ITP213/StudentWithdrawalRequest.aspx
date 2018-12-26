@@ -33,8 +33,37 @@
     <h1>Withdrawal Request</h1> <!--2. Change the title!-->
     <hr/>
     <p> <!--3. This is where you code all your features-->
-
-        This is a paragraph
+        <asp:Panel ID="panelError" runat="server" Visible="false">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Reasons cannot be empty!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </asp:Panel>
+        <div class="form-row">
+            <div class="form-group col-6">
+                Admin No: <asp:Label ID="lblAdminNo" runat="server"></asp:Label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                Trip Name:
+                <asp:DropDownList ID="ddlTripName" runat="server" class="form-control">
+                </asp:DropDownList>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                Reasons: 
+                <asp:TextBox ID="tbReasons" runat="server" Columns="30" Rows="8" TextMode="MultiLine" class="form-control"></asp:TextBox>   
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <asp:Button ID="btnSubmit" class="btn btn-success" runat="server" Text="Submit Request" OnClick="btnSubmit_Click" />
+            </div>
+        </div>
     </p>
     <!--//Page Content-->
 </asp:Content>

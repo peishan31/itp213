@@ -16,48 +16,148 @@ namespace ITP213
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                string tripID = Request.QueryString["tripID"];
+                if (tripID != null)
+                {
+                    btnCreate.Text = "Update";
+                    DAL.TripAllocation obj = TripAllocationDAO.getTripByTripID(Convert.ToInt32(Request.QueryString["tripID"]));
+                    tbTripName.Text = obj.tripName.ToString();
+                    ddlTripType.SelectedValue = ddlTripType.Items.FindByText(obj.tripType.ToString()).Value;
+                    ddlCountry.SelectedValue = ddlCountry.Items.FindByText(obj.country.ToString()).Value;
+                    tbDepartureDate.Text = Convert.ToDateTime(obj.departureDate).ToString("MM/dd/yyyy");
+                    tbArrivalDate.Text = Convert.ToDateTime(obj.arrivalDate.ToString()).ToString("MM/dd/yyyy");
 
+                    lbSelectedStudents.DataSource = TripAllocationDAO.getStudentNameByTripID(Convert.ToInt32(Request.QueryString["tripID"]));
+                    lbSelectedStudents.DataTextField = "name";
+                    lbSelectedStudents.DataValueField = "adminNo";
+                    lbSelectedStudents.DataBind();
+
+                    lbSelectedLecturers.DataSource = TripAllocationDAO.getLecturerNameByTripID(Convert.ToInt32(Request.QueryString["tripID"]));
+                    lbSelectedLecturers.DataTextField = "name";
+                    lbSelectedLecturers.DataValueField = "staffID";
+                    lbSelectedLecturers.DataBind();
+
+                }
+                else
+                {
+
+                }
+            }
+            
         }
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            /*
-            INSERT INTO overseasTrip (overseasTripStatus, arrivalDate, departureDate, noOfStudents, noOfLecturers, tripType, tripName, country, adminNo, staffID)
-            VALUES ('ONGOING', '10/29/2018', '10/30/2018', 20, 4, 'Immersion Trip', '2018 - Japan Immersion Trip' ,'Japan', '171846Z', 'johnny_appleseed')
-             */
-            lblMsg.Text = $"Arrival Date: {tbArrivalDate.Text}; Departure Date: {tbDepartureDate.Text}; noOfStudents: {lbSelectedStudents.Items.Count};"+
-            $"noOfLecturers: {lbSelectedLecturers.Items.Count}; tripType: {ddlTripType.SelectedItem.ToString()}; tripName: {tbTripName.Text};"+ 
+            //if (Request.QueryString["tripID"].ToString() != null)
+            //{
+                
+
+                // Update action
+            //}
+            //else
+            //{
+                /*
+                INSERT INTO overseasTrip (overseasTripStatus, arrivalDate, departureDate, noOfStudents, noOfLecturers, tripType, tripName, country, adminNo, staffID)
+                VALUES ('ONGOING', '10/29/2018', '10/30/2018', 20, 4, 'Immersion Trip', '2018 - Japan Immersion Trip' ,'Japan', '171846Z', 'johnny_appleseed')
+                 */
+            lblMsg.Text = $"Arrival Date: {tbArrivalDate.Text}; Departure Date: {tbDepartureDate.Text}; noOfStudents: {lbSelectedStudents.Items.Count};" +
+            $"noOfLecturers: {lbSelectedLecturers.Items.Count}; tripType: {ddlTripType.SelectedItem.ToString()}; tripName: {tbTripName.Text};" +
             $"country: {ddlCountry.SelectedItem.ToString()};" +
-            $"Admin No: {lbSelectedStudents.Text};"+ 
+            $"Admin No: {lbSelectedStudents.Text};" +
             $"Staff No: {lbSelectedStudents.Text}; ";
 
-            foreach (ListItem studItem in lbSelectedStudents.Items)
+            string errorMsg = "Sorry please ensure that you have entered everything correctly:";
+            if (lbSelectedStudents.Items.Count < 1)
             {
-                lblMsg.Text += $"<br>Student's admin No: {studItem.Value.ToString()};";
+                errorMsg += "<br>- Please select at least one student!";
             }
-            foreach (ListItem lecItem in lbSelectedLecturers.Items)
+            if (lbSelectedLecturers.Items.Count < 1)
             {
-                lblMsg.Text += $"<br>Lecturer's staff No: {lecItem.Value.ToString()};";
+                errorMsg += "<br>- Please select at least one lecturer!";
             }
-
-            // insert trip --> find tripID --> insert enrolledStudent & enrolledLecturer tables.
-            TripAllocationDAO.insertTrip(tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
-
-            DAL.TripAllocation p = TripAllocationDAO.getTripIDByTripNameDepartureDateAndArrivalDate(tbTripName.Text, tbDepartureDate.Text, tbArrivalDate.Text, ddlTripType.SelectedItem.ToString());
-
-            lblMsg.Text = $"p obj: {p.tripID}";
-
-            foreach (ListItem studItem in lbSelectedStudents.Items)
+            if (String.IsNullOrEmpty(tbTripName.Text))
             {
-                TripAllocationDAO.insertEnrolledStudent(p.tripID, studItem.Value.ToString());
+                errorMsg += "<br>- Please include trip name!";
             }
-
-            foreach (ListItem lecItem in lbSelectedLecturers.Items)
+            if (ddlTripType.SelectedItem.ToString() == "--Please Select--")
             {
-                TripAllocationDAO.insertEnrolledLecturer(p.tripID, lecItem.Value.ToString());
+                errorMsg += "<br>- Please select a trip type!";
+            }
+            if (ddlCountry.SelectedItem.ToString() == "--Please Select--")
+            {
+                errorMsg += "<br>- Please select a country!";
             }
 
-            Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
+            /*DateTime temp;
+            if (DateTime.TryParse(tbDepartureDate.Text, out temp))
+            {
+                // Valid
+                //panelAlert.Visible = true;
+                //errorMsg += "<br>-Valid Departure DateTime format!";
+            }
+            else
+            {
+                // Invalid
+                //panelAlert.Visible = true;
+                errorMsg += "<br>- Invalid Departure DateTime format!"; // **************** not fully working!!!!!
+            }
+            DateTime temp2;
+            if (DateTime.TryParse(tbArrivalDate.Text, out temp2))
+            {
+                // Valid
+                //panelAlert.Visible = true;
+                //errorMsg += "<br>-Valid Arrival DateTime format!";
+            }
+            else
+            {
+                // Invalid
+                //panelAlert.Visible = true;
+                errorMsg += "<br>- Invalid Arrival DateTime format!"; // **************** not fully working!!!!!
+            }*/
+            if (errorMsg == "Sorry please ensure that you have entered everything correctly:")
+            {
+                panelSuccess.Visible = true;
+                panelAlert.Visible = false;
+                lblSuccess.Text = "Yup";
+
+                foreach (ListItem studItem in lbSelectedStudents.Items)
+                {
+                    lblMsg.Text += $"<br>Student's admin No: {studItem.Value.ToString()};";
+                }
+                foreach (ListItem lecItem in lbSelectedLecturers.Items)
+                {
+                    lblMsg.Text += $"<br>Lecturer's staff No: {lecItem.Value.ToString()};";
+                }
+
+                // insert trip --> find tripID --> insert enrolledStudent & enrolledLecturer tables.
+                TripAllocationDAO.insertTrip(tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
+
+                DAL.TripAllocation p = TripAllocationDAO.getTripIDByTripNameDepartureDateAndArrivalDate(tbTripName.Text, tbDepartureDate.Text, tbArrivalDate.Text, ddlTripType.SelectedItem.ToString());
+
+                lblMsg.Text = $"p obj: {p.tripID}";
+
+                foreach (ListItem studItem in lbSelectedStudents.Items)
+                {
+                    TripAllocationDAO.insertEnrolledStudent(p.tripID, studItem.Value.ToString());
+                }
+
+                foreach (ListItem lecItem in lbSelectedLecturers.Items)
+                {
+                    TripAllocationDAO.insertEnrolledLecturer(p.tripID, lecItem.Value.ToString());
+                }
+                Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
+            }
+            else
+            {
+                panelAlert.Visible = true;
+                panelSuccess.Visible = false;
+                lblError.Text = errorMsg;
+            }
+            
+            //}
+
         }
 
 

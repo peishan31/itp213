@@ -103,14 +103,13 @@
     <Content Include="Content\style.css" />
     <Content Include="CreateAnnouncement.aspx" />
     <Content Include="CreateFeedback.aspx" />
-    <Content Include="CreateBlog.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Images\trip_background.jpg" />
     <Content Include="LecturerWithdrawalRequest.aspx" />
     <Content Include="login.aspx" />
     <Content Include="Logout.aspx" />
     <Content Include="OverseasInternMain.aspx" />
-    <Content Include="DAL\Format.aspx" />
+    <Content Include="Format.aspx" />
     <Content Include="Images\favicon.png" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
@@ -146,6 +145,40 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateAnnouncement.aspx.cs">
+      <DependentUpon>CreateAnnouncement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateAnnouncement.aspx.designer.cs">
+      <DependentUpon>CreateAnnouncement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreateFeedback.aspx.cs">
+      <DependentUpon>CreateFeedback.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateFeedback.aspx.designer.cs">
+      <DependentUpon>CreateFeedback.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Announcement.cs" />
+    <Compile Include="DAL\AnnouncementDAO.cs" />
+    <Compile Include="DAL\Feedback.cs" />
+    <Compile Include="DAL\FeedbackDAO.cs" />
+    <Compile Include="DAL\Internship.cs" />
+    <Compile Include="DAL\InternshipDAO.cs" />
+    <Compile Include="DAL\OverallReport.cs" />
+    <Compile Include="DAL\OverallReportDAO.cs" />
+    <Compile Include="DAL\Question.cs" />
+    <Compile Include="DAL\QuestionDAO.cs" />
+    <Compile Include="DAL\Response.cs" />
+    <Compile Include="DAL\ResponseDAO.cs" />
+    <Compile Include="DAL\Login.cs" />
+    <Compile Include="DAL\LoginDAO.cs" />
+    <Compile Include="DAL\ReportInjury.cs" />
+    <Compile Include="DAL\ReportInjuryDAO.cs" />
+    <Compile Include="DAL\TripAllocation.cs" />
+    <Compile Include="DAL\TripAllocationDAO.cs" />
+    <Compile Include="DAL\WithdrawalRequest.cs" />
+    <Compile Include="DAL\WithdrawalRequestDAO.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -181,11 +214,11 @@
     <Compile Include="OverseasInternMain.aspx.designer.cs">
       <DependentUpon>OverseasInternMain.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Format.aspx.cs">
+    <Compile Include="Format.aspx.cs">
       <DependentUpon>Format.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DAL\Format.aspx.designer.cs">
+    <Compile Include="Format.aspx.designer.cs">
       <DependentUpon>Format.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

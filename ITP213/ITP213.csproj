@@ -102,7 +102,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="CreateAnnouncement.aspx" />
-    <Content Include="datetimepicker.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Images\trip_background.jpg" />
     <Content Include="LecturerWithdrawalRequest.aspx" />
@@ -134,7 +133,6 @@
     <Content Include="Scripts\jquery.easing.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\script.min.js" />
-    <Content Include="stepWizard.aspx" />
     <Content Include="StudentWithdrawalRequest.aspx" />
     <Content Include="TripAllocation.aspx" />
     <Content Include="ViewAllocatedTrip.aspx" />
@@ -163,13 +161,6 @@
     <Compile Include="DAL\TripAllocationDAO.cs" />
     <Compile Include="DAL\WithdrawalRequest.cs" />
     <Compile Include="DAL\WithdrawalRequestDAO.cs" />
-    <Compile Include="datetimepicker.aspx.cs">
-      <DependentUpon>datetimepicker.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="datetimepicker.aspx.designer.cs">
-      <DependentUpon>datetimepicker.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -226,13 +217,6 @@
     </Compile>
     <Compile Include="Site.master.designer.cs">
       <DependentUpon>Site.master</DependentUpon>
-    </Compile>
-    <Compile Include="stepWizard.aspx.cs">
-      <DependentUpon>stepWizard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="stepWizard.aspx.designer.cs">
-      <DependentUpon>stepWizard.aspx</DependentUpon>
     </Compile>
     <Compile Include="StudentWithdrawalRequest.aspx.cs">
       <DependentUpon>StudentWithdrawalRequest.aspx</DependentUpon>

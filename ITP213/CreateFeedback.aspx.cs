@@ -7,12 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace ITP213
 {
-    public partial class OverseasInternMain : System.Web.UI.Page
+    public partial class CreateFeedback : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
-        
     }
 }

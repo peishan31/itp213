@@ -30,6 +30,7 @@
     <h1>Overseas Internships</h1>
     <hr/>
     <div class="container mt-5 mb-4">
+        <asp:Button ID="btnTest" runat="server" Text="Button Test" />
         <div class="card pl-3 pr-3">
             <div class="pb-5 text-center m-md-3">
                 <h1 class="font-weight-light mt-3 mb-3">

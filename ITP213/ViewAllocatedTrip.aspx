@@ -34,7 +34,7 @@
 
             <a href="/Default.aspx" style="color: #D6D6D6">Home</a>
         </li>
-        <li class="breadcrumb-item active">View Trips</li>
+        <li class="breadcrumb-item active">Assignments</li>
         <!--1. Change the name!-->
     </ol>
     <style>
@@ -53,7 +53,7 @@
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1>View Trips</h1>
+    <h1>Assignments</h1>
     <!--2. Change the title!-->
     <hr />
     <p>
@@ -105,6 +105,7 @@
                                                 <% if (Session["accountType"].ToString() == "parent" || Session["accountType"].ToString() == "student"){%>
                                                <asp:Button ID="btnStudyTripsWithdraw" runat="server" Text="Withdraw" Class="btn btn-warning"  CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' OnClick="btnStudyTripsWithdraw_Click" OnCommand="btnStudyTrips_Command"/>
                                                 <% } else{ %>
+                                                    <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success" Text="Create Test" OnCommand="CreateTest_Command"   CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>'/>
                                                     <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning" Text="Edit Trip" OnCommand="EditTrip_Command"   CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>'/>
                                                     <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger" Text="Delete"  OnCommand="delete_Command"  CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>'/>
                                                 <% } %>
@@ -171,6 +172,7 @@
                                                  <% if (Session["accountType"].ToString() == "parent" || Session["accountType"].ToString() == "student") {%>
                                                     <asp:Button ID="btnImmersionTripsWithdraw" runat="server" Text="Withdraw" Class="btn btn-warning"  CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' OnClick="btnStudyTripsWithdraw_Click" OnCommand="btnStudyTrips_Command"/>
                                                 <% }else{ %>
+                                                    <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success" Text="Create Test" OnCommand="CreateTest_Command"   CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>'/>
                                                     <asp:Button ID="btnImmersionTripsEdit" runat="server" Class="btn btn-warning" Text="Edit Trip" OnCommand="EditTrip_Command"   CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>'/>
                                                     <asp:Button ID="btnImmersionTripsDelete" runat="server" Class="btn btn-danger" Text="Delete" OnCommand="delete_Command"  CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>'/>
                                                 <% } %>
@@ -206,7 +208,7 @@
         </div>
         
         <asp:Label ID="lblTesting" runat="server" Text="Label"></asp:Label>
-
+        
         
     </p>
     <!--//Page Content-->

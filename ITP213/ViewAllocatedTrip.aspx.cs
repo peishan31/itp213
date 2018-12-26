@@ -112,6 +112,18 @@ namespace ITP213
                 {
                     string name = e.CommandArgument.ToString();
                     lblTesting.Text = name;
+                    // **** to redirect to test
+                    //if (Session["accountType"].ToString() == "lecturer") 
+                    //{
+                        //Response.Redirect("/lec.aspx?tripID=" + name);
+                    //}
+
+                    //******************* shang ji: TEST
+                    if (Session["accountType"].ToString() == "student")
+                    {
+                        Response.Redirect("/stud.aspx?tripID=" + name); // do test
+                    }
+                        
                 }
             }
         }
@@ -149,6 +161,17 @@ namespace ITP213
                 lblTesting.Text = name;
                 DAL.TripAllocationDAO.deleteById(Convert.ToInt32(name));
                 Response.Redirect("/ViewAllocatedTrip.aspx");
+            }
+        }
+
+        protected void CreateTest_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                //***** shang ji: TEST
+                Response.Redirect("/test.aspx?tripID=" + name);
             }
         }
     }

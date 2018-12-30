@@ -34,6 +34,9 @@ namespace ITP213
                     {
                         RepeaterStudyTrips.DataSource = TripAllocationDAO.displayStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
                         RepeaterStudyTrips.DataBind();
+
+                        RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        RepeaterPastStudyTrips.DataBind();
                     }
                     if (TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
                     {
@@ -43,6 +46,9 @@ namespace ITP213
                     {
                         RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
                         RepeaterImmersionTrips.DataBind();
+
+                        RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        RepeaterPastImmersionTrips.DataBind();
                     }
                 }
                 else if (Session["accountType"].ToString() == "parent")
@@ -55,6 +61,9 @@ namespace ITP213
                     {
                         RepeaterStudyTrips.DataSource = TripAllocationDAO.displayStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
                         RepeaterStudyTrips.DataBind();
+
+                        RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        RepeaterPastStudyTrips.DataBind();
                     }
                     if (TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
                     {
@@ -64,6 +73,9 @@ namespace ITP213
                     {
                         RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
                         RepeaterImmersionTrips.DataBind();
+
+                        RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        RepeaterPastImmersionTrips.DataBind();
                     }
                 }
                 else if (Session["accountType"].ToString() == "lecturer")
@@ -76,6 +88,9 @@ namespace ITP213
                     {
                         RepeaterStudyTrips.DataSource = TripAllocationDAO.displayStudyTripsBasedOnStaffID(Session["staffID"].ToString());
                         RepeaterStudyTrips.DataBind();
+
+                        RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastStudyTripsBasedOnStaffID(Session["staffID"].ToString());
+                        RepeaterPastStudyTrips.DataBind();
                     }
                     if (TripAllocationDAO.displayImmersionTripsBasedOnStaffID(Session["staffID"].ToString()) == null)
                     {
@@ -85,6 +100,9 @@ namespace ITP213
                     {
                         RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayImmersionTripsBasedOnStaffID(Session["staffID"].ToString());
                         RepeaterImmersionTrips.DataBind();
+
+                        RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastImmersionTripsBasedOnStaffID(Session["staffID"].ToString());
+                        RepeaterPastImmersionTrips.DataBind();
                     }
                 }
                 /*

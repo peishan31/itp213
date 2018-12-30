@@ -11,7 +11,7 @@ namespace ITP213.DAL
 {
     public class AnnouncementDAO
     {
-        public static int insertAnnouncement(string announcementTitle, string announcementMessage, int tripID, string staffID, string studentView, string lecturerView, string timeDue) {
+        public static int insertAnnouncement(string announcementTitle, string announcementMessage, int tripID, string staffID, string studentView, string lecturerView, string timeDue, string createdBy) {
             // Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
 
@@ -21,7 +21,7 @@ namespace ITP213.DAL
             /*
              INSERT INTO announcement (announcementTitle, announcementMessage, tripID, createdOn, staffID, studentView, lecturerView) VALUES('YOO','THIS IS A MSG',29,GETDATE(), 'johnny_appleseed', 'Yes', 'Yes');
              */
-            string strSql = "INSERT INTO announcement (announcementTitle, announcementMessage, tripID, createdOn, staffID, studentView, lecturerView, timeDue) VALUES(@announcementTitle,@announcementMessage,@tripID,GETDATE(), @staffID, @studentView, @lecturerView, @timeDue); ";
+            string strSql = "INSERT INTO announcement (announcementTitle, announcementMessage, tripID, createdOn, staffID, studentView, lecturerView, timeDue, createdBy) VALUES(@announcementTitle,@announcementMessage,@tripID,GETDATE(), @staffID, @studentView, @lecturerView, @timeDue, @createdBy); ";
 
             // Announcement obj = new Announcement(); // create an announcement instance
             SqlConnection myConn = new SqlConnection(DBConnect);
@@ -34,6 +34,7 @@ namespace ITP213.DAL
             cmd.Parameters.AddWithValue("@studentView", studentView);
             cmd.Parameters.AddWithValue("@lecturerView", lecturerView);
             cmd.Parameters.AddWithValue("@timeDue", Convert.ToDateTime(timeDue));
+            cmd.Parameters.AddWithValue("@createdBy", createdBy);
 
             myConn.Open();
             result = cmd.ExecuteNonQuery();
@@ -76,7 +77,8 @@ namespace ITP213.DAL
             return resultList;
         }
 
-        public static List<Announcement> getImmersionTripAnnouncementByStaffID(string staffID)
+        //=============================================================================================================
+        public static List<Announcement> getImmersionTripAnnouncementByStaffID(string staffID) // Before timeDue
         {
             List<Announcement> resultList = new List<Announcement>();
             //Get connection string from web.config
@@ -89,10 +91,24 @@ namespace ITP213.DAL
             /*
             SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID WHERE overseasEnrolledLecturer.staffID = 'johnny_appleseed';
              */
-            string sqlStr = "SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID INNER JOIN lecturer on announcement.staffID = lecturer.staffID INNER JOIN account on account.accountID = lecturer.accountID WHERE overseasEnrolledLecturer.staffID = @staffID  and tripType='Immersion Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE (overseasEnrolledLecturer.staffID = @staffID  and tripType='Immersion Trip' and lecturerView='True' and timeDue>=GETDATE())");
+            sqlStr.AppendLine("OR (createdBy= @staffID and tripType='Immersion Trip' and lecturerView='False' and overseasEnrolledLecturer.staffID = @staffID and timeDue>=GETDATE());");
 
+            /*string sqlStr = "SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE overseasEnrolledLecturer.staffID = @staffID  and tripType='Immersion Trip' and lecturerView='True';";
+            */
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("staffID", staffID);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -109,6 +125,7 @@ namespace ITP213.DAL
                     obj.tripName = row["tripName"].ToString();
                     obj.createdOn = row["createdOn"].ToString();
                     obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
                     resultList.Add(obj);
 
                 }
@@ -122,7 +139,7 @@ namespace ITP213.DAL
 
         }
 
-        public static List<Announcement> getStudyTripAnnouncementByStaffID(string staffID)
+        public static List<Announcement> getImmersionTripPastAnnouncementByStaffID(string staffID) // Before timeDue
         {
             List<Announcement> resultList = new List<Announcement>();
             //Get connection string from web.config
@@ -135,10 +152,24 @@ namespace ITP213.DAL
             /*
             SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID WHERE overseasEnrolledLecturer.staffID = 'johnny_appleseed';
              */
-            string sqlStr = "SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID INNER JOIN lecturer on announcement.staffID = lecturer.staffID INNER JOIN account on account.accountID = lecturer.accountID WHERE overseasEnrolledLecturer.staffID = @staffID  and tripType='Study Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE (overseasEnrolledLecturer.staffID = @staffID  and tripType='Immersion Trip' and lecturerView='True' and timeDue<=GETDATE())");
+            sqlStr.AppendLine("OR (createdBy= @staffID and tripType='Immersion Trip' and lecturerView='False' and overseasEnrolledLecturer.staffID = @staffID and timeDue<=GETDATE());");
 
+            /*string sqlStr = "SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE overseasEnrolledLecturer.staffID = @staffID  and tripType='Immersion Trip' and lecturerView='True';";
+            */
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("staffID", staffID);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -155,6 +186,124 @@ namespace ITP213.DAL
                     obj.tripName = row["tripName"].ToString();
                     obj.createdOn = row["createdOn"].ToString();
                     obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+
+            return resultList;
+
+        }
+
+        public static List<Announcement> getStudyTripAnnouncementByStaffID(string staffID) // Before timeDue
+        {
+            List<Announcement> resultList = new List<Announcement>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID WHERE overseasEnrolledLecturer.staffID = 'johnny_appleseed';
+             */
+            
+             StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE (overseasEnrolledLecturer.staffID = @staffID  and tripType='Study Trip' and lecturerView='True' and timeDue>=GETDATE())");
+            sqlStr.AppendLine("OR (createdBy= @staffID and tripType='Study Trip' and lecturerView='False' and overseasEnrolledLecturer.staffID = @staffID and timeDue>=GETDATE());");
+             
+            /*string sqlStr = "SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE overseasEnrolledLecturer.staffID = @staffID  and tripType='Study Trip' and lecturerView='True';";
+             */
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("staffID", staffID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    Announcement obj = new Announcement();
+                    obj.announcementID = Convert.ToInt32(row["announcementID"]);
+                    obj.announcementTitle = row["announcementTitle"].ToString();
+                    obj.announcementMessage = row["announcementMessage"].ToString();
+                    obj.staffID = row["staffID"].ToString();
+                    obj.tripName = row["tripName"].ToString();
+                    obj.createdOn = row["createdOn"].ToString();
+                    obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+
+        }
+
+        public static List<Announcement> getStudyTripPastAnnouncementByStaffID(string staffID) // Before timeDue
+        {
+            List<Announcement> resultList = new List<Announcement>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID WHERE overseasEnrolledLecturer.staffID = 'johnny_appleseed';
+             */
+
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE (overseasEnrolledLecturer.staffID = @staffID  and tripType='Study Trip' and lecturerView='True' and timeDue<=GETDATE())");
+            sqlStr.AppendLine("OR (createdBy= @staffID and tripType='Study Trip' and lecturerView='False' and overseasEnrolledLecturer.staffID = @staffID and timeDue<=GETDATE());");
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("staffID", staffID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    Announcement obj = new Announcement();
+                    obj.announcementID = Convert.ToInt32(row["announcementID"]);
+                    obj.announcementTitle = row["announcementTitle"].ToString();
+                    obj.announcementMessage = row["announcementMessage"].ToString();
+                    obj.staffID = row["staffID"].ToString();
+                    obj.tripName = row["tripName"].ToString();
+                    obj.createdOn = row["createdOn"].ToString();
+                    obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
                     resultList.Add(obj);
 
                 }
@@ -180,10 +329,22 @@ namespace ITP213.DAL
             /*
             SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID WHERE adminNo = '171846Z' and tripType='Study Trip';
              */
-            string sqlStr = "SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID INNER JOIN lecturer on announcement.staffID = lecturer.staffID INNER JOIN account on account.accountID = lecturer.accountID WHERE adminNo = @adminNo and tripType='Study Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE (adminNo = @adminNo and tripType='Study Trip' and studentView='True' and timeDue>=GETDATE());");
+            /*string sqlStr = "SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE adminNo = @adminNo and tripType='Study Trip' and studentView='True' and timeDue>=GETDATE());";*/
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -200,6 +361,65 @@ namespace ITP213.DAL
                     obj.tripName = row["tripName"].ToString();
                     obj.createdOn = row["createdOn"].ToString();
                     obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+
+        }
+
+        public static List<Announcement> getStudyTripPastAnnouncementByAdminNo(string adminNo)
+        {
+            List<Announcement> resultList = new List<Announcement>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID WHERE adminNo = '171846Z' and tripType='Study Trip';
+             */
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE (adminNo = @adminNo and tripType='Study Trip' and studentView='True' and timeDue<=GETDATE());");
+            /*string sqlStr = "SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE adminNo = @adminNo and tripType='Study Trip' and studentView='True' and timeDue<=GETDATE());";*/
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    Announcement obj = new Announcement();
+                    obj.announcementID = Convert.ToInt32(row["announcementID"]);
+                    obj.announcementTitle = row["announcementTitle"].ToString();
+                    obj.announcementMessage = row["announcementMessage"].ToString();
+                    obj.staffID = row["staffID"].ToString();
+                    obj.tripName = row["tripName"].ToString();
+                    obj.createdOn = row["createdOn"].ToString();
+                    obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
                     resultList.Add(obj);
 
                 }
@@ -225,10 +445,23 @@ namespace ITP213.DAL
             /*
             SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID WHERE adminNo = '171846Z' and tripType='Study Trip';
              */
-            string sqlStr = "SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID INNER JOIN lecturer on announcement.staffID = lecturer.staffID INNER JOIN account on account.accountID = lecturer.accountID WHERE adminNo = @adminNo and tripType='Immersion Trip';";
+            /*SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE adminNo = @adminNo and tripType='Immersion Trip' and studentView='True and timeDue>=GETDATE()';";*/
+
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement ");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID ");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID ");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE adminNo = @adminNo and tripType='Immersion Trip' and studentView='True and timeDue>=GETDATE()';");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -245,6 +478,7 @@ namespace ITP213.DAL
                     obj.tripName = row["tripName"].ToString();
                     obj.createdOn = row["createdOn"].ToString();
                     obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
                     resultList.Add(obj);
 
                 }
@@ -257,10 +491,69 @@ namespace ITP213.DAL
 
         }
 
+        public static List<Announcement> getImmersionTripPastAnnouncementByAdminNo(string adminNo)
+        {
+            List<Announcement> resultList = new List<Announcement>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM announcement INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID WHERE adminNo = '171846Z' and tripType='Study Trip';
+             */
+            /*SELECT * FROM announcement 
+             * INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID 
+             * INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID 
+             * INNER JOIN lecturer on announcement.staffID = lecturer.staffID 
+             * INNER JOIN account on account.accountID = lecturer.accountID 
+             * WHERE adminNo = @adminNo and tripType='Immersion Trip' and studentView='True and timeDue>=GETDATE()';";*/
+
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT * FROM announcement ");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID ");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID ");
+            sqlStr.AppendLine("INNER JOIN lecturer on announcement.staffID = lecturer.staffID");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID ");
+            sqlStr.AppendLine("WHERE adminNo = @adminNo and tripType='Immersion Trip' and studentView='True and timeDue<=GETDATE()';");
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    Announcement obj = new Announcement();
+                    obj.announcementID = Convert.ToInt32(row["announcementID"]);
+                    obj.announcementTitle = row["announcementTitle"].ToString();
+                    obj.announcementMessage = row["announcementMessage"].ToString();
+                    obj.staffID = row["staffID"].ToString();
+                    obj.tripName = row["tripName"].ToString();
+                    obj.createdOn = row["createdOn"].ToString();
+                    obj.staffName = row["name"].ToString();
+                    obj.timeDue = row["timeDue"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+
+        }
+
+        //=============================================================================================================
+
         public static Announcement getAnnouncementByAnnouncementID(int announcementID)
         {
-
-            //===============================================================================
             //Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
 
@@ -288,6 +581,9 @@ namespace ITP213.DAL
                 obj.announcementID = Convert.ToInt32(row["announcementID"]);
                 obj.announcementMessage = row["announcementMessage"].ToString();
                 obj.announcementTitle = row["announcementTitle"].ToString();
+                obj.timeDue = row["timeDue"].ToString();
+                obj.studentView = row["studentView"].ToString();
+                obj.lecturerView = row["lecturerView"].ToString();
             }
             else
             {
@@ -313,7 +609,7 @@ namespace ITP213.DAL
             return result;
         }
 
-        public static int updateById(int announcementID, string announcementTitle, string announcementMessage)
+        public static int updateById(int tripID, int announcementID, string announcementTitle, string announcementMessage, DateTime timeDue, string studentView, string lecturerView)
         {
             //Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
@@ -322,8 +618,12 @@ namespace ITP213.DAL
             where announcementID=21;*/
             StringBuilder sqlStr = new StringBuilder();
             sqlStr.AppendLine("UPDATE announcement SET ");
+            sqlStr.AppendLine("tripID = @aTripID,");
             sqlStr.AppendLine("announcementTitle = @aAnnouncementTitle,");
-            sqlStr.AppendLine("announcementMessage=@aAnnouncementMessage");
+            sqlStr.AppendLine("announcementMessage=@aAnnouncementMessage,");
+            sqlStr.AppendLine("timeDue = @aTimeDue,");
+            sqlStr.AppendLine("studentView = @aStudentView,");
+            sqlStr.AppendLine("lecturerView = @aLecturerView");
             sqlStr.AppendLine("WHERE announcementID=@aAnnouncementID");
 
 
@@ -331,9 +631,13 @@ namespace ITP213.DAL
             SqlConnection myConn = new SqlConnection(DBConnect);
             myConn.Open();
             SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+            cmd.Parameters.AddWithValue("aTripID", tripID);
             cmd.Parameters.AddWithValue("aAnnouncementID", announcementID);
             cmd.Parameters.AddWithValue("aAnnouncementTitle", announcementTitle);
             cmd.Parameters.AddWithValue("aAnnouncementMessage", announcementMessage);
+            cmd.Parameters.AddWithValue("aTimeDue", timeDue);
+            cmd.Parameters.AddWithValue("aStudentView", studentView);
+            cmd.Parameters.AddWithValue("aLecturerView", lecturerView);
             int result = cmd.ExecuteNonQuery();
             return result;
         }

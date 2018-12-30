@@ -22,8 +22,19 @@ namespace ITP213
                     lblTitle2.Text = "Update Announcement";
                     btnCreate.Text = "Update";
 
-                    //Announcement a = AnnouncementDAO.getAnnouncementBy(Convert.ToInt32(id));
+                    Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
 
+                    tbTitle.Text = obj.announcementTitle;
+                    tbMessage.Text = obj.announcementMessage;
+                    tbTimeDue.Text = obj.timeDue;
+                    if (obj.studentView == "True")
+                    {
+                        cbStudents.Checked = true;
+                    }
+                    if (obj.lecturerView == "True")
+                    {
+                        cbLecturers.Checked = true;
+                    }
                     //tbTitle.Text = a.announcementTitle;
                     //tbMessage.Text = a.announcementMessage;
                 }
@@ -47,7 +58,19 @@ namespace ITP213
                 string id = Request.QueryString["AnnouncementID"];
                 string msg = tbMessage.Text;
                 string title = tbTitle.Text;
-                AnnouncementDAO.updateById(Convert.ToInt32(id), title, msg);
+
+                string studentView = "False";
+                string lecturerView = "False";
+                if (cbStudents.Checked == true)
+                {
+                    studentView = "True";
+                }
+                if (cbLecturers.Checked == true)
+                {
+                    lecturerView = "True";
+                }
+                //tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text
+                AnnouncementDAO.updateById(Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Convert.ToInt32(id), title, msg, Convert.ToDateTime(tbTimeDue.Text), studentView, lecturerView);
                 Response.Redirect("ViewAnnouncement.aspx");
             }
             
@@ -124,7 +147,7 @@ namespace ITP213
                     {
                         lecturerView = "True";
                     }
-                    AnnouncementDAO.insertAnnouncement(tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text);
+                    AnnouncementDAO.insertAnnouncement(tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text, Session["staffID"].ToString());
                     panelSuccess.Visible = true;
                     panelAlert.Visible = false;
                     lblSuccess.ForeColor = System.Drawing.Color.Green;

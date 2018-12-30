@@ -24,6 +24,9 @@ namespace ITP213
                     {
                         RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString());
                         RepeaterStudyTrips.DataBind();
+
+                        RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByStaffID(Session["staffID"].ToString());
+                        RepeaterStudyTripsPastAnnouncement.DataBind();
                     }
 
                     if (AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
@@ -34,6 +37,9 @@ namespace ITP213
                     {
                         RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString());
                         RepeaterImmersionTrips.DataBind();
+
+                        RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByStaffID(Session["staffID"].ToString());
+                        RepeaterImmersionTripsPastAnnouncement.DataBind();
                     }
                     
                 }
@@ -47,6 +53,9 @@ namespace ITP213
                     {
                         RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString());
                         RepeaterStudyTrips.DataBind();
+
+                        RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
+                        RepeaterStudyTripsPastAnnouncement.DataBind();
                     }
                     if (AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
                     {
@@ -56,6 +65,10 @@ namespace ITP213
                     {
                         RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
                         RepeaterImmersionTrips.DataBind();
+
+                        RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
+                            // AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
+                        RepeaterImmersionTripsPastAnnouncement.DataBind();
                     }
                 }
             }
@@ -98,7 +111,7 @@ namespace ITP213
             if (e.CommandName == "trips_Click")
             {
                 int index = Convert.ToInt32(e.CommandArgument.ToString());
-                Response.Redirect("ViewIndividualAnnouncement.aspx?AnnouncementID=" + index);
+                //Response.Redirect("ViewIndividualAnnouncement.aspx?AnnouncementID=" + index);
             }
         }
 
@@ -107,7 +120,7 @@ namespace ITP213
             if (e.CommandName == "trips_Click")
             {
                 int index = Convert.ToInt32(e.CommandArgument.ToString());
-                Response.Redirect("ViewIndividualAnnouncement.aspx?AnnouncementID=" + index);
+                //Response.Redirect("ViewIndividualAnnouncement.aspx?AnnouncementID=" + index);
             }
         }
     }

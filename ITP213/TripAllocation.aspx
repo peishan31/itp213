@@ -4,6 +4,19 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link rel="stylesheet" href="Content/jquery-steps.css">
+    <script>
+        /*$(document).ready(function () {
+            var iSelectedTab = $(this).find("input[id*='tab_index']").val();
+            $('.step-app').tabs({
+                //collapsible: true,
+                active: iSelectedTab
+            });
+            //$('[id$=tabs]').tabs({
+                //selected: 1
+            //});
+            
+        });*/
+    </script>
     <style>
         body {
             font-size: 14px;
@@ -26,7 +39,19 @@
             border: 2px solid #e7505a;
         }
     </style>
-    
+    <style>
+        .ui-tabs .ui-tabs-nav li {
+            width:50%;
+            text-align: center;
+        }
+        .ui-tabs .ui-tabs-nav li a {
+            display: inline-block;
+            float: none;
+            padding: 5px;
+            text-decoration: none;
+            width: 100%;
+        }
+    </style>
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
 
@@ -71,22 +96,23 @@
         </div>
     </asp:Panel>
     <div id="demo">
-        <div class="step-app">
+        <div class="step-app" id="tabs">
+            <asp:HiddenField ID="tab_index" Value="0" runat="server" />
             <ul class="step-steps">
-                <li><a href="#step1">Step 1</a></li>
-                <li><a href="#step2">Step 2</a></li>
-                <li><a href="#step3">Step 3</a></li>
+                <li><a href="#tabs-1">Step 1</a></li>
+                <li><a href="#tabs-2">Step 2</a></li>
+                <li><a href="#tabs-3">Step 3</a></li>
             </ul>
             <div class="step-content">
-                <div class="step-tab-panel" id="step1">
+                <div class="step-tab-panel" id="tabs-1">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <p>
                                 Student&#39;s school:
-            <asp:DropDownList ID="ddlSchool" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlSchool_SelectedIndexChanged">
-                <asp:ListItem Value="--Please Select--">--Please Select--</asp:ListItem>
-                <asp:ListItem Value="SIT">School of Information Technology</asp:ListItem>
-            </asp:DropDownList>
+                                <asp:DropDownList ID="ddlSchool" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlSchool_SelectedIndexChanged">
+                                    <asp:ListItem Value="--Please Select--">--Please Select--</asp:ListItem>
+                                    <asp:ListItem Value="SIT">School of Information Technology</asp:ListItem>
+                                </asp:DropDownList>
                             </p>
                         </div>
                         <div class="form-group col-md-6">
@@ -111,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="step-tab-panel" id="step2">
+                <div class="step-tab-panel" id="tabs-2">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <p>
@@ -135,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="step-tab-panel" id="step3">
+                <div class="step-tab-panel" id="tabs-3">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <p>Trip Name:<asp:TextBox ID="tbTripName" runat="server" class="form-control"></asp:TextBox></p>
@@ -208,11 +234,58 @@
     <!--<script src="http://code.jquery.com/jquery-latest.min.js"></script>-->
     <script src="Scripts/jquery-steps.js"></script>
     <script>
-        $('#demo').steps({
-            onFinish: function () {
-                alert('Wizard Completed');
-            }
+        //*************** how do I ensure PART A runs first before PART B?
+        var iSelectedTab2;
+        var steps = new Promise(function (resolve, reject) {
+            $(document).ready(function hi () { // PART A
+                var iSelectedTab = $(this).find("input[id*='tab_index']").val();
+                if (iSelectedTab == null)
+                    iSelectedTab = 0;
+
+                iSelectedTab2= iSelectedTab;
+                resolve(iSelectedTab2);
+                /*$('.step-app').tabs({
+                    //collapsible: true,
+                    active: iSelectedTab
+                });*/
+            
+                console.log("Selected tab isss: " + iSelectedTab)
+            
+            
+            })
         });
+        
+            /*$('#demo').steps({ // PART B
+                onInit: function () {
+                    iSelectedTab2 = $(this).find("input[id*='tab_index']").val();
+                    if (iSelectedTab2 == null)
+                        iSelectedTab2 = 0;
+                    console.log("running??: " + iSelectedTab2);
+                    
+                },
+                startAt: iSelectedTab2
+            });*/
+        
+        
+        steps.then(function (value) {
+            console.log("Promise val: " + value);
+            $('#demo').steps({ // PART B
+                startAt: value
+            });
+        });
+
+        /*var promise1 = new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('foo');
+            }, 300);
+        });
+
+        promise1.then(function (value) {
+            console.log(value);
+            // expected output: "foo"
+        });
+
+        console.log(promise1);*/
     </script>
 
 

@@ -16,5 +16,8 @@ namespace ITP213.DAL
         public string tripNameAndTripType { set; get; } 
         public string tripName { set; get; } //
         public string createdOn { set; get; } //
+        public string timeDue { set; get; }
+        public string studentView { set; get; }
+        public string lecturerView { set; get; }
     }
 }

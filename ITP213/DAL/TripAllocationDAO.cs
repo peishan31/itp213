@@ -313,8 +313,9 @@ namespace ITP213.DAL
             return resultList;
 
         }
+        //===============================================================================================
         // ViewAllocatedTrip.aspx : Study Trip & Immersion Trip
-        public static List<TripAllocation> displayStudyTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID 
+        public static List<TripAllocation> displayStudyTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID & before arrivalDate
         {
             List<TripAllocation> resultList = new List<TripAllocation>();
             //Get connection string from web.config
@@ -325,12 +326,17 @@ namespace ITP213.DAL
 
             //Create Adapter
             /*
-            Select * From overseasTripINNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo = '171846z and tripType='Immersion Trip'';
+            Select * From overseasTrip
+            INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID 
+            WHERE adminNo = '171846z and tripType='Immersion Trip and arrivalDate>=GETDATE();'';
              */
-            string sqlStr = "Select * From overseasTrip INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo = @sAdminNo and tripType='Study Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID");
+            sqlStr.AppendLine("WHERE adminNo = @sAdminNo and tripType='Study Trip' and arrivalDate>=GETDATE();");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("sAdminNo", adminNo);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -357,7 +363,7 @@ namespace ITP213.DAL
 
         }
 
-        public static List<TripAllocation> displayImmersionTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID 
+        public static List<TripAllocation> displayPastStudyTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID & after arrivalDate
         {
             List<TripAllocation> resultList = new List<TripAllocation>();
             //Get connection string from web.config
@@ -368,12 +374,17 @@ namespace ITP213.DAL
 
             //Create Adapter
             /*
-            Select * From overseasTripINNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo = '171846z and tripType='Immersion Trip'';
+            Select * From overseasTrip
+            INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID 
+            WHERE adminNo = '171846z and tripType='Immersion Trip and arrivalDate<=GETDATE();'';
              */
-            string sqlStr = "Select * From overseasTrip INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo = @sAdminNo and tripType='Immersion Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID");
+            sqlStr.AppendLine("WHERE adminNo = @sAdminNo and tripType='Study Trip' and arrivalDate<=GETDATE();");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("sAdminNo", adminNo);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -400,7 +411,101 @@ namespace ITP213.DAL
 
         }
 
-        public static List<TripAllocation> displayStudyTripsBasedOnStaffID(string staffID) // goal: wants to display tripName & tripID
+        public static List<TripAllocation> displayImmersionTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID & before arrivalDate
+        {
+            List<TripAllocation> resultList = new List<TripAllocation>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip ");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID");
+            sqlStr.AppendLine("WHERE adminNo = @sAdminNo and tripType='Immersion Trip' and arrivalDate>=GETDATE();");
+            /*string sqlStr = 
+             * "Select * From overseasTrip 
+             * INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID 
+             * WHERE adminNo = @sAdminNo and tripType='Immersion Trip' and arrivalDate>=GETDATE();";*/
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("sAdminNo", adminNo);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    TripAllocation obj = new TripAllocation();
+                    obj.tripID = Convert.ToInt32(row["tripID"].ToString());
+                    obj.tripName = row["tripName"].ToString();
+                    obj.tripType = row["tripType"].ToString();
+                    obj.overseasTripStatus = row["overseasTripStatus"].ToString();
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
+                    resultList.Add(obj);
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+
+        }
+
+        public static List<TripAllocation> displayPastImmersionTripsBasedOnAdminNo(string adminNo) // goal: wants to display tripName & tripID & after arrivalDate
+        {
+            List<TripAllocation> resultList = new List<TripAllocation>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip ");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID");
+            sqlStr.AppendLine("WHERE adminNo = @sAdminNo and tripType='Immersion Trip' and arrivalDate<=GETDATE();");
+            /*string sqlStr = 
+             * "Select * From overseasTrip 
+             * INNER JOIN overseasEnrolledStudent ON overseasTrip.tripID = overseasEnrolledStudent.tripID 
+             * WHERE adminNo = @sAdminNo and tripType='Immersion Trip' and arrivalDate<=GETDATE();";*/
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("sAdminNo", adminNo);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    TripAllocation obj = new TripAllocation();
+                    obj.tripID = Convert.ToInt32(row["tripID"].ToString());
+                    obj.tripName = row["tripName"].ToString();
+                    obj.tripType = row["tripType"].ToString();
+                    obj.overseasTripStatus = row["overseasTripStatus"].ToString();
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
+                    resultList.Add(obj);
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+
+        }
+
+        public static List<TripAllocation> displayStudyTripsBasedOnStaffID(string staffID) // goal: wants to display tripName & tripID & beforeArrivalDate
         {
             List<TripAllocation> resultList = new List<TripAllocation>();
             //Get connection string from web.config
@@ -411,10 +516,17 @@ namespace ITP213.DAL
 
             //Create Adapter
             /*Select * From overseasTrip INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE staffID='morris_b';*/
-            string sqlStr = "Select * From overseasTrip INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE staffID=@lStaffID and tripType='Study Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID");
+            sqlStr.AppendLine("WHERE staffID=@lStaffID and tripType='Study Trip' and arrivalDate>=GETDATE();");
+
+            /*string sqlStr = "Select * From overseasTrip 
+             * INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID 
+             * WHERE staffID=@lStaffID and tripType='Study Trip' and arrivalDate>=GETDATE();";*/
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("lStaffID", staffID);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -440,7 +552,7 @@ namespace ITP213.DAL
             return resultList;
         }
 
-        public static List<TripAllocation> displayImmersionTripsBasedOnStaffID(string staffID) // goal: wants to display tripName & tripID
+        public static List<TripAllocation> displayPastStudyTripsBasedOnStaffID(string staffID) // goal: wants to display tripName & tripID & afterArrivalDate
         {
             List<TripAllocation> resultList = new List<TripAllocation>();
             //Get connection string from web.config
@@ -450,11 +562,17 @@ namespace ITP213.DAL
             DataSet ds = new DataSet();
 
             //Create Adapter
-            /*Select * From overseasTrip INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE staffID='morris_b';*/
-            string sqlStr = "Select * From overseasTrip INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE staffID=@lStaffID and tripType='Immersion Trip';";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID");
+            sqlStr.AppendLine("WHERE staffID=@lStaffID and tripType='Study Trip' and arrivalDate<=GETDATE();");
+
+            /*string sqlStr = "Select * From overseasTrip 
+             * INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID 
+             * WHERE staffID=@lStaffID and tripType='Study Trip' and arrivalDate<=GETDATE();";*/
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("lStaffID", staffID);
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -479,6 +597,101 @@ namespace ITP213.DAL
             }
             return resultList;
         }
+
+        public static List<TripAllocation> displayImmersionTripsBasedOnStaffID(string staffID) // goal: wants to display tripName & tripID & before arrivalDate
+        {
+            List<TripAllocation> resultList = new List<TripAllocation>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID");
+            sqlStr.AppendLine("WHERE staffID=@lStaffID and tripType='Immersion Trip' and arrivalDate>=GETDATE();");
+            //Create Adapter
+            /*Select * From overseasTrip INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE staffID='morris_b';*/
+            /*string sqlStr = 
+             * "Select * From overseasTrip 
+             * INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID 
+             * WHERE staffID=@lStaffID and tripType='Immersion Trip' and arrivalDate>=GETDATE();";*/
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("lStaffID", staffID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    TripAllocation obj = new TripAllocation();
+                    obj.tripID = Convert.ToInt32(row["tripID"].ToString());
+                    obj.tripName = row["tripName"].ToString();
+                    obj.tripType = row["tripType"].ToString();
+                    obj.overseasTripStatus = row["overseasTripStatus"].ToString();
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
+                    resultList.Add(obj);
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+        }
+
+        public static List<TripAllocation> displayPastImmersionTripsBasedOnStaffID(string staffID) // goal: wants to display tripName & tripID & after arrivalDate
+        {
+            List<TripAllocation> resultList = new List<TripAllocation>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select * From overseasTrip");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID");
+            sqlStr.AppendLine("WHERE staffID=@lStaffID and tripType='Immersion Trip' and arrivalDate<=GETDATE();");
+            //Create Adapter
+            /*Select * From overseasTrip INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE staffID='morris_b';*/
+            /*string sqlStr = 
+             * "Select * From overseasTrip 
+             * INNER JOIN overseasEnrolledLecturer ON overseasTrip.tripID = overseasEnrolledLecturer.tripID 
+             * WHERE staffID=@lStaffID and tripType='Immersion Trip' and arrivalDate<=GETDATE();";*/
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("lStaffID", staffID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    TripAllocation obj = new TripAllocation();
+                    obj.tripID = Convert.ToInt32(row["tripID"].ToString());
+                    obj.tripName = row["tripName"].ToString();
+                    obj.tripType = row["tripType"].ToString();
+                    obj.overseasTripStatus = row["overseasTripStatus"].ToString();
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
+                    resultList.Add(obj);
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+            return resultList;
+        }
+        //==========================================================================================================
 
         /*
         DELETE FROM withdrawTripRequest WHERE tripID = 25;

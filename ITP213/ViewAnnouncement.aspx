@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <link rel='stylesheet' href='Content/mdb.min.css' />
     <style>
         .tabs {
             position: relative;
@@ -63,6 +64,7 @@
                 $("#tabs").tabs();
             });
         </script>
+        
         <div id="tabs">
             <ul>
                 <li><a href="#tabs-1">Study Trips</a></li>
@@ -77,18 +79,29 @@
                                 <div class="col-12 col-sm-12">
                                     <div class="list-group">
                                         <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <small>Trip Name: <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
+                                            <small>Trip Name:
+                                                <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h5 class="mb-1">
-                                                    <asp:LinkButton ID="LinkButton1" runat="server" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' Text='<%#Eval("announcementTitle") %>'>
+
+                                                    <asp:LinkButton ID="LinkButton2" runat="server"
+                                                        Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
+                                                        title='<%#"Stop showing on "+Eval("timeDue") %>'>
                                                     </asp:LinkButton>
                                                 </h5>
                                                 <small>
                                                     <!--(Convert.ToDateTime(Eval("soDateTo"))).ToShortDateString()-->
                                                     <% if (Session["accountType"].ToString() == "lecturer")
                                                         {%>
-                                                    <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning" Text="Edit Trip" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" />
-                                                    <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" />
+                                                    <%# (Eval("staffID").ToString() == Session["staffID"].ToString())?
+                                                            Session["identity"]=true:
+                                                            Session["identity"]=false
+                                                    %>
+                                                    <% if (Convert.ToBoolean(Session["identity"]) == true)
+                                                        {%>
+                                                    <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Announcement" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" />
+                                                    <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" />
+                                                    <%} %>
                                                     <% } %>
                                                 </small>
 
@@ -109,6 +122,69 @@
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
+                    <br />
+                    <center>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#PastStudyTrip">
+                            View Past Announcements
+                        </button>
+                    </center>
+                    <!--Central Modal Large Warning-->
+                    <div class="modal fade" id="PastStudyTrip" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-notify modal-warning" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="heading lead">Past Announcements</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" class="white-text">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Display a list of announcements-->
+                                    <asp:Repeater ID="RepeaterStudyTripsPastAnnouncement" runat="server" OnItemCommand="RepeaterStudyTrips_ItemCommand">
+                                        <ItemTemplate>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-12">
+                                                    <div class="list-group">
+                                                        <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                            <small>Trip Name:
+                                                            <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1">
+
+                                                                    <asp:LinkButton ID="LinkButton2" runat="server"
+                                                                        Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
+                                                                        title='<%#"Stop showing on "+Eval("timeDue") %>'>
+                                                                    </asp:LinkButton>
+                                                                </h5>
+                                                            </div>
+                                                            <p class="mb-1">
+                                                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("announcementMessage") %>'></asp:Label>
+                                                            </p>
+                                                            <small>By:
+                                                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("staffName")%>'></asp:Label>
+                                                            </small>
+                                                            <small class="float-right">Posted on:
+                                                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("createdOn") %>'></asp:Label>
+                                                            </small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                    <!--//Display a list of announcements-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary-modal waves-effect btn-sm" data-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//Central Modal Large Warning-->
+
                     <!--If repeater is empty-->
                     <asp:Panel ID="PanelStudyTrips" runat="server" Visible="False">
                         <div class="jumbotron jumbotron-fluid">
@@ -128,18 +204,28 @@
                                 <div class="col-12 col-sm-12">
                                     <div class="list-group">
                                         <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <small>Trip Name: <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
+                                            <small>Trip Name:
+                                                <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h5 class="mb-1">
-                                                    <asp:LinkButton ID="LinkButton1" runat="server" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' Text='<%#Eval("announcementTitle") %>'>
+                                                    <asp:LinkButton ID="LinkButton1" runat="server" Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
+                                                        title='<%#"Stop showing on "+Eval("timeDue") %>'>
                                                     </asp:LinkButton>
                                                 </h5>
                                                 <small>
                                                     <!--(Convert.ToDateTime(Eval("soDateTo"))).ToShortDateString()-->
                                                     <% if (Session["accountType"].ToString() == "lecturer")
                                                         {%>
-                                                    <asp:Button ID="btnImmersionTripsEdit" runat="server" Class="btn btn-warning" Text="Edit Trip" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" />
-                                                    <asp:Button ID="btnImmersionTripsDelete" runat="server" Class="btn btn-danger" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" />
+                                                    <%# (Eval("staffID").ToString() == Session["staffID"].ToString())?
+                                                            Session["identity"]=true:
+                                                            Session["identity"]=false
+                                                    %>
+                                                    <% if (Convert.ToBoolean(Session["identity"]) == true)
+                                                        {%>
+                                                    <asp:Button ID="btnImmersionTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Announcement" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" />
+                                                    <asp:Button ID="btnImmersionTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" />
+                                                    <%} %>
+
                                                     <% } %>
                                                 </small>
 
@@ -160,6 +246,71 @@
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
+
+                    <br />
+                    <center>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#PastImmersionTrip">
+                            View Past Announcements
+                        </button>
+                    </center>
+                    <!--Central Modal Large Warning-->
+                    <div class="modal fade" id="PastImmersionTrip" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-notify modal-warning" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="heading lead">Past Announcements</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" class="white-text">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Display a list of announcements-->
+                                    <asp:Repeater ID="RepeaterImmersionTripsPastAnnouncement" runat="server" OnItemCommand="RepeaterImmersionTrips_ItemCommand">
+                                        <ItemTemplate>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-12">
+                                                    <div class="list-group">
+                                                        <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                            <small>Trip Name:
+                                                            <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1">
+
+                                                                    <asp:LinkButton ID="LinkButton2" runat="server"
+                                                                        Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
+                                                                        title='<%#"Stop showing on "+Eval("timeDue") %>'>
+                                                                    </asp:LinkButton>
+                                                                </h5>
+                                                            </div>
+                                                            <p class="mb-1">
+                                                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("announcementMessage") %>'></asp:Label>
+                                                            </p>
+                                                            <small>By:
+                                                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("staffName")%>'></asp:Label>
+                                                            </small>
+                                                            <small class="float-right">Posted on:
+                                                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("createdOn") %>'></asp:Label>
+                                                            </small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                    <!--//Display a list of announcements-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary-modal waves-effect btn-sm" data-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//Central Modal Large Warning-->
+
+
                     <!--If repeater is empty-->
                     <asp:Panel ID="PanelImmersionTrips" runat="server" Visible="False">
                         <div class="jumbotron jumbotron-fluid">
@@ -178,6 +329,10 @@
         </div>
         <asp:Label ID="lblTesting" runat="server" Text="Label"></asp:Label>
     </p>
-
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
     <!--//Page Content-->
 </asp:Content>

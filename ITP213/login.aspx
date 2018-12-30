@@ -29,7 +29,7 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="text-center text-white mb-4">-Group Name- Login</h4>
+                <h4 class="text-center text-white mb-4">NYP Login</h4>
                 <div class="row">
                     <div class="col-md-4 mx-auto">
                         <!--Login form-->

@@ -184,6 +184,7 @@ namespace ITP213
                     ddlCourses.Items.Add(new ListItem("Infocomm & Security", "C80"));
                     ddlCourses.Items.Add(new ListItem("Information Technology", "C85"));
                 }
+                tab_index.Value = "0";
                 /*else if (ddlSchool.SelectedValue.ToString() == "SBM")
                 {
                     ddlCourses.Items.Clear();
@@ -263,8 +264,8 @@ namespace ITP213
                     lblCourses.Visible = false;
                     ddlCourses.Visible = false;
                 }*/
-                
-                }
+
+            }
             
         }
 
@@ -278,6 +279,7 @@ namespace ITP213
                 lbStudents.DataTextField = "name";
                 lbStudents.DataValueField = "adminNo";
                 lbStudents.DataBind();
+                tab_index.Value = "0";
             }
         }
 
@@ -288,7 +290,7 @@ namespace ITP213
                 lbSelectedStudents.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
             lbStudents.Items.Clear();
-
+            tab_index.Value = "0";
         }
 
         protected void lbStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -299,6 +301,7 @@ namespace ITP213
             {
               lbStudents.Items.Remove(lbStudents.SelectedItem);
             }
+            tab_index.Value = "0";
         }
 
         protected void lbSelectedStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -309,6 +312,7 @@ namespace ITP213
             {
                 lbSelectedStudents.Items.Remove(lbSelectedStudents.SelectedItem);
             }
+            tab_index.Value = "0";
         }
 
         protected void btnMoveAllStudent_Click(object sender, EventArgs e)
@@ -323,6 +327,7 @@ namespace ITP213
                 lbStudents.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
             lbSelectedStudents.Items.Clear();
+            tab_index.Value = "0";
         }
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
@@ -341,6 +346,7 @@ namespace ITP213
                 lbLecturers.DataValueField = "staffID";
                 lbLecturers.DataBind();
             }
+            tab_index.Value = "1";
         }
 
         protected void btnAddLecturer_Click(object sender, EventArgs e)
@@ -349,7 +355,9 @@ namespace ITP213
             {
                 lbSelectedLecturers.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
+            tab_index.Value = "1";
             lbLecturers.Items.Clear();
+            
         }
 
         protected void btnRemoveLecturer_Click(object sender, EventArgs e)
@@ -359,6 +367,7 @@ namespace ITP213
                 lbLecturers.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
             lbSelectedLecturers.Items.Clear();
+            tab_index.Value = "1";
         }
 
         protected void lbLecturers_SelectedIndexChanged(object sender, EventArgs e)
@@ -379,6 +388,22 @@ namespace ITP213
             {
                 lbSelectedLecturers.Items.Remove(lbSelectedLecturers.SelectedItem);
             }
+            tab_index.Value = "1";
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            tab_index.Value = "0";
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            tab_index.Value = "1";
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            tab_index.Value = "2";
         }
     }
 }

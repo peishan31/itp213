@@ -1,6 +1,7 @@
 ﻿using ITP213.DAL;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -43,6 +44,8 @@ namespace ITP213
                 {
 
                     ddlTripName.DataSource = AnnouncementDAO.displayAllocatedTrips(Session["staffID"].ToString());
+                    ddlTripName.Items.Insert(0, new ListItem("--Select Trip--", "0"));
+                    ddlTripName.AppendDataBoundItems = true;
                     ddlTripName.DataTextField = "tripNameAndTripType";
                     ddlTripName.DataValueField = "tripID";
                     ddlTripName.DataBind();
@@ -52,90 +55,30 @@ namespace ITP213
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            string errorMsg = "Sorry please ensure that you have entered everything correctly:";
-            if (btnCreate.Text == "Update")
+            if (ValidateAnnouncement())
             {
-                string id = Request.QueryString["AnnouncementID"];
-                string msg = tbMessage.Text;
-                string title = tbTitle.Text;
+                if (btnCreate.Text == "Update")
+                {
+                    string id = Request.QueryString["AnnouncementID"];
+                    string msg = tbMessage.Text;
+                    string title = tbTitle.Text;
 
-                string studentView = "False";
-                string lecturerView = "False";
-                if (cbStudents.Checked == true)
-                {
-                    studentView = "True";
+                    string studentView = "False";
+                    string lecturerView = "False";
+                    if (cbStudents.Checked == true)
+                    {
+                        studentView = "True";
+                    }
+                    if (cbLecturers.Checked == true)
+                    {
+                        lecturerView = "True";
+                    }
+                    //tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text
+                    AnnouncementDAO.updateById(Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Convert.ToInt32(id), title, msg, Convert.ToDateTime(tbTimeDue.Text), studentView, lecturerView);
+                    Response.Redirect("ViewAnnouncement.aspx");
                 }
-                if (cbLecturers.Checked == true)
-                {
-                    lecturerView = "True";
-                }
-                //tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text
-                AnnouncementDAO.updateById(Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Convert.ToInt32(id), title, msg, Convert.ToDateTime(tbTimeDue.Text), studentView, lecturerView);
-                Response.Redirect("ViewAnnouncement.aspx");
-            }
-            
-            if ((string.IsNullOrEmpty(tbMessage.Text)) || (string.IsNullOrEmpty(tbTitle.Text)) || (ddlTripName.SelectedItem.Text == "--Select--") || (cbLecturers.Checked == false && cbStudents.Checked == false) || (String.IsNullOrEmpty(tbTimeDue.Text)))
-            {
-                panelAlert.Visible = true;
-                panelSuccess.Visible = false;
-                lblMsg.ForeColor = System.Drawing.Color.Red;
-                
-                if (ddlTripName.SelectedItem.Text == "--Select--")
-                {
-                    errorMsg += "<br>-Please select the group";
-                }
-                if (string.IsNullOrEmpty(tbTitle.Text))
-                {
-                    errorMsg += Environment.NewLine + "<br>-Please write your title";
-                }
-                if (string.IsNullOrEmpty(tbMessage.Text))
-                {
-                    errorMsg += Environment.NewLine + "<br>-Please write your message";
-                }
-                if (cbLecturers.Checked == false && cbStudents.Checked == false)
-                {
-                    errorMsg += Environment.NewLine + "<br>-Please check who can see the announcement";
-                }
-                /*try
-                {
-                    DateTime temp = Convert.ToDateTime(tbTimeDue.Text);
-                }
-                catch
-                {
-                    errorMsg += "<br>-  Invalid DateTime format!"; // **************** not fully working!!!!!
-                }*/
-                /*
-                if (DateTime.TryParse(tbTimeDue.Text, out temp))
-                {
-                    // Valid
-                    //panelAlert.Visible = true;
-                    //errorMsg += "<br>-Valid DateTime format!";
-                }
-                else
-                {
-                    // Invalid
-                    panelAlert.Visible = true;
-                    errorMsg += "<br>-  Invalid DateTime format!"; // **************** not fully working!!!!!
-                }*/
-                
-            }
-            DateTime temp;
-            if (DateTime.TryParse(tbTimeDue.Text, out temp))
-            {
-                // Valid
-                //panelAlert.Visible = true;
-                //errorMsg += "<br>-Valid DateTime format!";
-            }
-            else
-            {
-                // Invalid
-                panelAlert.Visible = true;
-                errorMsg += "<br>-  Invalid DateTime format!"; // **************** not fully working!!!!!
-            }
-            lblMsg.Text = errorMsg;
 
-                // Yay :)
-                if (errorMsg == "Sorry please ensure that you have entered everything correctly:")
+                else if (btnCreate.Text == "Create")
                 {
                     string studentView = "False";
                     string lecturerView = "False";
@@ -152,12 +95,103 @@ namespace ITP213
                     panelAlert.Visible = false;
                     lblSuccess.ForeColor = System.Drawing.Color.Green;
                     lblSuccess.Text = "Announcement created successfully!!";
+                    Response.Redirect("ViewAnnouncement.aspx");
+                }
+            }
+            
+        }
+
+        private bool ValidateAnnouncement()
+        {
+            bool result = false;
+            lblMsg.Text = String.Empty;
+
+            panelAlert.Visible = true;
+            panelSuccess.Visible = false;
+
+            if (ddlTripName.SelectedItem.Value == "0")
+            {
+                lblMsg.Text += "Please select a trip" + "<br>";
+                ddlTripName.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlTripName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                ddlTripName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlTripName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (string.IsNullOrEmpty(tbTitle.Text))
+            {
+                lblMsg.Text += "Please write your title" + "<br>";
+                tbTitle.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbTitle.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbTitle.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbTitle.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (string.IsNullOrEmpty(tbMessage.Text))
+            {
+                lblMsg.Text += "Please write your message" + "<br>";
+                tbMessage.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbMessage.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbMessage.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbMessage.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            DateTime temp;
+            if (!DateTime.TryParse(tbTimeDue.Text, out temp))
+            {
+                lblMsg.Text += "Invalid DateTime format!" + "<br>";
+                tbTimeDue.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbTimeDue.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbTimeDue.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbTimeDue.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            DateTime temp2;
+            if (tbTimeDue.Text != null && DateTime.TryParse(tbTimeDue.Text, out temp2))
+            {
+                var timeDue = DateTime.Parse(tbTimeDue.Text);
+                var currentTime = DateTime.Now;
+
+                if (timeDue < currentTime)
+                {
+                    lblMsg.Text += "Due time has already passed!";
+                    tbTimeDue.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                    tbTimeDue.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
                 }
                 else
                 {
-                    panelAlert.Visible = true;
-                    lblMsg.Text = errorMsg;
+                    tbTimeDue.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                    tbTimeDue.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
                 }
+            }
+
+
+            if (cbLecturers.Checked == false && cbStudents.Checked == false)
+            {
+                lblMsg.Text += "Please check who can see the announcement" + "<br>";
+                lblCbValidation.Visible = true;
+            }
+            else
+            {
+                lblCbValidation.Visible = false;
+            }
+
+
+            
+            result = String.IsNullOrEmpty(lblMsg.Text);
+            return result;
         }
     }
 }

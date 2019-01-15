@@ -17,5 +17,6 @@ namespace ITP213.DAL
         public string departureDate { set; get; } // on hold
         public string arrivalDate { set; get; } // on hold
         public string createdOn { set; get; }
+        public string withdrawalTripRequestStatus { set; get; }
     }
 }

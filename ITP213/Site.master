@@ -59,7 +59,16 @@
                 <li class="nav-item dropdown no-arrow mx-1">
                   <a class="nav-link dropdown-toggle" href="/ViewAnnouncement.aspx" id="alertsDropdown">
                     <i class="fas fa-bell fa-fw"></i>
-                    <span class="badge badge-danger">10+</span>
+                      <asp:Panel ID="PanelAnnouncement" runat="server" Visible="false">
+                        <span class="badge badge-danger" id="badgeUnreadCount" runat="server" visible="true">
+                            <asp:Repeater ID="RepeaterUnreadCount" runat="server" OnItemDataBound="RepeaterUnreadMsg_ItemDataBound">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%#Eval("unreadCount") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </span>
+                      </asp:Panel>
+                    
                   </a>
                 </li>
                 <li class="nav-item dropdown no-arrow">
@@ -121,6 +130,7 @@
 
                             <% if (currentAccountType == "student") {%>
                                 <a class="dropdown-item" href="/StudentWithdrawalRequest.aspx">Withdrawal Request</a>
+                                <a class="dropdown-item" href="/StudentWithdrawalResult.aspx">Withdrawal Result</a>
                             <% } %>
                             </div>
                         </li>
@@ -157,7 +167,19 @@
                         <span>Blog</span>
                         </a>
                     </li>
-                    
+
+                    <% if (currentAccountType == "lecturer") {%>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-address-card"></i>
+                        <span>Student's Particulars</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" href="/InformationSummary.aspx">Summary</a>
+                        <a class="dropdown-item" href="/StudentParticulars.aspx">Individual Particulars</a>
+                        </div>
+                    </li>
+                    <% } %>
                 </ul>    
                 <!--//Sidebar nav end-->
 

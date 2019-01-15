@@ -49,6 +49,15 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.Label lblSuccess;
         
         /// <summary>
+        /// tab_index control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField tab_index;
+        
+        /// <summary>
         /// ddlTrip control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTrip;
+        
+        /// <summary>
+        /// lblName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblName;
         
         /// <summary>
         /// ddlName control.
@@ -146,6 +164,15 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbAgency;
+        
+        /// <summary>
+        /// lblRbValidation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRbValidation;
         
         /// <summary>
         /// rbFirstAidGiven control.

@@ -136,22 +136,39 @@
                             <a class="dropdown-item" href="/ViewInjuryReport.aspx">View Injury Report</a>
                         </div>
                     </li>
+                    <% } %>
+                    <% if (currentAccountType == "lecturer") { %>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-file-alt"></i>
+                            <i class="fas fa-fw fa-folder"></i>
                             <span>Statistics and Report</span>
                         </a>
+                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                            <a class="dropdown-item" href="#">View Statistics</a>
+                            <a class="dropdown-item" href="#">View Report</a>
+                        </div>
                     </li>
+                    <% } %>
+                    <% if (currentAccountType == "lecturer" || currentAccountType == "student") { %>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-file-alt"></i>
+                            <i class="fas fa-fw fa-folder"></i>
                             <span>Feedback</span>
                         </a>
+                        <% if (currentAccountType == "lecturer") { %>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
+                                <a class="dropdown-item" href="#">Create Feedback</a>
+                                <a class="dropdown-item" href="#">View Feedback</a>
+                            </div>
+                        <% } %>
+                        <% if (currentAccountType == "student") { %>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
+                                <a class="dropdown-item" href="#">Submit Feedback</a>
+                            </div>
+                        <% } %>
                     </li>
-                    
                     <% } %>
                     <li class="nav-item">
-
                         <a class="nav-link" href="#">
                         <i class="fas fa-fw fa-pencil-alt"></i>
                         <span>Blog</span>

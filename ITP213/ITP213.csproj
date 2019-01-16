@@ -100,6 +100,7 @@
     <Content Include="App_Data\ITP213_log.ldf">
       <DependentUpon>ITP213.mdf</DependentUpon>
     </Content>
+    <Content Include="Scripts\Chart_JS.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.min.css" />
     <Content Include="Content\mdb.min.css" />
@@ -161,6 +162,7 @@
     <Content Include="ViewIndividualAnnouncement.aspx" />
     <Content Include="ViewIndividualTrip.aspx" />
     <Content Include="ViewInjuryReport.aspx" />
+    <Content Include="ViewStatistics.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -338,6 +340,13 @@
     </Compile>
     <Compile Include="ViewInjuryReport.aspx.designer.cs">
       <DependentUpon>ViewInjuryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewStatistics.aspx.cs">
+      <DependentUpon>ViewStatistics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewStatistics.aspx.designer.cs">
+      <DependentUpon>ViewStatistics.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

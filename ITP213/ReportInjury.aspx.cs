@@ -18,6 +18,8 @@ namespace ITP213
                 {
 
                     ddlTrip.DataSource = AnnouncementDAO.displayAllocatedTrips(Session["staffID"].ToString());
+                    ddlTrip.Items.Insert(0, new ListItem("--Select Trip--", "0"));
+                    ddlTrip.AppendDataBoundItems = true;
                     ddlTrip.DataTextField = "tripNameAndTripType";
                     ddlTrip.DataValueField = "tripID";
                     ddlTrip.DataBind();
@@ -67,7 +69,11 @@ namespace ITP213
                 Label1.Text = ddlTrip.SelectedValue.ToString();
                 //lblMsg.Text = $"{ddlCourses.SelectedValue}";
 
+                lblName.Visible = true;
+                ddlName.Visible = true;
                 ddlName.DataSource = ReportInjuryDAO.getStudentName(Convert.ToInt32(ddlTrip.SelectedValue));
+                ddlName.Items.Insert(0, new ListItem("--Select Name--", "0"));
+                ddlName.AppendDataBoundItems = true;
                 ddlName.DataTextField = "name";
                 ddlName.DataValueField = "adminNo";
                 ddlName.DataBind();
@@ -76,58 +82,8 @@ namespace ITP213
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            
-            string errorMsg = "Sorry please ensure that you have entered everything correctly:";
-            DateTime dateTimeOfInjury = DateTime.Now;
-
-            if (String.IsNullOrEmpty(ddlName.SelectedValue.ToString()))
-            {
-                errorMsg += "<br>-Please select a student!";
-            }
-            if (String.IsNullOrEmpty(tbDateTimeOfInjury.Text))
-            {
-                errorMsg += "<br>-DateTime is empty!";
-            }
-            if (String.IsNullOrEmpty(tbLocation.Text))
-            {
-                errorMsg += "<br>-Location is empty!";
-            }
-            if (String.IsNullOrEmpty(tbDescription.Text))
-            {
-                errorMsg += "<br>-Description is empty!";
-            }
-            if (String.IsNullOrEmpty(tbWitnessName.Text))
-            {
-                errorMsg += "<br>-Witness name is empty!";
-            }
-            if (String.IsNullOrEmpty(tbWitnessPhone.Text))
-            {
-                errorMsg += "<br>-Witness phone is empty!";
-            }
-            if (String.IsNullOrEmpty(tbNatureOfInjury.Text))
-            {
-                errorMsg += "<br>-Nature of injury is empty!";
-            }
-            if (String.IsNullOrEmpty(tbCauseOfInjury.Text))
-            {
-                errorMsg += "<br>-Cause of injury is empty!";
-            }
-            if (String.IsNullOrEmpty(tbLocationOfBody.Text))
-            {
-                errorMsg += "<br>-Location of body is empty!";
-            }
-            if (String.IsNullOrEmpty(tbAgency.Text))
-            {
-                errorMsg += "<br>-Agency is empty!";
-            }
-            if (String.IsNullOrEmpty(rbFirstAidGiven.Text))
-            {
-                errorMsg += "<br>-First aid given is empty!";
-            }
-            
-
             // ***************** have not validate date time of injury!
-            if (errorMsg == "Sorry please ensure that you have entered everything correctly:")
+            if (ValidateReportInjury())
             {
                 if (btnSubmit.Text == "Finish")
                 {
@@ -146,16 +102,191 @@ namespace ITP213
                 }
                 
             }
+        }
+
+        private bool ValidateReportInjury()
+        {
+            bool result = false;
+            lblError.Text = string.Empty;
+
+            panelSuccess.Visible = false;
+            panelAlert.Visible = true;
+
+            if (ddlTrip.SelectedValue.ToString() == "0")
+            {
+                lblError.Text += "Please select a trip!<br>";
+                ddlTrip.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlTrip.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
             else
             {
-                panelSuccess.Visible = false;
-                panelAlert.Visible = true;
-                lblError.Text = errorMsg;
+                ddlTrip.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlTrip.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
             }
-                
-            
-            
-            //Label1.Text = "Announcement created successfully!!";
+            if (ddlName.SelectedValue.ToString() == "0")
+            {
+                lblError.Text += "Please select a name!<br>";
+                ddlName.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                ddlName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(ddlName.SelectedValue.ToString()))
+            {
+                lblError.Text += "Please select a student!<br>";
+                ddlName.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                ddlName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            /*if (String.IsNullOrEmpty(tbDateTimeOfInjury.Text))
+            {
+                lblError.Text += "DateTime is empty!<br>";
+                tbDateTimeOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbDateTimeOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbDateTimeOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbDateTimeOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }*/
+            DateTime temp;
+            if (!DateTime.TryParse(tbDateTimeOfInjury.Text, out temp))
+            {
+                lblError.Text += "Invalid date and time of the injury!<br>";
+                tbDateTimeOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbDateTimeOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbDateTimeOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbDateTimeOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            // check datetime logic
+            DateTime temp2;
+            if (tbDateTimeOfInjury.Text != null && DateTime.TryParse(tbDateTimeOfInjury.Text, out temp2))
+            {
+                var timeDue = DateTime.Parse(tbDateTimeOfInjury.Text);
+                var currentTime = DateTime.Now;
+
+                if (timeDue > currentTime)
+                {
+                    lblError.Text += "Please verify the injury date again!<br>";
+                    tbDateTimeOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                    tbDateTimeOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+                }
+                else
+                {
+                    tbDateTimeOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                    tbDateTimeOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+                }
+            }
+            if (String.IsNullOrEmpty(tbLocation.Text))
+            {
+                lblError.Text += "Location is empty!<br>";
+                tbLocation.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbLocation.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbLocation.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbLocation.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbDescription.Text))
+            {
+                lblError.Text += "Description is empty!<br>";
+                tbDescription.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbDescription.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbDescription.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbDescription.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbWitnessName.Text))
+            {
+                lblError.Text += "Witness name is empty!<br>";
+                tbWitnessName.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbWitnessName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbWitnessName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbWitnessName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbWitnessPhone.Text))
+            {
+                lblError.Text += "Witness phone is empty!<br>";
+                tbWitnessPhone.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbWitnessPhone.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbWitnessPhone.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbWitnessPhone.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbNatureOfInjury.Text))
+            {
+                lblError.Text += "Nature of injury is empty!<br>";
+                tbNatureOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbNatureOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbNatureOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbNatureOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbCauseOfInjury.Text))
+            {
+                lblError.Text += "Cause of injury is empty!<br>";
+                tbCauseOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbCauseOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbCauseOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbCauseOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbLocationOfBody.Text))
+            {
+                lblError.Text += "Location of body is empty!<br>";
+                tbLocationOfBody.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbLocationOfBody.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbLocationOfBody.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbLocationOfBody.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(tbAgency.Text))
+            {
+                lblError.Text += "Agency is empty!<br>";
+                tbAgency.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbAgency.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbAgency.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbAgency.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (String.IsNullOrEmpty(rbFirstAidGiven.Text))
+            {
+                lblError.Text += "First aid given is empty!<br>";
+                lblRbValidation.Visible = true;
+            }
+            else
+            {
+                lblRbValidation.Visible = false;
+            }
+
+            result = String.IsNullOrEmpty(lblError.Text);
+            return result;
         }
     }
 }

@@ -1714,7 +1714,7 @@
 a {
     color: #0275d8;
     text-decoration: none;
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
     a:focus, a:hover {
@@ -7831,7 +7831,7 @@ button:focus {
     }
 
         .navbar .dropdown-menu a:hover {
-            color: #fff !important;
+            /*color: #fff !important;*/ /*navbar issue*/
         }
 
 @media (max-width:600px) {

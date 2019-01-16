@@ -35,7 +35,7 @@
     <p> <!--3. This is where you code all your features-->
         <asp:Panel ID="panelError" runat="server" Visible="false">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Reasons cannot be empty!
+                <asp:Label ID="lblError" runat="server" Text="Label"></asp:Label>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="TripAllocation.aspx.cs" Inherits="ITP213.TripAllocation" MaintainScrollPositionOnPostback="true" %>
+﻿   <%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="TripAllocation.aspx.cs" Inherits="ITP213.TripAllocation" MaintainScrollPositionOnPostback="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -81,7 +81,7 @@
     <hr />
     <asp:Panel ID="panelAlert" runat="server" Visible="False">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <asp:Label ID="lblError" runat="server" ForeColor="Black"></asp:Label>
+            <asp:Label ID="lblError" runat="server"></asp:Label>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -108,18 +108,21 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <p>
+                                <asp:Panel ID="pnlname" runat="server" Enabled="false">
                                 Student&#39;s school:
-                                <asp:DropDownList ID="ddlSchool" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlSchool_SelectedIndexChanged">
-                                    <asp:ListItem Value="--Please Select--">--Please Select--</asp:ListItem>
+                                <asp:DropDownList ID="ddlSchool" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlSchool_SelectedIndexChanged" readonly>
                                     <asp:ListItem Value="SIT">School of Information Technology</asp:ListItem>
                                 </asp:DropDownList>
+                                </asp:Panel>
                             </p>
                         </div>
                         <div class="form-group col-md-6">
                             <p>
-                                <asp:Label ID="lblCourses" runat="server" Text="Student's course:" Visible="False"></asp:Label>
-                                <asp:DropDownList ID="ddlCourses" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlCourses_SelectedIndexChanged" Visible="False">
+                                <asp:Panel ID="Panel1" runat="server" Enabled="true">
+                                <asp:Label ID="lblCourses" runat="server" Text="Student's course:" Visible="True"></asp:Label>
+                                <asp:DropDownList ID="ddlCourses" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlCourses_SelectedIndexChanged" Visible="True">
                                 </asp:DropDownList>
+                                </asp:Panel>
                             </p>
                         </div>
                     </div>
@@ -170,8 +173,8 @@
                             <p>
                                 Trip Type:<asp:DropDownList ID="ddlTripType" runat="server" class="form-control">
                                     <asp:ListItem>--Please Select--</asp:ListItem>
-                                    <asp:ListItem>Immersion Trip</asp:ListItem>
                                     <asp:ListItem>Study Trip</asp:ListItem>
+                                    <asp:ListItem>Immersion Trip</asp:ListItem>
                                 </asp:DropDownList>
                             </p>
                         </div>
@@ -205,7 +208,7 @@
             <div class="step-footer">
                 <button data-direction="prev" class="step-btn">Previous</button>
                 <button data-direction="next" class="step-btn">Next</button>
-                <button data-direction="finish" class="step-btn">Finish</button>
+                <asp:Button ID="btnCreate" data-direction="finish" runat="server" class="step-btn" Text="Create" OnClick="btnCreate_Click" />
             </div>
         </div>
     </div>
@@ -216,7 +219,6 @@
         <div class="form-group col-md-5">
         </div>
         <div class="form-group col-md-2">
-            <asp:Button ID="btnCreate" runat="server" class="btn btn-success btn-block" Text="Create" OnClick="btnCreate_Click" />
         </div>
         <div class="form-group col-md-5">
             <asp:Label ID="lblMsg" runat="server"></asp:Label>
@@ -226,8 +228,12 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $(function () {
-                $("#tbDepartureDate").datepicker();
-                $("#tbArrivalDate").datepicker();
+                $("#tbDepartureDate").datepicker({
+                    minDate: 0
+                });
+                $("#tbArrivalDate").datepicker({
+                    minDate: 0
+                });
             });
         });
     </script>
@@ -274,18 +280,6 @@
             });
         });
 
-        /*var promise1 = new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('foo');
-            }, 300);
-        });
-
-        promise1.then(function (value) {
-            console.log(value);
-            // expected output: "foo"
-        });
-
-        console.log(promise1);*/
     </script>
 
 

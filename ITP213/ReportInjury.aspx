@@ -76,15 +76,16 @@
         </asp:Panel>
         <div id="demo">
             <div class="step-app">
+                <asp:HiddenField ID="tab_index" Value="0" runat="server" />
                 <ul class="step-steps">
-                    <li><a href="#step1">Step 1</a></li>
-                    <li><a href="#step2">Step 2</a></li>
-                    <li><a href="#step3">Step 3</a></li>
-                    <li><a href="#step4">Step 4</a></li>
-                    <li><a href="#step5">Step 5</a></li>
+                    <li><a href="#tabs-1">Step 1</a></li>
+                    <li><a href="#tabs-2">Step 2</a></li>
+                    <li><a href="#tabs-3">Step 3</a></li>
+                    <li><a href="#tabs-4">Step 4</a></li>
+                    <li><a href="#tabs-5">Step 5</a></li>
                 </ul>
                 <div class="step-content">
-                    <div class="step-tab-panel" id="step1">
+                    <div class="step-tab-panel" id="tabs-1">
                         <fieldset>
                             <legend>Details of injured person:</legend>
                             <div class="row">
@@ -93,13 +94,13 @@
                                     <asp:DropDownList ID="ddlTrip" class="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlTrip_SelectedIndexChanged"></asp:DropDownList>
                                 </div>
                                 <div class="col-6">
-                                    Name:
-                                    <asp:DropDownList ID="ddlName" class="form-control" runat="server" AutoPostBack="True"></asp:DropDownList>
+                                    <asp:Label ID="lblName" runat="server" Text="Name:" Visible="false"></asp:Label>
+                                    <asp:DropDownList ID="ddlName" class="form-control" runat="server" AutoPostBack="True" Visible="false"></asp:DropDownList>
                                 </div>
                             </div>
                         </fieldset>
                     </div>
-                    <div class="step-tab-panel" id="step2">
+                    <div class="step-tab-panel" id="tabs-2">
                         <fieldset>
                             <legend>Details of incident:</legend>
                             <div class="row">
@@ -118,7 +119,7 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="step-tab-panel" id="step3">
+                    <div class="step-tab-panel" id="tabs-3">
                         <fieldset>
                             <legend>Details of witness:</legend>
                             <div class="row">
@@ -133,7 +134,7 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="step-tab-panel" id="step4">
+                    <div class="step-tab-panel" id="tabs-4">
                         <fieldset>
                             <legend>Details of injury:</legend>
                             <div class="row">
@@ -148,7 +149,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    Location on body(eg back, left foreaerm):
+                                    Location on body(eg back, left forearm):
                                     <asp:TextBox ID="tbLocationOfBody" class="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="col-6">
@@ -158,12 +159,12 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="step-tab-panel" id="step5">
+                    <div class="step-tab-panel" id="tabs-5">
                         <fieldset>
                             <legend>Treatment Administered:</legend>
                             <div class="row">
                                 <div class="col">
-                                    First Aid given
+                                    First Aid given <asp:Label ID="lblRbValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label>
                                     <asp:RadioButtonList ID="rbFirstAidGiven" runat="server">
                                         <asp:ListItem>Yes</asp:ListItem>
                                         <asp:ListItem>No</asp:ListItem>
@@ -223,7 +224,8 @@
                     firstDay: 0,
                     isRTL: false,
                     showMonthAfterYear: false,
-                    yearSuffix: ''
+                    yearSuffix: '',
+                    maxDate: 0
                 };
                 datepicker.setDefaults(datepicker.regional['SG']);
 
@@ -255,12 +257,47 @@
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script src="Scripts/jquery-steps.js"></script>
         <script>
-            $('#demo').steps({
-                onFinish: function () {
-                    alert('Wizard Completed');
-                }
+        //*************** how do I ensure PART A runs first before PART B?
+        var iSelectedTab2;
+        var steps = new Promise(function (resolve, reject) {
+            $(document).ready(function hi () { // PART A
+                var iSelectedTab = $(this).find("input[id*='tab_index']").val();
+                if (iSelectedTab == null)
+                    iSelectedTab = 0;
+
+                iSelectedTab2= iSelectedTab;
+                resolve(iSelectedTab2);
+                /*$('.step-app').tabs({
+                    //collapsible: true,
+                    active: iSelectedTab
+                });*/
+            
+                console.log("Selected tab isss: " + iSelectedTab)
+            
+            
+            })
+        });
+        
+            /*$('#demo').steps({ // PART B
+                onInit: function () {
+                    iSelectedTab2 = $(this).find("input[id*='tab_index']").val();
+                    if (iSelectedTab2 == null)
+                        iSelectedTab2 = 0;
+                    console.log("running??: " + iSelectedTab2);
+                    
+                },
+                startAt: iSelectedTab2
+            });*/
+        
+        
+        steps.then(function (value) {
+            console.log("Promise val: " + value);
+            $('#demo').steps({ // PART B
+                startAt: value
             });
-        </script>
+        });
+
+    </script>
 
         <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
 

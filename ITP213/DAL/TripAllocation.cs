@@ -22,5 +22,11 @@ namespace ITP213.DAL
         public string departureDate { set; get; } // on hold
         public string arrivalDate { set; get; } // on hold
         public string country { set; get; }
+        public int noOfStudents { set; get; }
+        public int noOfLecturers { set; get; }
+
+        // View Individual Trip
+        //public string studentName { set; get; }
+        //public string staffName { set; get; }
     }
 }

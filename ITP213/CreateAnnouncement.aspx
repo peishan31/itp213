@@ -61,7 +61,7 @@
     </style>
     <asp:Panel ID="panelAlert" runat="server" Visible="False">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <asp:Label ID="lblMsg" runat="server" ForeColor="Black"></asp:Label>
+            <asp:Label ID="lblMsg" runat="server"></asp:Label>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -69,7 +69,7 @@
     </asp:Panel>
     <asp:Panel ID="panelSuccess" runat="server" Visible="False">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <asp:Label ID="lblSuccess" runat="server" ForeColor="Black"></asp:Label>
+            <asp:Label ID="lblSuccess" runat="server"></asp:Label>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -107,7 +107,7 @@
                                 <asp:TextBox ID="tbTimeDue" runat="server" class="form-control" ClientIDMode="Static"></asp:TextBox>
                             </div>
                             <div class="col-6">
-                                Who can view this announcement in this group:<br />
+                                Who can view this announcement in this group: <asp:Label ID="lblCbValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label><br />
                                 <asp:CheckBox ID="cbLecturers" runat="server" Text="Travelling lecturers" class="form-check-label" />
                                 <br />
                                 <asp:CheckBox ID="cbStudents" runat="server" Text="Students" class="form-check-label" />
@@ -120,8 +120,7 @@
             <div class="step-footer">
                 <button data-direction="prev" class="step-btn">Previous</button>
                 <button data-direction="next" class="step-btn">Next</button>
-                <button data-direction="finish" class="step-btn">Finish</button>
-                <asp:Button ID="btnCreate" runat="server" class="btn btn-success" Text="Create" OnClick="btnCreate_Click" />
+                <asp:Button ID="btnCreate" data-direction="finish" runat="server" class="step-btn" Text="Create" OnClick="btnCreate_Click" />
             </div>
         </div>
     </div>  
@@ -159,7 +158,8 @@
                 firstDay: 0,
                 isRTL: false,
                 showMonthAfterYear: false,
-                yearSuffix: ''
+                yearSuffix: '',
+                minDate: 1
             };
             datepicker.setDefaults(datepicker.regional['SG']);
 

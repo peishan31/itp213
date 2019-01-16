@@ -44,79 +44,30 @@ namespace ITP213
                 {
 
                 }
+
+                ddlCourses.Items.Clear();
+                ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
+                ddlCourses.Items.Add(new ListItem("Business & Financial Technology", "C35"));
+                ddlCourses.Items.Add(new ListItem("Business Informatics", "C78"));
+                ddlCourses.Items.Add(new ListItem("Business Intelligence & Analytics", "C43"));
+                ddlCourses.Items.Add(new ListItem("Common ICT Programme", "C36"));
+                ddlCourses.Items.Add(new ListItem("Cybersecurity & Digital Forensics", "C54"));
+                ddlCourses.Items.Add(new ListItem("Financial Informatics", "C58"));
+                ddlCourses.Items.Add(new ListItem("Infocomm & Security", "C80"));
+                ddlCourses.Items.Add(new ListItem("Information Technology", "C85"));
             }
             
         }
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            //if (Request.QueryString["tripID"].ToString() != null)
-            //{
-                
-
-                // Update action
-            //}
-            //else
-            //{
-                /*
-                INSERT INTO overseasTrip (overseasTripStatus, arrivalDate, departureDate, noOfStudents, noOfLecturers, tripType, tripName, country, adminNo, staffID)
-                VALUES ('ONGOING', '10/29/2018', '10/30/2018', 20, 4, 'Immersion Trip', '2018 - Japan Immersion Trip' ,'Japan', '171846Z', 'johnny_appleseed')
-                 */
             lblMsg.Text = $"Arrival Date: {tbArrivalDate.Text}; Departure Date: {tbDepartureDate.Text}; noOfStudents: {lbSelectedStudents.Items.Count};" +
             $"noOfLecturers: {lbSelectedLecturers.Items.Count}; tripType: {ddlTripType.SelectedItem.ToString()}; tripName: {tbTripName.Text};" +
             $"country: {ddlCountry.SelectedItem.ToString()};" +
             $"Admin No: {lbSelectedStudents.Text};" +
             $"Staff No: {lbSelectedStudents.Text}; ";
 
-            string errorMsg = "Sorry please ensure that you have entered everything correctly:";
-            if (lbSelectedStudents.Items.Count < 1)
-            {
-                errorMsg += "<br>- Please select at least one student!";
-            }
-            if (lbSelectedLecturers.Items.Count < 1)
-            {
-                errorMsg += "<br>- Please select at least one lecturer!";
-            }
-            if (String.IsNullOrEmpty(tbTripName.Text))
-            {
-                errorMsg += "<br>- Please include trip name!";
-            }
-            if (ddlTripType.SelectedItem.ToString() == "--Please Select--")
-            {
-                errorMsg += "<br>- Please select a trip type!";
-            }
-            if (ddlCountry.SelectedItem.ToString() == "--Please Select--")
-            {
-                errorMsg += "<br>- Please select a country!";
-            }
-
-            /*DateTime temp;
-            if (DateTime.TryParse(tbDepartureDate.Text, out temp))
-            {
-                // Valid
-                //panelAlert.Visible = true;
-                //errorMsg += "<br>-Valid Departure DateTime format!";
-            }
-            else
-            {
-                // Invalid
-                //panelAlert.Visible = true;
-                errorMsg += "<br>- Invalid Departure DateTime format!"; // **************** not fully working!!!!!
-            }
-            DateTime temp2;
-            if (DateTime.TryParse(tbArrivalDate.Text, out temp2))
-            {
-                // Valid
-                //panelAlert.Visible = true;
-                //errorMsg += "<br>-Valid Arrival DateTime format!";
-            }
-            else
-            {
-                // Invalid
-                //panelAlert.Visible = true;
-                errorMsg += "<br>- Invalid Arrival DateTime format!"; // **************** not fully working!!!!!
-            }*/
-            if (errorMsg == "Sorry please ensure that you have entered everything correctly:")
+            if (ValidateTrip())
             {
                 panelSuccess.Visible = true;
                 panelAlert.Visible = false;
@@ -131,35 +82,172 @@ namespace ITP213
                     lblMsg.Text += $"<br>Lecturer's staff No: {lecItem.Value.ToString()};";
                 }
 
-                // insert trip --> find tripID --> insert enrolledStudent & enrolledLecturer tables.
-                TripAllocationDAO.insertTrip(tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
-
-                DAL.TripAllocation p = TripAllocationDAO.getTripIDByTripNameDepartureDateAndArrivalDate(tbTripName.Text, tbDepartureDate.Text, tbArrivalDate.Text, ddlTripType.SelectedItem.ToString());
-
-                lblMsg.Text = $"p obj: {p.tripID}";
-
-                foreach (ListItem studItem in lbSelectedStudents.Items)
+                if (btnCreate.Text == "Update")
                 {
-                    TripAllocationDAO.insertEnrolledStudent(p.tripID, studItem.Value.ToString());
-                }
+                    TripAllocationDAO.updateTripByTripID(Convert.ToInt32(Request.QueryString["tripID"].ToString()), tbDepartureDate.Text, tbArrivalDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
 
-                foreach (ListItem lecItem in lbSelectedLecturers.Items)
-                {
-                    TripAllocationDAO.insertEnrolledLecturer(p.tripID, lecItem.Value.ToString());
+                    // DELETE current enrolledStudent & enrolledLecturer datas and re-insert them with new datas
+                    TripAllocationDAO.deleteEnrolledStudentsByTripID(Convert.ToInt32(Request.QueryString["tripID"].ToString()));
+                    TripAllocationDAO.deleteEnrolledLecturerByTripID(Convert.ToInt32(Request.QueryString["tripID"].ToString()));
+                    foreach (ListItem studItem in lbSelectedStudents.Items)
+                    {
+                        TripAllocationDAO.insertEnrolledStudent(Convert.ToInt32(Request.QueryString["tripID"].ToString()), studItem.Value.ToString());
+                    }
+
+                    foreach (ListItem lecItem in lbSelectedLecturers.Items)
+                    {
+                        TripAllocationDAO.insertEnrolledLecturer(Convert.ToInt32(Request.QueryString["tripID"].ToString()), lecItem.Value.ToString());
+                    }
+                    Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
                 }
-                Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
+                else // insert new trip
+                {
+                    // insert trip --> find tripID --> insert enrolledStudent & enrolledLecturer tables.
+                    TripAllocationDAO.insertTrip(tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
+
+                    DAL.TripAllocation p = TripAllocationDAO.getTripIDByTripNameDepartureDateAndArrivalDate(tbTripName.Text, tbDepartureDate.Text, tbArrivalDate.Text, ddlTripType.SelectedItem.ToString());
+
+                    lblMsg.Text = $"p obj: {p.tripID}";
+
+                    foreach (ListItem studItem in lbSelectedStudents.Items)
+                    {
+                        TripAllocationDAO.insertEnrolledStudent(p.tripID, studItem.Value.ToString());
+                    }
+
+                    foreach (ListItem lecItem in lbSelectedLecturers.Items)
+                    {
+                        TripAllocationDAO.insertEnrolledLecturer(p.tripID, lecItem.Value.ToString());
+                    }
+                    Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
+                }
+                
+            }
+        }
+
+        private bool ValidateTrip()
+        {
+            panelAlert.Visible = true;
+            panelSuccess.Visible = false;
+            bool result = false;
+            lblError.Text = String.Empty;
+
+            if (lbSelectedStudents.Items.Count < 1)
+            {
+                lblError.Text += "Please select at least one student!" + "<br>";
+                lbSelectedStudents.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                lbSelectedStudents.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
             }
             else
             {
-                panelAlert.Visible = true;
-                panelSuccess.Visible = false;
-                lblError.Text = errorMsg;
+                lbSelectedStudents.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                lbSelectedStudents.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (lbSelectedLecturers.Items.Count < 1)
+            {
+                lblError.Text += "Please select at least one lecturer!" + "<br>";
+                lbSelectedLecturers.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                lbSelectedLecturers.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                lbSelectedLecturers.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                lbSelectedLecturers.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (String.IsNullOrEmpty(tbTripName.Text))
+            {
+                lblError.Text += "Please include trip name!" + "<br>";
+                tbTripName.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbTripName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbTripName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbTripName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (ddlTripType.SelectedItem.ToString() == "--Please Select--")
+            {
+                lblError.Text += "Please select a trip type!" + "<br>";
+                ddlTripType.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlTripType.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                ddlTripType.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlTripType.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (ddlCountry.SelectedItem.ToString() == "--Select--")
+            {
+                lblError.Text += "Please select a country!" + "<br>";
+                ddlCountry.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlCountry.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                ddlCountry.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlCountry.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            /*
+             DateTime.TryParseExact(dateTime, 
+                       "yyyy-dd-MM hh:mm tt", 
+                       CultureInfo.InvariantCulture, 
+                       DateTimeStyles.None, 
+                       out dt);
+             */
+            DateTime temp;
+            if (!DateTime.TryParseExact(tbDepartureDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out temp))
+            {
+                lblError.Text += "Invalid Departure Date!" + "<br>";
+                tbDepartureDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbDepartureDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbDepartureDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbDepartureDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            DateTime temp2;
+            if (!DateTime.TryParseExact(tbArrivalDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out temp2))
+            {
+                lblError.Text += "Invalid Arrival Date!" + "<br>";
+                tbArrivalDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbArrivalDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbArrivalDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbArrivalDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (tbDepartureDate.Text != null && DateTime.TryParseExact(tbArrivalDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out temp2) && DateTime.TryParseExact(tbDepartureDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out temp))
+            {
+                var deptDate = DateTime.ParseExact(tbDepartureDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                var arrDate = DateTime.ParseExact(tbArrivalDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+                if (deptDate > arrDate)
+                {
+                    lblError.Text += "Departure Date must be before arrival date!";
+                    tbDepartureDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                    tbDepartureDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+                    tbArrivalDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                    tbArrivalDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+                }
+                else
+                {
+                    tbDepartureDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                    tbDepartureDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+                    tbArrivalDate.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                    tbArrivalDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+                }
             }
             
-            //}
+            result = String.IsNullOrEmpty(lblError.Text);
 
+            return result;
         }
-
 
         protected void ddlSchool_SelectedIndexChanged(object sender, EventArgs e)
         {

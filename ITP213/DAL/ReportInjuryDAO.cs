@@ -123,6 +123,61 @@ namespace ITP213.DAL
                     obj.createdOn = row["createdOn"].ToString();
                     obj.name = row["name"].ToString();
                     obj.studentName = row["studentName"].ToString();
+                    obj.staffID = row["staffID"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+
+            return resultList;
+
+        }
+
+        public static List<ReportInjury> getAllPastReports()
+        {
+            List<ReportInjury> resultList = new List<ReportInjury>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            string sqlStr = "SELECT * FROM injuryReport INNER JOIN overseasTrip on overseasTrip.tripID = injuryReport.tripID INNER JOIN lecturer on lecturer.staffID = injuryReport.staffID  INNER JOIN account on account.accountID = lecturer.accountID WHERE arrivalDate<=GETDATE();";
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr, myConn);
+
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    ReportInjury obj = new ReportInjury();
+                    obj.injuryReportID = Convert.ToInt32(row["injuryReportID"]);
+                    obj.dateTimeOfInjury = row["dateTimeOfInjury"].ToString();
+                    obj.location = row["location"].ToString();
+                    obj.description = row["description"].ToString();
+                    obj.witnessName = row["witnessName"].ToString();
+                    obj.witnessPhone = row["witnessPhone"].ToString();
+                    obj.natureOfInjury = row["natureOfInjury"].ToString();
+                    obj.causeOfInjury = row["causeOfInjury"].ToString();
+                    obj.locationOnBody = row["locationOnBody"].ToString();
+                    obj.agency = row["agency"].ToString();
+                    obj.firstAidGiven = row["firstAidGiven"].ToString();
+                    obj.firstAiderName = row["firstAiderName"].ToString();
+                    obj.treatment = row["treatment"].ToString();
+                    obj.tripName = row["tripName"].ToString();
+                    obj.tripType = row["tripType"].ToString();
+                    obj.createdOn = row["createdOn"].ToString();
+                    obj.name = row["name"].ToString();
+                    obj.studentName = row["studentName"].ToString();
                     resultList.Add(obj);
 
                 }

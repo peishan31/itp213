@@ -31,15 +31,6 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.Repeater RepeaterStudyTrips;
         
         /// <summary>
-        /// RepeaterPastStudyTrips control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterPastStudyTrips;
-        
-        /// <summary>
         /// PanelStudyTrips control.
         /// </summary>
         /// <remarks>
@@ -47,6 +38,24 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel PanelStudyTrips;
+        
+        /// <summary>
+        /// lblPastStudyTripMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPastStudyTripMsg;
+        
+        /// <summary>
+        /// RepeaterPastStudyTrips control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterPastStudyTrips;
         
         /// <summary>
         /// RepeaterImmersionTrips control.
@@ -58,15 +67,6 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.Repeater RepeaterImmersionTrips;
         
         /// <summary>
-        /// RepeaterPastImmersionTrips control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterPastImmersionTrips;
-        
-        /// <summary>
         /// PanelImmersionTrips control.
         /// </summary>
         /// <remarks>
@@ -74,6 +74,24 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel PanelImmersionTrips;
+        
+        /// <summary>
+        /// lblPastImmersionTripMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPastImmersionTripMsg;
+        
+        /// <summary>
+        /// RepeaterPastImmersionTrips control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterPastImmersionTrips;
         
         /// <summary>
         /// lblTesting control.

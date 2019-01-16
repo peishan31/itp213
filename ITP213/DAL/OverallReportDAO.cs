@@ -39,9 +39,9 @@ namespace ITP213.DAL
             return result;
         }
 
-        public static List<Announcement> getAllAnnouncement()
+        public static List<Response> getNoOfResponses()
         {
-            List<Announcement> resultList = new List<Announcement>();
+            List<Response> resultList = new List<Response>();
             // Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
 
@@ -49,11 +49,11 @@ namespace ITP213.DAL
             DataSet ds = new DataSet();
 
             // Create Adapter
-            string sqlStr = "SELECT announcementID, announcementTitle, announcementMessage FROM announcement";
-
+            string sqlStr = "SELECT * FROM studentAttempt";
+            
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr, myConn);
-
+            SqlCommand cmd = new SqlCommand(sqlStr, myConn);
             // Fill dataset
             da.Fill(ds, "announcementTable");
             int rec_cnt = ds.Tables["announcementTable"].Rows.Count;

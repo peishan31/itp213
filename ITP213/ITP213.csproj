@@ -76,6 +76,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -98,6 +100,7 @@
     <Content Include="App_Data\ITP213_log.ldf">
       <DependentUpon>ITP213.mdf</DependentUpon>
     </Content>
+    <Content Include="Scripts\Chart_JS.js" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.min.css" />
     <Content Include="Content\mdb.min.css" />
@@ -106,6 +109,7 @@
     <Content Include="CreateFeedback.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Images\trip_background.jpg" />
+    <Content Include="InformationSummary.aspx" />
     <Content Include="LecturerWithdrawalRequest.aspx" />
     <Content Include="login.aspx" />
     <Content Include="Logout.aspx" />
@@ -122,7 +126,18 @@
     <Content Include="Scripts\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Service References\SMSSvrRef\ITP213.SMSSvrRef.SMSData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\SMSSvrRef\Sms.disco" />
+    <None Include="Service References\SMSSvrRef\configuration91.svcinfo" />
+    <None Include="Service References\SMSSvrRef\configuration.svcinfo" />
+    <None Include="Service References\SMSSvrRef\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Site.master" />
+    <None Include="Service References\SMSSvrRef\Sms.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -138,11 +153,14 @@
     <Content Include="Scripts\jquery.easing.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\script.min.js" />
+    <Content Include="StudentParticulars.aspx" />
     <Content Include="StudentWithdrawalRequest.aspx" />
+    <Content Include="StudentWithdrawalResult.aspx" />
     <Content Include="TripAllocation.aspx" />
     <Content Include="ViewAllocatedTrip.aspx" />
     <Content Include="ViewAnnouncement.aspx" />
     <Content Include="ViewIndividualAnnouncement.aspx" />
+    <Content Include="ViewIndividualTrip.aspx" />
     <Content Include="ViewInjuryReport.aspx" />
     <Content Include="ViewStatistics.aspx" />
     <Content Include="Web.config">
@@ -164,12 +182,20 @@
     <Compile Include="CreateFeedback.aspx.designer.cs">
       <DependentUpon>CreateFeedback.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\AcademicResult.cs" />
+    <Compile Include="DAL\AcademicResultDAO.cs" />
     <Compile Include="DAL\Announcement.cs" />
     <Compile Include="DAL\AnnouncementDAO.cs" />
+    <Compile Include="DAL\CCARecord.cs" />
+    <Compile Include="DAL\CCARecordDAO.cs" />
     <Compile Include="DAL\Feedback.cs" />
     <Compile Include="DAL\FeedbackDAO.cs" />
+    <Compile Include="DAL\GeneralRecord.cs" />
+    <Compile Include="DAL\GeneralRecordDAO.cs" />
     <Compile Include="DAL\Internship.cs" />
     <Compile Include="DAL\InternshipDAO.cs" />
+    <Compile Include="DAL\MedicalRecord.cs" />
+    <Compile Include="DAL\MedicalRecordDAO.cs" />
     <Compile Include="DAL\OverallReport.cs" />
     <Compile Include="DAL\OverallReportDAO.cs" />
     <Compile Include="DAL\Question.cs" />
@@ -190,6 +216,12 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InformationSummary.aspx.cs">
+      <DependentUpon>InformationSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InformationSummary.aspx.designer.cs">
+      <DependentUpon>InformationSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="LecturerWithdrawalRequest.aspx.cs">
       <DependentUpon>LecturerWithdrawalRequest.aspx</DependentUpon>
@@ -234,6 +266,11 @@
     <Compile Include="ReportInjury.aspx.designer.cs">
       <DependentUpon>ReportInjury.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Service References\SMSSvrRef\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Site.master.cs">
       <DependentUpon>Site.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -241,12 +278,26 @@
     <Compile Include="Site.master.designer.cs">
       <DependentUpon>Site.master</DependentUpon>
     </Compile>
+    <Compile Include="StudentParticulars.aspx.cs">
+      <DependentUpon>StudentParticulars.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentParticulars.aspx.designer.cs">
+      <DependentUpon>StudentParticulars.aspx</DependentUpon>
+    </Compile>
     <Compile Include="StudentWithdrawalRequest.aspx.cs">
       <DependentUpon>StudentWithdrawalRequest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="StudentWithdrawalRequest.aspx.designer.cs">
       <DependentUpon>StudentWithdrawalRequest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentWithdrawalResult.aspx.cs">
+      <DependentUpon>StudentWithdrawalResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentWithdrawalResult.aspx.designer.cs">
+      <DependentUpon>StudentWithdrawalResult.aspx</DependentUpon>
     </Compile>
     <Compile Include="TripAllocation.aspx.cs">
       <DependentUpon>TripAllocation.aspx</DependentUpon>
@@ -276,6 +327,13 @@
     <Compile Include="ViewIndividualAnnouncement.aspx.designer.cs">
       <DependentUpon>ViewIndividualAnnouncement.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ViewIndividualTrip.aspx.cs">
+      <DependentUpon>ViewIndividualTrip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewIndividualTrip.aspx.designer.cs">
+      <DependentUpon>ViewIndividualTrip.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewInjuryReport.aspx.cs">
       <DependentUpon>ViewInjuryReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -291,7 +349,12 @@
       <DependentUpon>ViewStatistics.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SMSSvrRef\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

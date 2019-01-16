@@ -36,8 +36,15 @@
     <hr />
     <p>
         <!--3. This is where you code all your features-->
-
-        <asp:Repeater ID="RepeaterViewInjury" runat="server">
+        <asp:Panel ID="PanelViewInjury" runat="server">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">No injury reports yet!</h1>
+                    <p class="lead">Keep a look out for future injury reports!</p>
+                </div>
+            </div>
+        </asp:Panel>
+        <asp:Repeater ID="RepeaterViewInjury" runat="server" OnItemDataBound="RepeaterViewInjury_ItemDataBound">
             <ItemTemplate>
                 <div class="row">
                     <div class="col-12 col-sm-12">
@@ -66,6 +73,7 @@
                                 </p>
                                 <small>By:
                                     <asp:Label ID="Label3" runat="server" Text='<%# Eval("name")%>'></asp:Label>
+                                    (<asp:Label ID="Label20" runat="server" Text='<%# Eval("staffID") %>'></asp:Label>)
                                 </small>
                                 <small class="float-right">Posted on:
                                     <asp:Label ID="Label1" runat="server" Text='<%# Eval("createdOn") %>'></asp:Label>
@@ -103,7 +111,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Trip:
                                                                     </div>
-                                                                    <asp:Label ID="Label5" runat="server" Text='<%# Eval("tripName")+ " ("+Eval("tripType")+")" %>'></asp:Label>
+                                                                    <asp:Label ID="lblTrip" runat="server" Text='<%# Eval("tripName")+ " ("+Eval("tripType")+")" %>'></asp:Label>
 
                                                                 </td>
                                                             </tr>
@@ -112,7 +120,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Name: 
                                                                     </div>
-                                                                    <asp:Label ID="Label7" runat="server" Text='<%# Eval("studentName") %>'></asp:Label>
+                                                                    <asp:Label ID="lblStudentName" runat="server" Text='<%# Eval("studentName") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -126,7 +134,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Date and time of injury: 
                                                                     </div>
-                                                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("datetimeOfInjury") %>'></asp:Label>
+                                                                    <asp:Label ID="lblDateTimeInjury" runat="server" Text='<%# Eval("datetimeOfInjury") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -134,7 +142,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Location: 
                                                                     </div>
-                                                                    <asp:Label ID="Label8" runat="server" Text='<%# Eval("location") %>'></asp:Label>
+                                                                    <asp:Label ID="lblLocation" runat="server" Text='<%# Eval("location") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -179,7 +187,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Nature of injury(eg burn, cut, sprain): 
                                                                     </div>
-                                                                    <asp:Label ID="Label10" runat="server" Text='<%# Eval("natureOfInjury") %>'></asp:Label>
+                                                                    <asp:Label ID="lblNatureOfInjury" runat="server" Text='<%# Eval("natureOfInjury") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -187,7 +195,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Cause of injury(eg fall, grabbed by person): 
                                                                     </div>
-                                                                    <asp:Label ID="Label11" runat="server" Text='<%# Eval("causeOfInjury") %>'></asp:Label>
+                                                                    <asp:Label ID="lblCauseOfInjury" runat="server" Text='<%# Eval("causeOfInjury") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -195,7 +203,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Location on body(eg back, left forearm): 
                                                                     </div>
-                                                                    <asp:Label ID="Label12" runat="server" Text='<%# Eval("locationOnBody") %>'></asp:Label>
+                                                                    <asp:Label ID="lblLocationOnBody" runat="server" Text='<%# Eval("locationOnBody") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -203,7 +211,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Agency(eg lounge char, another person, hot water): 
                                                                     </div>
-                                                                    <asp:Label ID="Label13" runat="server" Text='<%# Eval("agency") %>'></asp:Label>
+                                                                    <asp:Label ID="lblAgency" runat="server" Text='<%# Eval("agency") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -217,7 +225,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         First Aid given: 
                                                                     </div>
-                                                                    <asp:Label ID="Label14" runat="server" Text='<%# Eval("firstAidGiven") %>'></asp:Label>
+                                                                    <asp:Label ID="lblFirstAidGiven" runat="server" Text='<%# Eval("firstAidGiven") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -225,7 +233,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         First Aider name: 
                                                                     </div>
-                                                                    <asp:Label ID="Label15" runat="server" Text='<%# Eval("firstAiderName") %>'></asp:Label>
+                                                                    <asp:Label ID="lblFirstAiderName" runat="server" Text='<%# Eval("firstAiderName") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -233,7 +241,7 @@
                                                                     <div style="font-size: 15px; font-weight: bold;">
                                                                         Treatment: 
                                                                     </div>
-                                                                    <asp:Label ID="Label16" runat="server" Text='<%# Eval("treatment") %>'></asp:Label>
+                                                                    <asp:Label ID="lblTreatment" runat="server" Text='<%# Eval("treatment") %>'></asp:Label>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -244,8 +252,7 @@
 
                                         <!--Footer-->
                                         <div class="modal-footer">
-
-                                            <asp:Button ID="btnSendReportViaSMS" runat="server" Class="btn btn-primary-modal" Text="Inform Parent" />
+                                            <asp:Button ID="btnSendReportViaSMS" runat="server" Class="btn btn-primary-modal" Text="Inform Parent" OnClick="btnSendReportViaSMS_Click"  CommandName="informParent" OnCommand="btnSendReport_command" CommandArgument='<%# Eval("injuryReportID") %>'/>
                                             <asp:Button ID="Button1" runat="server" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal" Text="Close" />
                                         </div>
                                     </div>
@@ -259,8 +266,9 @@
             </ItemTemplate>
         </asp:Repeater>
         <asp:Label ID="lblTesting" runat="server" Text="Label"></asp:Label>
+        
+        
     </p>
-
 
     <!--//Page Content-->
 </asp:Content>

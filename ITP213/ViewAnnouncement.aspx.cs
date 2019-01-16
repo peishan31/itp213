@@ -14,6 +14,7 @@ namespace ITP213
         {
             if (!IsPostBack)
             {
+                
                 if (Session["accountType"].ToString() == "lecturer")
                 {
                     if (AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
@@ -24,7 +25,14 @@ namespace ITP213
                     {
                         RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString());
                         RepeaterStudyTrips.DataBind();
+                    }
 
+                    if (AnnouncementDAO.getStudyTripPastAnnouncementByStaffID(Session["staffID"].ToString()) == null)
+                    {
+                        btnViewPastAnnouncementStudyTrips.Visible = false;
+                    }
+                    else
+                    {
                         RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByStaffID(Session["staffID"].ToString());
                         RepeaterStudyTripsPastAnnouncement.DataBind();
                     }
@@ -38,10 +46,31 @@ namespace ITP213
                         RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString());
                         RepeaterImmersionTrips.DataBind();
 
+                        
+                    }
+
+                    if (AnnouncementDAO.getImmersionTripPastAnnouncementByStaffID(Session["staffID"].ToString()) == null)
+                    {
+                        btnViewPastAnnouncementImmersionTrips.Visible = false;
+                    }
+                    else
+                    {
                         RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByStaffID(Session["staffID"].ToString());
                         RepeaterImmersionTripsPastAnnouncement.DataBind();
                     }
-                    
+
+                    // for withdrawal request
+                    if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
+                    {
+                        PanelEmptyWithdrawalRequest.Visible = true;
+                    }
+                    else
+                    {
+                        RepeaterWithdrawalRequest.DataSource = WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString());
+                        RepeaterWithdrawalRequest.DataBind();
+
+                    }
+
                 }
                 else if (Session["accountType"].ToString() == "student")
                 {
@@ -54,8 +83,7 @@ namespace ITP213
                         RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString());
                         RepeaterStudyTrips.DataBind();
 
-                        RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
-                        RepeaterStudyTripsPastAnnouncement.DataBind();
+                        
                     }
                     if (AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
                     {
@@ -65,11 +93,14 @@ namespace ITP213
                     {
                         RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
                         RepeaterImmersionTrips.DataBind();
-
-                        RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
-                            // AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
-                        RepeaterImmersionTripsPastAnnouncement.DataBind();
                     }
+
+                    RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
+                    RepeaterStudyTripsPastAnnouncement.DataBind();
+
+                    RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
+                    // AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
+                    RepeaterImmersionTripsPastAnnouncement.DataBind();
                 }
             }
              
@@ -122,6 +153,146 @@ namespace ITP213
                 int index = Convert.ToInt32(e.CommandArgument.ToString());
                 //Response.Redirect("ViewIndividualAnnouncement.aspx?AnnouncementID=" + index);
             }
+        }
+
+        protected void RepeaterWithdrawalRequest_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                if (e.CommandName == "trips_Click")
+                {
+                    string name = e.CommandArgument.ToString();
+                    lblTesting.Text = name;
+                }
+            }
+        }
+
+        protected void btnApproved_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnRejected_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnApproved_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                WithdrawalRequestDAO.approveTripRequestByWithdrawTripRequestID(Convert.ToInt32(name));
+            }
+        }
+
+        protected void btnRejected_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                WithdrawalRequestDAO.rejectTripRequestByWithdrawTripRequestID(Convert.ToInt32(name));
+            }
+        }
+
+        protected void cbSelector_CheckedChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        protected void cbRead_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chk = (CheckBox)sender;
+            lblTesting.Text = chk.Checked.ToString();
+        }
+
+        protected void RepeaterStudyTrips_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+
+            if (Session["accountType"].ToString() == "lecturer")
+            {
+                RepeaterItem item = e.Item;
+                Label lblStaffID = (Label)item.FindControl("lblStaffIDForEditAndDeleteBtn");
+                string createdBy = lblStaffID.Text;
+                string currentID = Session["staffID"].ToString();
+
+                Button editB = (Button)item.FindControl("btnStudyTripsEdit");
+                Button deleteB = (Button)item.FindControl("btnStudyTripsDelete");
+
+                int i = 0;
+
+                if (createdBy == currentID)
+                {
+                    editB.Visible = true;
+                    deleteB.Visible = true;
+                }
+                else
+                {
+                    editB.Visible = false;
+                    deleteB.Visible = false;
+                }
+            }
+            /*
+             RepeaterItem item = e.Item;
+            Label tempL = (Label)item.FindControl("Label20");
+            string createdBy = tempL.Text;
+            string currentID = Session["staffID"].ToString();
+
+            Button editB = (Button)item.FindControl("btnStudyTripsEdit");
+            Button deleteB = (Button)item.FindControl("btnStudyTripsDelete");
+
+            int i = 0;
+
+            if (createdBy == currentID)
+            {
+                editB.Visible = true;
+                deleteB.Visible = true;
+            }
+            else
+            {
+                editB.Visible = false;
+                deleteB.Visible = false;
+            }
+             */
+        }
+
+        protected void RepeaterImmersionTrips_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (Session["accountType"].ToString() == "lecturer")
+            {
+                RepeaterItem item = e.Item;
+                Label lblStaffID = (Label)item.FindControl("lblStaffIDForEditAndDeleteBtn");
+                string createdBy = lblStaffID.Text;
+                string currentID = Session["staffID"].ToString();
+
+                Button editB = (Button)item.FindControl("btnImmersionTripsEdit");
+                Button deleteB = (Button)item.FindControl("btnImmersionTripsDelete");
+
+                int i = 0;
+
+                if (createdBy == currentID)
+                {
+                    editB.Visible = true;
+                    deleteB.Visible = true;
+                }
+                else
+                {
+                    editB.Visible = false;
+                    deleteB.Visible = false;
+                }
+            }
+        }
+
+        protected void cbRead_CheckedChanged1(object sender, EventArgs e)
+        {
+            var chk = (CheckBox)sender;
+            var announcementID = chk.Attributes["CommandName"];
+            lblTesting.Text = announcementID.ToString();
+            AnnouncementDAO.updateAnnouncementVisibleByAnnouncementID(Convert.ToInt32(announcementID));
+            //chk.Visible = false;
+            Response.Redirect("/ViewAnnouncement.aspx");
         }
     }
 }

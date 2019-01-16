@@ -19,5 +19,9 @@ namespace ITP213.DAL
         public string timeDue { set; get; }
         public string studentView { set; get; }
         public string lecturerView { set; get; }
+        // For site.master
+        public string unreadCount { set; get; }
+        // ViewAnnouncement.aspx
+        public bool announcementVisible { set; get; }
     }
 }

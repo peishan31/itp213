@@ -23,7 +23,7 @@ namespace ITP213.DAL
         public string firstAidGiven { set; get; }
         public string firstAiderName { set; get; }
         public string treatment { set; get; }
-        //public string staffName { set; get; }
+        public string staffID { set; get; }
         public string studentName { set; get; }
         public string tripName { set; get; }
         public string tripType { set; get; }

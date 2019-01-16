@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace ITP213.DAL
@@ -61,7 +62,7 @@ namespace ITP213.DAL
             /*
              INSERT INTO withdrawTripRequest(withdrawalTripRequestStatus, withdrawalReason, adminNo, tripID, createdOn) VALUES('ONGOING', 'Testing 1 2 3','171846Z',28, GETDATE());
              */
-            string sqlStr = "INSERT INTO withdrawTripRequest(withdrawalTripRequestStatus, withdrawalReason, adminNo, tripID, createdOn) VALUES('ONGOING', @withdrawalReason,@adminNo,@tripID, GETDATE());";
+            string sqlStr = "INSERT INTO withdrawTripRequest(withdrawalTripRequestStatus, withdrawalReason, adminNo, tripID, createdOn) VALUES('PENDING', @withdrawalReason,@adminNo,@tripID, GETDATE());";
 
             WithdrawalRequest obj = new WithdrawalRequest();
             SqlConnection myConn = new SqlConnection(DBConnect);
@@ -123,5 +124,110 @@ namespace ITP213.DAL
 
         }
 
+        // StudentWithdrawalResult.aspx
+        public static List<WithdrawalRequest> displayStudentWithdrawalRequest(string adminNo)
+        {
+            List<WithdrawalRequest> resultList = new List<WithdrawalRequest>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            Select createdOn, withdrawTripRequest.tripID, withdrawTripRequestID, withdrawalTripRequestStatus, departureDate, arrivalDate ,withdrawalReason, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType  
+            FROM withdrawTripRequest 
+            INNER JOIN overseasTrip ON withdrawTripRequest.tripID = overseasTrip.tripID 
+            WHERE adminNo='171846z';
+             */
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("Select createdOn, withdrawTripRequest.tripID, withdrawTripRequestID, withdrawalTripRequestStatus, departureDate, arrivalDate ,withdrawalReason, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType");
+            sqlStr.AppendLine("FROM withdrawTripRequest");
+            sqlStr.AppendLine("INNER JOIN overseasTrip ON withdrawTripRequest.tripID = overseasTrip.tripID ");
+            sqlStr.AppendLine("WHERE adminNo=@adminNo;");
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    WithdrawalRequest obj = new WithdrawalRequest();
+                    obj.tripID = Convert.ToInt32(row["tripID"]);
+                    obj.withdrawTripRequestID = Convert.ToInt32(row["withdrawTripRequestID"]);
+                    obj.departureDate = row["departureDate"].ToString();
+                    obj.arrivalDate = row["arrivalDate"].ToString();
+                    obj.withdrawalReason = row["withdrawalReason"].ToString();
+                    obj.tripNameAndTripType = row["tripNameAndTripType"].ToString();
+                    obj.createdOn = row["createdOn"].ToString();
+                    obj.withdrawalTripRequestStatus = row["withdrawalTripRequestStatus"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+            else
+            {
+                resultList = null;
+            }
+
+            return resultList;
+
+        }
+
+        // ViewAnnouncement.aspx
+        public static int approveTripRequestByWithdrawTripRequestID(int withdrawTripRequestID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            /*
+            UPDATE WITHDRAWTRIPREQUEST
+            SET withdrawalTripRequestStatus = 'Approved'
+            WHERE withdrawTripRequestID = 12;
+             */
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("UPDATE WITHDRAWTRIPREQUEST SET ");
+            sqlStr.AppendLine("withdrawalTripRequestStatus = 'Approved'");
+            sqlStr.AppendLine("WHERE withdrawTripRequestID = @withdrawTripRequestID;");
+
+
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+            cmd.Parameters.AddWithValue("withdrawTripRequestID", withdrawTripRequestID);
+            int result = cmd.ExecuteNonQuery();
+            return result;
+        }
+
+        public static int rejectTripRequestByWithdrawTripRequestID(int withdrawTripRequestID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            /*
+            UPDATE WITHDRAWTRIPREQUEST
+            SET withdrawalTripRequestStatus = 'Approved'
+            WHERE withdrawTripRequestID = 12;
+             */
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("UPDATE WITHDRAWTRIPREQUEST SET ");
+            sqlStr.AppendLine("withdrawalTripRequestStatus = 'Rejected'");
+            sqlStr.AppendLine("WHERE withdrawTripRequestID = @withdrawTripRequestID;");
+
+
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+            cmd.Parameters.AddWithValue("withdrawTripRequestID", withdrawTripRequestID);
+            int result = cmd.ExecuteNonQuery();
+            return result;
+        }
     }
 }

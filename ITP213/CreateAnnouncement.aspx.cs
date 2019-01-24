@@ -15,40 +15,49 @@ namespace ITP213
         {
             if (!IsPostBack) // first time coming to the page
             {
-                string id = Request.QueryString["AnnouncementID"];
-
-                if (id != null)
+                if (Session["accountType"] != null)
                 {
-                    lblTitle.Text = "Update Announcement";
-                    lblTitle2.Text = "Update Announcement";
-                    btnCreate.Text = "Update";
+                
+                    string id = Request.QueryString["AnnouncementID"];
 
-                    Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
+                    if (id != null)
+                    {
+                        lblTitle.Text = "Update Announcement";
+                        lblTitle2.Text = "Update Announcement";
+                        btnCreate.Text = "Update";
 
-                    tbTitle.Text = obj.announcementTitle;
-                    tbMessage.Text = obj.announcementMessage;
-                    tbTimeDue.Text = obj.timeDue;
-                    if (obj.studentView == "True")
-                    {
-                        cbStudents.Checked = true;
+                        Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
+
+                        tbTitle.Text = obj.announcementTitle;
+                        tbMessage.Text = obj.announcementMessage;
+                        tbTimeDue.Text = obj.timeDue;
+                        if (obj.studentView == "True")
+                        {
+                            cbStudents.Checked = true;
+                        }
+                        if (obj.lecturerView == "True")
+                        {
+                            cbLecturers.Checked = true;
+                        }
+                        //tbTitle.Text = a.announcementTitle;
+                        //tbMessage.Text = a.announcementMessage;
                     }
-                    if (obj.lecturerView == "True")
+
+                    if (Session["accountType"].ToString() == "lecturer")
                     {
-                        cbLecturers.Checked = true;
+
+                        ddlTripName.DataSource = AnnouncementDAO.displayAllocatedTrips(Session["staffID"].ToString());
+                        ddlTripName.Items.Insert(0, new ListItem("--Select Trip--", "0"));
+                        ddlTripName.AppendDataBoundItems = true;
+                        ddlTripName.DataTextField = "tripNameAndTripType";
+                        ddlTripName.DataValueField = "tripID";
+                        ddlTripName.DataBind();
                     }
-                    //tbTitle.Text = a.announcementTitle;
-                    //tbMessage.Text = a.announcementMessage;
+
                 }
-
-                if (Session["accountType"].ToString() == "lecturer")
+                else
                 {
-
-                    ddlTripName.DataSource = AnnouncementDAO.displayAllocatedTrips(Session["staffID"].ToString());
-                    ddlTripName.Items.Insert(0, new ListItem("--Select Trip--", "0"));
-                    ddlTripName.AppendDataBoundItems = true;
-                    ddlTripName.DataTextField = "tripNameAndTripType";
-                    ddlTripName.DataValueField = "tripID";
-                    ddlTripName.DataBind();
+                    Response.Redirect("/login.aspx");
                 }
             }
         }

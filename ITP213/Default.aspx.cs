@@ -13,7 +13,7 @@ namespace ITP213
         {
             if (Session["name"] != null)
             {
-                lblTitle.Text = $"accountID:{Session["accountID"].ToString()}, accountType:{Session["accountType"].ToString()},name:{Session["name"].ToString()}, email:{Session["email"].ToString()}, mobile:{Session["mobile"].ToString()}, dateOfBirth:{Session["dateOfBirth"].ToString()},";
+                /*lblTitle.Text = $"accountID:{Session["accountID"].ToString()}, accountType:{Session["accountType"].ToString()},name:{Session["name"].ToString()}, email:{Session["email"].ToString()}, mobile:{Session["mobile"].ToString()}, dateOfBirth:{Session["dateOfBirth"].ToString()},";
                 if (Session["accountType"].ToString() == "parent")
                 {
                     lblTitle.Text = Session["adminNo"].ToString();
@@ -25,7 +25,7 @@ namespace ITP213
                 else if (Session["accountType"].ToString() == "student")
                 {
                     lblTitle.Text = $"adminNo:{Session["adminNo"]}";
-                }
+                }*/
 
             }
             else

@@ -2,8 +2,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <!--************README: Hi, please change some of the following things below when you're coding your features. Thanks! -PS -->
-
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
 
@@ -21,11 +19,15 @@
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1><asp:Label ID="lblTitle" runat="server" Text="Home"></asp:Label></h1> <!--2. Change the title!-->
+    <!--<h1><asp:Label ID="lblTitle" runat="server" Text="Home"></asp:Label></h1>-->
     <hr/>
     <p> <!--3. This is where you code all your features-->
-
-        This is a paragraph
+        <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-10 px-0">
+          <h1 class="display-4 font-italic" style="color:white !important">Overseas Trip Management</h1>
+          <p class="lead my-3">We are a group of 4 who are building an application to automate NYP's overseas trip management. This system will be called the Student Overseas Trip Management System (SOTMS). This system will manage different types of overseas programmmes, which are Study Trips, Immersion Programs and internships</p>
+        </div>
+      </div>
     </p>
     <!--//Page Content-->
 </asp:Content>

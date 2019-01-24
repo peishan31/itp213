@@ -270,5 +270,30 @@ namespace ITP213
                 deleteB.Visible = true;
             }
         }
+
+        protected void RepeaterPastStudyTrips_Command(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                if (e.CommandName == "trips_Click")
+                {
+                    string name = e.CommandArgument.ToString();
+                    lblTesting.Text = name;
+                    // **** to redirect to test
+                    //if (Session["accountType"].ToString() == "lecturer") 
+                    //{
+                    //Response.Redirect("/lec.aspx?tripID=" + name);
+                    //}
+
+                    //******************* shang ji: TEST
+                    /*if (Session["accountType"].ToString() == "student")
+                    {
+                        Response.Redirect("/stud.aspx?tripID=" + name); // do test
+                    }*/
+                    Response.Redirect("/ViewIndividualTrip.aspx?tripID=" + name);
+
+                }
+            }
+        }
     }
 }

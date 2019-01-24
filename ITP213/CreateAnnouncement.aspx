@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        Message:<asp:TextBox ID="tbMessage" runat="server" Rows="8" Columns="10" TextMode="MultiLine" class="form-control"></asp:TextBox>
+                        Message:<asp:TextBox ID="tbMessage" runat="server" Rows="8" Columns="10" TextMode="MultiLine" class="form-control" style="resize:none;"></asp:TextBox>
                     </div>
                 </div>
                 <div class="step-tab-panel" id="step2">

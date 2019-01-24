@@ -10,17 +10,6 @@ namespace ITP213
 {
     public partial class ViewInjuryReport : System.Web.UI.Page
     {
-        public string lblStudentName;
-        public string lblDateTimeInjury;
-        public string lblLocation;
-        public string lblTrip;
-        public string lblNatureOfInjury;
-        public string lblCauseOfInjury;
-        public string lblLocationOnBody;
-        public string lblAgency;
-        public string lblFirstAidGiven;
-        public string lblFirstAiderName;
-        public string lblTreatment;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -66,6 +55,17 @@ namespace ITP213
 
         protected void RepeaterViewInjury_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            string lblStudentName;
+            string lblDateTimeInjury;
+            string lblLocation;
+            string lblTrip;
+            string lblNatureOfInjury;
+            string lblCauseOfInjury;
+            string lblLocationOnBody;
+            string lblAgency;
+            string lblFirstAidGiven;
+            string lblFirstAiderName;
+            string lblTreatment;
             RepeaterItem item = e.Item;
             Label tempL = (Label)item.FindControl("Label20");
             string createdBy = tempL.Text;
@@ -88,7 +88,7 @@ namespace ITP213
             }
 
             // Delete if it fails
-            Button informB = (Button)item.FindControl("btnSendReportViaSMS");
+            /*Button informB = (Button)item.FindControl("btnSendReportViaSMS");
             lblStudentName = ((Label)item.FindControl("lblStudentName")).Text.Trim();
             lblDateTimeInjury = ((Label)item.FindControl("lblDateTimeInjury")).Text.Trim();
             lblLocation = ((Label)item.FindControl("lblLocation")).Text.Trim();
@@ -99,9 +99,10 @@ namespace ITP213
             lblAgency = ((Label)item.FindControl("lblAgency")).Text.Trim();
             lblFirstAidGiven = ((Label)item.FindControl("lblFirstAidGiven")).Text.Trim();
             lblFirstAiderName = ((Label)item.FindControl("lblFirstAiderName")).Text.Trim();
-            lblTreatment = ((Label)item.FindControl("lblTreatment")).Text.Trim();
+            lblTreatment = ((Label)item.FindControl("lblTreatment")).Text.Trim();*/
 
-            informB.OnClientClick = $"return confirm('Dear Parents,<br>{lblStudentName} has been injured on {lblDateTimeInjury}. Below are the details:<br>Location: {lblLocation}<br>Nature of injury: {lblNatureOfInjury}<br>Cause of injury: {lblNatureOfInjury}<br>Location: {lblLocationOnBody}');";
+
+            //informB.OnClientClick = $"return confirm('Dear Parents,<br>{lblStudentName} has been injured on {lblDateTimeInjury}. Below are the details:<br>Location: {lblLocation}<br>Nature of injury: {lblNatureOfInjury}<br>Cause of injury: {lblNatureOfInjury}<br>Location: {lblLocationOnBody}');";
         }
 
         protected void btnSendReportViaSMS_Click(object sender, EventArgs e)
@@ -119,49 +120,58 @@ namespace ITP213
 
         protected void btnSendReport_command(object sender, CommandEventArgs e)
         {
+
             if (e.CommandName == "informParent")
             {
-                foreach (RepeaterItem item in RepeaterViewInjury.Items)
-                {
-                    if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
-                    {
-                       /*ar lblStudentName = (Label)item.FindControl("lblStudentName");
-                        var lblDateTimeInjury = (Label)item.FindControl("lblDateTimeInjury");
-                        var lblLocation = (Label)item.FindControl("lblLocation");
-                        var lblTrip = (Label)item.FindControl("lblTrip");
-                        var lblNatureOfInjury = (Label)item.FindControl("lblNatureOfInjury");
-                        var lblCauseOfInjury = (Label)item.FindControl("lblCauseOfInjury");
-                        var lblLocationOnBody = (Label)item.FindControl("lblLocationOnBody");
-                        var lblAgency = (Label)item.FindControl("lblAgency");
-                        var lblFirstAidGiven = (Label)item.FindControl("lblFirstAidGiven");
-                        var lblFirstAiderName = (Label)item.FindControl("lblFirstAiderName");
-                        var lblTreatment = (Label)item.FindControl("lblTreatment");*/
+                string injuryReportID = e.CommandArgument.ToString();
 
-                        lblTesting.Text = $"Dear Parents,<br>" +
-                        $"{lblStudentName} has been injured on {lblDateTimeInjury} in {lblTrip}." +
-                        $"Below are the details:<br>Location: {lblLocation}"
-                        + $"<br>Nature of injury: {lblNatureOfInjury}"
-                        + $"<br>Cause of injury: {lblCauseOfInjury}"
-                        + $"<br>Location: {lblLocationOnBody}"+$"<br>Agency: {lblAgency}"
-                        + $"<br>First Aid Given: {lblFirstAidGiven}"
-                        + $"<br>First Aider name: {lblFirstAiderName}"
-                        + $"<br>Treatment: {lblTreatment}";
-                    }
+                DAL.ReportInjury obj = ReportInjuryDAO.getInjuryReportByID(Convert.ToInt32(injuryReportID));
+                string studentName = obj.studentName.Trim();
+                string dateTimeInjury = obj.dateTimeOfInjury.Trim();
+                string location = obj.location.Trim();
+                string trip = obj.tripName; //kiv
+                string natureOfInjury = obj.natureOfInjury.Trim();
+                string causeOfInjury = obj.causeOfInjury.Trim();
+                string locationOnBody = obj.locationOnBody.Trim();
+                string agency = obj.agency.Trim();
+                string firstAidGiven = obj.firstAidGiven.Trim();
+                string firstAiderName = obj.firstAiderName.Trim();
+                string treatment = obj.treatment.Trim();
+
+                lblTesting.Text = $"Dear Parents,<br>" +
+                        $"{studentName} has been injured on {dateTimeInjury}." +
+                        $"Below are the details:<br>Location: {location}"
+                        + $"<br>Nature of injury: {natureOfInjury}"
+                        + $"<br>Cause of injury: {causeOfInjury}"
+                        + $"<br>Location: {locationOnBody}" + $"<br>Agency: {agency}"
+                        + $"<br>First Aid Given: {firstAidGiven}"
+                        + $"<br>First Aider name: {firstAiderName}"
+                        + $"<br>Treatment: {treatment}";
+                string msg = $"Dear Parents," +
+                        $"{studentName} has been injured on {dateTimeInjury}." +
+                        $"Below are the details:Location: {location}"
+                        + $"Nature of injury: {natureOfInjury}"
+                        + $"Cause of injury: {causeOfInjury}"
+                        + $"Location: {locationOnBody}" + $"Agency: {agency}"
+                        + $"First Aid Given: {firstAidGiven}"
+                        + $"First Aider name: {firstAiderName}"
+                        + $"Treatment: {treatment}";
+                //=================================================================================
+                // ***************************** DO NOT DELETE 
+                /*SMSSvrRef.SMSSoapClient S = new SMSSvrRef.SMSSoapClient();
+                try
+                {
+                    string display = S.sendMessage("EADPJ47", "061785", "96940248", msg);
+                    lblTesting.Text = display;
                 }
+                catch (Exception error)
+                {
+                    lblTesting.Text = error.Message;
+                }*/
+                //=================================================================================
+
             }
-            //=================================================================================
-            // ***************************** DO NOT DELETE 
-            /*SMSSvrRef.SMSSoapClient S = new SMSSvrRef.SMSSoapClient();
-            try
-            {
-                string display = S.sendMessage("EADPJ47", "061785", "83997254", "Hi");
-                lblTesting.Text = display;
-            }
-            catch (Exception error)
-            {
-                lblTesting.Text = error.Message;
-            }*/
-            //=================================================================================
+
         }
     }
 }

@@ -77,41 +77,41 @@
                         <h4>General Information</h4>
                         <asp:Panel ID="PanelGeneralRecord" Visible="false" runat="server">
                             <div class="row">
-                                <label for="Lbl_StudName" class="col-md-2 col-form-label">Name :</label>
+                                <label for="Lbl_StudName" class="col-md-2 col-form-label">Name:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_StudName" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_AdminNo" class="col-md-2 col-form-label">Admin No. :</label>
+                                <label for="Lbl_AdminNo" class="col-md-2 col-form-label">Admin No:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_AdminNo" runat="server"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Sch" class="col-md-2 col-form-label">School :</label>
+                                <label for="Lbl_Sch" class="col-md-2 col-form-label">School:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sch" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_Course" class="col-md-2 col-form-label">Course :</label>
+                                <label for="Lbl_Course" class="col-md-2 col-form-label">Course:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Course" runat="server"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Email" class="col-md-2 col-form-label">Email :</label>
+                                <label for="Lbl_Email" class="col-md-2 col-form-label">Email:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Email" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_DOB" class="col-md-2 col-form-label">DOB :</label>
+                                <label for="Lbl_DOB" class="col-md-2 col-form-label">DOB:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_DOB" runat="server"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_DietNeeds" class="col-md-2 col-form-label">Diet Needs :</label>
+                                <label for="Lbl_DietNeeds" class="col-md-2 col-form-label">Diet Needs:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_DietNeeds" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_Lang" class="col-md-2 col-form-label">Spoken Language :</label>
+                                <label for="Lbl_Lang" class="col-md-2 col-form-label">Spoken Language:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Lang" runat="server"></asp:Label>
                                 </div>
@@ -122,17 +122,17 @@
                         <h4>Academic Results</h4>
                         <asp:Panel ID="PanelAcademicResult" Visible="false" runat="server">
                             <div class="row">
-                                <label for="Lbl_StudNameAcad" class="col-md-2 col-form-label">Name :</label>
+                                <label for="Lbl_StudNameAcad" class="col-md-2 col-form-label">Name:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_StudNameAcad" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_AdminNoAcad" class="col-md-2 col-form-label">Admin No. :</label>
+                                <label for="Lbl_AdminNoAcad" class="col-md-2 col-form-label">Admin No:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_AdminNoAcad" runat="server"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_CumGPA" class="col-md-2 col-form-label">Cumulative GPA :</label>
+                                <label for="Lbl_CumGPA" class="col-md-2 col-form-label">Cumulative GPA:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_CumGPA" runat="server"></asp:Label>
                                 </div>
@@ -145,11 +145,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Sem1Year1GPA" class="col-md-2 col-form-label">Semester 1 :</label>
+                                <label for="Lbl_Sem1Year1GPA" class="col-md-2 col-form-label">Semester 1:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sem1Year1GPA" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_Sem2Year1GPA" class="col-md-2 col-form-label">Semester 2 :</label>
+                                <label for="Lbl_Sem2Year1GPA" class="col-md-2 col-form-label">Semester 2:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sem2Year1GPA" runat="server"></asp:Label>
                                 </div>
@@ -160,11 +160,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Sem1Year2GPA" class="col-md-2 col-form-label">Semester 1 :</label>
+                                <label for="Lbl_Sem1Year2GPA" class="col-md-2 col-form-label">Semester 1:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sem1Year2GPA" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_Sem2Year2GPA" class="col-md-2 col-form-label">Semester 2 :</label>
+                                <label for="Lbl_Sem2Year2GPA" class="col-md-2 col-form-label">Semester 2:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sem2Year2GPA" runat="server"></asp:Label>
                                 </div>
@@ -177,11 +177,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Sem1Year3GPA" class="col-md-2 col-form-label">Semester 1 :</label>
+                                <label for="Lbl_Sem1Year3GPA" class="col-md-2 col-form-label">Semester 1:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sem1Year3GPA" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_Sem2Year3GPA" class="col-md-2 col-form-label">Semester 2 :</label>
+                                <label for="Lbl_Sem2Year3GPA" class="col-md-2 col-form-label">Semester 2:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Sem2Year3GPA" runat="server"></asp:Label>
                                 </div>
@@ -192,31 +192,31 @@
                         <h4>CCA Records</h4>
                         <asp:Panel ID="PanelCCARecord" Visible="false" runat="server">
                             <div class="row">
-                                <label for="Lbl_StudNameCCA" class="col-md-2 col-form-label">Name :</label>
+                                <label for="Lbl_StudNameCCA" class="col-md-2 col-form-label">Name:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_StudNameCCA" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_AdminNoCCA" class="col-md-2 col-form-label">Admin No. :</label>
+                                <label for="Lbl_AdminNoCCA" class="col-md-2 col-form-label">Admin No:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_AdminNoCCA" runat="server"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Classification" class="col-md-2 col-form-label">Classification :</label>
+                                <label for="Lbl_Classification" class="col-md-2 col-form-label">Classification:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Classification" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_AchievementTitle" class="col-md-2 col-form-label">Activity :</label>
+                                <label for="Lbl_AchievementTitle" class="col-md-2 col-form-label">Activity:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_AchievementTitle" runat="server"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="Lbl_Date" class="col-md-2 col-form-label">Date :</label>
+                                <label for="Lbl_Date" class="col-md-2 col-form-label">Date:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Date" runat="server"></asp:Label>
                                 </div>
-                                <label for="Lbl_Points" class="col-md-2 col-form-label">Points :</label>
+                                <label for="Lbl_Points" class="col-md-2 col-form-label">Points:</label>
                                 <div class="col-md-4">
                                     <asp:Label ID="Lbl_Points" runat="server"></asp:Label>
                                 </div>
@@ -227,37 +227,37 @@
                     <h4>Medical Records</h4>
                     <asp:Panel ID="PanelMedicalRecord" Visible="false" runat="server">
                         <div class="row">
-                            <label for="Lbl_StudNameMed" class="col-md-2 col-form-label">Name :</label>
+                            <label for="Lbl_StudNameMed" class="col-md-2 col-form-label">Name:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_StudNameMed" runat="server"></asp:Label>
                             </div>
-                            <label for="Lbl_AdminNoMed" class="col-md-2 col-form-label">Admin No. :</label>
+                            <label for="Lbl_AdminNoMed" class="col-md-2 col-form-label">Admin No:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_AdminNoMed" runat="server"></asp:Label>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="Lbl_BloodType" class="col-md-2 col-form-label">Blood Type :</label>
+                            <label for="Lbl_BloodType" class="col-md-2 col-form-label">Blood Type:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_BloodType" runat="server"></asp:Label>
                             </div>
-                            <label for="Lbl_Allergies" class="col-md-2 col-form-label">Allergies :</label>
+                            <label for="Lbl_Allergies" class="col-md-2 col-form-label">Allergies:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_Allergies" runat="server"></asp:Label>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="Lbl_Height" class="col-md-2 col-form-label">Height :</label>
+                            <label for="Lbl_Height" class="col-md-2 col-form-label">Height:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_Height" runat="server"></asp:Label>
                             </div>
-                            <label for="Lbl_Weight" class="col-md-2 col-form-label">Weight :</label>
+                            <label for="Lbl_Weight" class="col-md-2 col-form-label">Weight:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_Weight" runat="server"></asp:Label>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="Lbl_Insurances" class="col-md-2 col-form-label">Insurances :</label>
+                            <label for="Lbl_Insurances" class="col-md-2 col-form-label">Insurances:</label>
                             <div class="col-md-4">
                                 <asp:Label ID="Lbl_Insurances" runat="server"></asp:Label>
                             </div>

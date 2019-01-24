@@ -175,6 +175,7 @@
                                     <asp:ListItem>--Please Select--</asp:ListItem>
                                     <asp:ListItem>Study Trip</asp:ListItem>
                                     <asp:ListItem>Immersion Trip</asp:ListItem>
+                                    <asp:ListItem>Internship</asp:ListItem>
                                 </asp:DropDownList>
                             </p>
                         </div>

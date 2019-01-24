@@ -106,10 +106,14 @@
     <Content Include="Content\mdb.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="CreateAnnouncement.aspx" />
+    <Content Include="CreateBlog.aspx" />
     <Content Include="CreateFeedback.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="DefaultErrorPage.aspx" />
+    <Content Include="ImageGallery.aspx" />
     <Content Include="Images\trip_background.jpg" />
     <Content Include="InformationSummary.aspx" />
+    <Content Include="InternalServerErrorPage.aspx" />
     <Content Include="LecturerWithdrawalRequest.aspx" />
     <Content Include="login.aspx" />
     <Content Include="Logout.aspx" />
@@ -120,6 +124,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="PageNotFoundErrorPage.aspx" />
     <Content Include="ReportInjury.aspx" />
     <Content Include="Content\jquery-steps.css" />
     <Content Include="Scripts\jquery-steps.js" />
@@ -157,8 +162,10 @@
     <Content Include="StudentWithdrawalRequest.aspx" />
     <Content Include="StudentWithdrawalResult.aspx" />
     <Content Include="TripAllocation.aspx" />
+    <Content Include="UnauthorizedErrorPage.aspx" />
     <Content Include="ViewAllocatedTrip.aspx" />
     <Content Include="ViewAnnouncement.aspx" />
+    <Content Include="ViewBlog.aspx" />
     <Content Include="ViewIndividualAnnouncement.aspx" />
     <Content Include="ViewIndividualTrip.aspx" />
     <Content Include="ViewInjuryReport.aspx" />
@@ -175,6 +182,13 @@
     <Compile Include="CreateAnnouncement.aspx.designer.cs">
       <DependentUpon>CreateAnnouncement.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CreateBlog.aspx.cs">
+      <DependentUpon>CreateBlog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateBlog.aspx.designer.cs">
+      <DependentUpon>CreateBlog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreateFeedback.aspx.cs">
       <DependentUpon>CreateFeedback.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -186,12 +200,15 @@
     <Compile Include="DAL\AcademicResultDAO.cs" />
     <Compile Include="DAL\Announcement.cs" />
     <Compile Include="DAL\AnnouncementDAO.cs" />
+    <Compile Include="DAL\Blog.cs" />
+    <Compile Include="DAL\BlogDAO.cs" />
     <Compile Include="DAL\CCARecord.cs" />
     <Compile Include="DAL\CCARecordDAO.cs" />
     <Compile Include="DAL\Feedback.cs" />
     <Compile Include="DAL\FeedbackDAO.cs" />
     <Compile Include="DAL\GeneralRecord.cs" />
     <Compile Include="DAL\GeneralRecordDAO.cs" />
+    <Compile Include="DAL\ImageDAO.cs" />
     <Compile Include="DAL\Internship.cs" />
     <Compile Include="DAL\InternshipDAO.cs" />
     <Compile Include="DAL\MedicalRecord.cs" />
@@ -208,6 +225,7 @@
     <Compile Include="DAL\ReportInjuryDAO.cs" />
     <Compile Include="DAL\TripAllocation.cs" />
     <Compile Include="DAL\TripAllocationDAO.cs" />
+    <Compile Include="DAL\UploadedImage.cs" />
     <Compile Include="DAL\WithdrawalRequest.cs" />
     <Compile Include="DAL\WithdrawalRequestDAO.cs" />
     <Compile Include="Default.aspx.cs">
@@ -217,11 +235,33 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DefaultErrorPage.aspx.cs">
+      <DependentUpon>DefaultErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DefaultErrorPage.aspx.designer.cs">
+      <DependentUpon>DefaultErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageGallery.aspx.cs">
+      <DependentUpon>ImageGallery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ImageGallery.aspx.designer.cs">
+      <DependentUpon>ImageGallery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="InformationSummary.aspx.cs">
       <DependentUpon>InformationSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="InformationSummary.aspx.designer.cs">
       <DependentUpon>InformationSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InternalServerErrorPage.aspx.cs">
+      <DependentUpon>InternalServerErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InternalServerErrorPage.aspx.designer.cs">
+      <DependentUpon>InternalServerErrorPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="LecturerWithdrawalRequest.aspx.cs">
       <DependentUpon>LecturerWithdrawalRequest.aspx</DependentUpon>
@@ -257,6 +297,13 @@
     </Compile>
     <Compile Include="Format.aspx.designer.cs">
       <DependentUpon>Format.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageNotFoundErrorPage.aspx.cs">
+      <DependentUpon>PageNotFoundErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageNotFoundErrorPage.aspx.designer.cs">
+      <DependentUpon>PageNotFoundErrorPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportInjury.aspx.cs">
@@ -306,6 +353,13 @@
     <Compile Include="TripAllocation.aspx.designer.cs">
       <DependentUpon>TripAllocation.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UnauthorizedErrorPage.aspx.cs">
+      <DependentUpon>UnauthorizedErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UnauthorizedErrorPage.aspx.designer.cs">
+      <DependentUpon>UnauthorizedErrorPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewAllocatedTrip.aspx.cs">
       <DependentUpon>ViewAllocatedTrip.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -319,6 +373,13 @@
     </Compile>
     <Compile Include="ViewAnnouncement.aspx.designer.cs">
       <DependentUpon>ViewAnnouncement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewBlog.aspx.cs">
+      <DependentUpon>ViewBlog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewBlog.aspx.designer.cs">
+      <DependentUpon>ViewBlog.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewIndividualAnnouncement.aspx.cs">
       <DependentUpon>ViewIndividualAnnouncement.aspx</DependentUpon>
@@ -354,6 +415,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\SMSSvrRef\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

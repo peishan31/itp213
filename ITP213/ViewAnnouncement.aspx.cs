@@ -14,101 +14,75 @@ namespace ITP213
         {
             if (!IsPostBack)
             {
+                if (Session["accountType"] != null)
+                {
+                    if (Session["accountType"].ToString() == "lecturer")
+                    {
+                        if (AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
+                        {
+                            PanelStudyTrips.Visible = true;
+                        }
+                        else
+                        {
+                            RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString());
+                            RepeaterStudyTrips.DataBind();
+                        }
+
+                        if (AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
+                        {
+                            PanelImmersionTrips.Visible = true;
+                        }
+                        else
+                        {
+                            RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString());
+                            RepeaterImmersionTrips.DataBind();
+
+
+                        }
+
+                        // for withdrawal request
+                        if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
+                        {
+                            PanelEmptyWithdrawalRequest.Visible = true;
+                        }
+                        else
+                        {
+                            RepeaterWithdrawalRequest.DataSource = WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString());
+                            RepeaterWithdrawalRequest.DataBind();
+
+                        }
+
+                    }
+                    else if (Session["accountType"].ToString() == "student")
+                    {
+                        if (AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
+                        {
+                            PanelStudyTrips.Visible = true;
+                        }
+                        else
+                        {
+                            RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString());
+                            RepeaterStudyTrips.DataBind();
+
+
+                        }
+                        if (AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
+                        {
+                            PanelImmersionTrips.Visible = true;
+                        }
+                        else
+                        {
+                            RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
+                            RepeaterImmersionTrips.DataBind();
+                        }
+
+                    }
+                }else
+                {
+                    Response.Redirect("/login.aspx");
+                }   
                 
-                if (Session["accountType"].ToString() == "lecturer")
-                {
-                    if (AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
-                    {
-                        PanelStudyTrips.Visible = true;
-                    }
-                    else
-                    {
-                        RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString());
-                        RepeaterStudyTrips.DataBind();
-                    }
-
-                    if (AnnouncementDAO.getStudyTripPastAnnouncementByStaffID(Session["staffID"].ToString()) == null)
-                    {
-                        btnViewPastAnnouncementStudyTrips.Visible = false;
-                    }
-                    else
-                    {
-                        RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByStaffID(Session["staffID"].ToString());
-                        RepeaterStudyTripsPastAnnouncement.DataBind();
-                    }
-
-                    if (AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
-                    {
-                        PanelImmersionTrips.Visible = true;
-                    }
-                    else
-                    {
-                        RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString());
-                        RepeaterImmersionTrips.DataBind();
-
-                        
-                    }
-
-                    if (AnnouncementDAO.getImmersionTripPastAnnouncementByStaffID(Session["staffID"].ToString()) == null)
-                    {
-                        btnViewPastAnnouncementImmersionTrips.Visible = false;
-                    }
-                    else
-                    {
-                        RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByStaffID(Session["staffID"].ToString());
-                        RepeaterImmersionTripsPastAnnouncement.DataBind();
-                    }
-
-                    // for withdrawal request
-                    if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
-                    {
-                        PanelEmptyWithdrawalRequest.Visible = true;
-                    }
-                    else
-                    {
-                        RepeaterWithdrawalRequest.DataSource = WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString());
-                        RepeaterWithdrawalRequest.DataBind();
-
-                    }
-
-                }
-                else if (Session["accountType"].ToString() == "student")
-                {
-                    if (AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
-                    {
-                        PanelStudyTrips.Visible = true;
-                    }
-                    else
-                    {
-                        RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString());
-                        RepeaterStudyTrips.DataBind();
-
-                        
-                    }
-                    if (AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
-                    {
-                        PanelImmersionTrips.Visible = true;
-                    }
-                    else
-                    {
-                        RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
-                        RepeaterImmersionTrips.DataBind();
-                    }
-
-                    RepeaterStudyTripsPastAnnouncement.DataSource = AnnouncementDAO.getStudyTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
-                    RepeaterStudyTripsPastAnnouncement.DataBind();
-
-                    RepeaterImmersionTripsPastAnnouncement.DataSource = AnnouncementDAO.getImmersionTripPastAnnouncementByAdminNo(Session["adminNo"].ToString());
-                    // AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
-                    RepeaterImmersionTripsPastAnnouncement.DataBind();
-                }
             }
-             
-            //=============================================================================================================================
-            /*Announcement obj = AnnouncementDAO.getAnnouncementByAdminNo(Convert.ToInt32("17")); 
-            lblAnnouncementTitle.Text = obj.announcementTitle;
-            lblAnnouncementMessage.Text = obj.announcementMessage;*/
-            //=============================================================================================================================
         }
 
 

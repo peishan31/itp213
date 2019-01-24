@@ -35,7 +35,7 @@
 
             <a href="/Default.aspx" style="color: #D6D6D6">Home</a>
         </li>
-        <li class="breadcrumb-item active">Assignments</li>
+        <li class="breadcrumb-item active">View Trips</li>
         <!--1. Change the name!-->
     </ol>
     <style>
@@ -54,7 +54,7 @@
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
-    <h1>Assignments</h1>
+    <h1>View Trips</h1>
     <!--2. Change the title!-->
     <hr />
     <p>
@@ -142,7 +142,7 @@
                             <div class="modal-body">
                                 <asp:Label ID="lblPastStudyTripMsg" runat="server" Text="Currently, there are no past Study Trips yet!"></asp:Label>
                                 <!-- Display a list of announcements-->
-                                <asp:Repeater ID="RepeaterPastStudyTrips" runat="server">
+                                <asp:Repeater ID="RepeaterPastStudyTrips" runat="server" OnItemCommand="RepeaterPastStudyTrips_Command">
                                     <ItemTemplate>
                                         <div class="row">
                                             <div class="col-12 col-sm-12">
@@ -171,8 +171,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary-modal waves-effect btn-sm" data-dismiss="modal">
-                                    Close
-                                </button>
+                                    Close</button>
                             </div>
                         </div>
                     </div>
@@ -277,8 +276,20 @@
                 
             </div>
             <div id="tabs-3">
-                <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-                <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+                <!--If repeater is empty-->
+                <asp:Panel ID="Panel1" runat="server" Visible="True">
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-4">You are currently not enrolled in any Internship programme.</h1>
+                            <p class="lead">Keep a look out for future overseas programme!</p>
+                        </div>
+                    </div>
+                </asp:Panel>
+                <!--//If repeater is empty-->
+                <center>
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#PastImmersionTrip">
+                        View Past Trips</button>
+                </center>
             </div>
         </div>
 

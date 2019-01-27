@@ -6,6 +6,7 @@
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title></title>
+    <link rel='stylesheet' href='Content/mdb1.min.css' />
     <script src="Scripts/Chart_JS.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -35,218 +36,282 @@
 </head>
 <body id="page-top">
     <form id="form1" runat="server">
-        <% String currentAccountType = Session["accountType"].ToString();%>
-        <div>
-            <!--Top navbar-->
-            <nav class="navbar navbar-expand navbar-dark bg-dark static-top" style="background-color:#37474F !important;">
+        <% if (Session["accountType"] != null)
+            {%>
+            <% String currentAccountType = Session["accountType"].ToString();%>
+            <div>
+                <!--Top navbar-->
+                <nav class="navbar navbar-expand navbar-dark bg-dark static-top" style="background-color:#37474F !important;">
 
-              <!-- <a class="navbar-brand mr-1" href="#"><img src="nyp-logo.jpg" style="width:165px;"/></a> -->
-              <a class="navbar-brand mr-1" id="schoolName" href="/Default.aspx">Nanyang Polytechnic</a>
-              <style>
-              #schoolName 
-              {
-                font-family: Georgia, 'Times New Roman', Times, serif
-              }
-              </style>
-              <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-                <i class="fas fa-bars"></i>
-              </button>
+                  <!-- <a class="navbar-brand mr-1" href="#"><img src="nyp-logo.jpg" style="width:165px;"/></a> -->
+                  <a class="navbar-brand mr-1" id="schoolName" href="/Default.aspx">Nanyang Polytechnic</a>
+                  <style>
+                  #schoolName 
+                  {
+                    font-family: Georgia, 'Times New Roman', Times, serif
+                  }
+                  </style>
+                  <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+                    <i class="fas fa-bars"></i>
+                  </button>
 
-              <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-              </div>
-
-              <!-- Navbar contents-->
-              <ul class="navbar-nav ml-auto ml-md-0">
-                <li class="nav-item dropdown no-arrow mx-1">
-                  <a class="nav-link dropdown-toggle" href="/ViewAnnouncement.aspx" id="alertsDropdown">
-                    <i class="fas fa-bell fa-fw"></i>
-                      <asp:Panel ID="PanelAnnouncement" runat="server" Visible="false">
-                        <span class="badge badge-danger" id="badgeUnreadCount" runat="server" visible="true">
-                            <asp:Repeater ID="RepeaterUnreadCount" runat="server" OnItemDataBound="RepeaterUnreadMsg_ItemDataBound">
-                                <ItemTemplate>
-                                    <asp:Label ID="Label1" runat="server" Text='<%#Eval("unreadCount") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </span>
-                      </asp:Panel>
-                    
-                  </a>
-                </li>
-                <li class="nav-item dropdown no-arrow">
-                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user-circle fa-fw"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-header">Hello, <asp:Label ID="lblName" runat="server"></asp:Label>!</a>
-                    <!--<a class="dropdown-item" href="#">Edit Profile</a>-->
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/Logout.aspx">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
+                  <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                   </div>
-                </li>
-              </ul>
-            </nav>
-            <!--//Top navbar end-->
-            <div id="wrapper">
-                <!--Sidebar nav-->
-                <ul class="sidebar navbar-nav">
-                    <% if (currentAccountType == "parent"){ %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>My Child's Trips</span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                            <a class="dropdown-item" href="/ViewAllocatedTrip.aspx">View Trips</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/ViewAnnouncement.aspx">View Announcement</a>
-                            <a class="dropdown-item" href="/StudentWithdrawalRequest.aspx">Withdrawal Request</a>
-                            </div>
-                        </li>
-                    <% } else{ %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>My Trips</span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                            <!-- <h6 class="dropdown-header">My Trips</h6> -->
-                            <% if (currentAccountType == "lecturer") { %>
-                                <a class="dropdown-item" href="/TripAllocation.aspx">Create Trip</a>
-                            <% } %>
 
-                            <a class="dropdown-item" href="/ViewAllocatedTrip.aspx">View Trips</a>
-                            <a class="dropdown-item" href="#">View Results</a>
-                            <div class="dropdown-divider"></div>
-                            <!-- <h6 class="dropdown-header">Others:</h6> -->
-                            <% if (currentAccountType == "lecturer") {%>
-                                <a class="dropdown-item" href="/CreateAnnouncement.aspx">Create Announcement</a>
-                            <% } %>
-
-                            <a class="dropdown-item" href="/ViewAnnouncement.aspx">View Announcements</a>
-                            <% if (currentAccountType == "lecturer") {%>
-                                <!--<a class="dropdown-item" href="/LecturerWithdrawalRequest.aspx">Withdrawal Request</a>-->
-                            <% } %>
-
-                            <% if (currentAccountType == "student") {%>
+                  <!-- Navbar contents-->
+                  <ul class="navbar-nav ml-auto ml-md-0">
+                    <li class="nav-item dropdown no-arrow mx-1">
+                      <a class="nav-link dropdown-toggle" href="/ViewAnnouncement.aspx" id="alertsDropdown">
+                        <i class="fas fa-bell fa-fw"></i>
+                          <asp:Panel ID="PanelAnnouncement" runat="server" Visible="false">
+                            <span class="badge badge-danger" id="badgeUnreadCount" runat="server" visible="true">
+                                <asp:Repeater ID="RepeaterUnreadCount" runat="server" OnItemDataBound="RepeaterUnreadMsg_ItemDataBound">
+                                    <ItemTemplate>
+                                        <asp:Label ID="Label1" runat="server" Text='<%#Eval("unreadCount") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </span>
+                          </asp:Panel>
+                    
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown no-arrow">
+                      <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <% if (currentAccountType == "student")
+                            {%>
+                          <i class="fas fa-user-graduate fa-fw"></i>
+                                <!--i class="fas fa-user-circle fa-fw"></!--i>-->
+                          <%}
+                              else if (currentAccountType == "parent")
+                              {%>
+                            <i class="fas fa-user-friends fa-fw"></i>
+                                              <%}
+                                                  else
+                                                  {%>
+                          <i class="fas fa-chalkboard-teacher fa-fw"></i>
+                          <%} %>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-header">Hello, <asp:Label ID="lblName" runat="server"></asp:Label>!</a>
+                        <!--<a class="dropdown-item" href="#">Edit Profile</a>-->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/Logout.aspx">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </nav>
+                <!--//Top navbar end-->
+                <div id="wrapper">
+                    <!--Sidebar nav-->
+                    <ul class="sidebar navbar-nav">
+                        <% if (currentAccountType == "parent")
+                            { %>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>My Child's Trips</span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <a class="dropdown-item" href="/ViewAllocatedTrip.aspx">View Trips</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/ViewAnnouncement.aspx">View Announcement</a>
                                 <a class="dropdown-item" href="/StudentWithdrawalRequest.aspx">Withdrawal Request</a>
                                 <a class="dropdown-item" href="/StudentWithdrawalResult.aspx">Withdrawal Result</a>
-                            <% } %>
+                                </div>
+                            </li>
+                        <% }
+                            else
+                            { %>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>My Trips</span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <!-- <h6 class="dropdown-header">My Trips</h6> -->
+                                <% if (currentAccountType == "lecturer")
+                                    { %>
+                                    <a class="dropdown-item" href="/TripAllocation.aspx">Create Trip</a>
+                                <% } %>
+
+                                <a class="dropdown-item" href="/ViewAllocatedTrip.aspx">View Trips</a>
+                                <a class="dropdown-item" href="#">View Results</a>
+                                <div class="dropdown-divider"></div>
+                                <!-- <h6 class="dropdown-header">Others:</h6> -->
+                                <% if (currentAccountType == "lecturer")
+                                    {%>
+                                    <a class="dropdown-item" href="/CreateAnnouncement.aspx">Create Announcement</a>
+                                <% } %>
+
+                                <a class="dropdown-item" href="/ViewAnnouncement.aspx">View Announcements</a>
+                                <% if (currentAccountType == "lecturer")
+                                    {%>
+                                    <a class="dropdown-item" href="/LecturerWithdrawalRequest.aspx">Withdrawal Request</a>
+                                <% } %>
+
+                                <% if (currentAccountType == "student")
+                                    {%>
+                                    <a class="dropdown-item" href="/StudentWithdrawalRequest.aspx">Withdrawal Request</a>
+                                    <a class="dropdown-item" href="/StudentWithdrawalResult.aspx">Withdrawal Result</a>
+                                <% } %>
+                                </div>
+                            </li>
+                        <% } %>
+                        <% if (currentAccountType == "lecturer")
+                            {%>
+                  
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-file-alt"></i>
+                                <span>Injury Report</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <a class="dropdown-item" href="/ReportInjury.aspx">Report Injury</a>
+                                <a class="dropdown-item" href="/ViewInjuryReport.aspx">View Injury Report</a>
                             </div>
                         </li>
-                    <% } %>
-                    <% if (currentAccountType == "lecturer") {%>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-fw fa-file-alt"></i>
-                            <span>Statistics and Report</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-fw fa-file-alt"></i>
-                            <span>Feedback</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-file-alt"></i>
-                            <span>Injury Report</span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                            <a class="dropdown-item" href="/ReportInjury.aspx">Report Injury</a>
-                            <a class="dropdown-item" href="/ViewInjuryReport.aspx">View Injury Report</a>
-                        </div>
-                    </li>
-                    <% } %>
-                    <% if (currentAccountType == "lecturer") { %>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>Statistics and Report</span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                            <a class="dropdown-item" href="#">View Statistics</a>
-                            <a class="dropdown-item" href="#">View Report</a>
-                        </div>
-                    </li>
-                    <% } %>
-                    <% if (currentAccountType == "lecturer" || currentAccountType == "student") { %>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-folder"></i>
-                            <span>Feedback</span>
-                        </a>
-                        <% if (currentAccountType == "lecturer") { %>
-                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
-                                <a class="dropdown-item" href="#">Create Feedback</a>
-                                <a class="dropdown-item" href="#">View Feedback</a>
-                            </div>
                         <% } %>
-                        <% if (currentAccountType == "student") { %>
-                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
-                                <a class="dropdown-item" href="#">Submit Feedback</a>
+                        <% if (currentAccountType == "lecturer")
+                            { %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>Statistics and Report</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <a class="dropdown-item" href="/ViewStatistics.aspx">View Statistics</a>
+                                <a class="dropdown-item" href="#">View Report</a>
                             </div>
+                        </li>
                         <% } %>
-                    </li>
-                    <% } %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                        <i class="fas fa-fw fa-pencil-alt"></i>
-                        <span>Blog</span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <% if (currentAccountType == "lecturer" || currentAccountType == "student")
+                            { %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>Feedback</span>
+                            </a>
+                            <% if (currentAccountType == "lecturer")
+                                { %>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
+                                    <a class="dropdown-item" href="/CreateFeedback.aspx">Create Feedback</a>
+                                    <a class="dropdown-item" href="#">View Feedback</a>
+                                </div>
+                            <% } %>
                             <% if (currentAccountType == "student")
-                                {%>
-                                <a class="dropdown-item" href="/CreateBlog.aspx">New Post</a>
-                            <%}%>
-                            <a class="dropdown-item" href="/ViewBlog.aspx">View Blogs</a>
-                            <a class="dropdown-item" href="/ImageGallery.aspx">Image Gallery</a>
-                        </div>
-                    </li>
+                                { %>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
+                                    <a class="dropdown-item" href="/CreateFeedback.aspx">Submit Feedback</a>
+                                </div>
+                            <% } %>
+                        </li>
+                        <% } %>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-folder"></i>
+                                <span>Internships</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">    
+                                <% if (currentAccountType == "lecturer")
+                                    { %>
+                                    <a class="dropdown-item" href="/ViewReflections.aspx">View Reflections</a>
+                                <% }
+                                else if (currentAccountType == "student")
+                                { %>
+                                   <a class="dropdown-item" href="/CreateReflection.aspx">Submit Reflections</a>
+                                <%} %>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"" href="#">
+                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <span>Blog</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <% if (currentAccountType == "student" || currentAccountType == "parent" )
+                                    {%>
+                                    <a class="dropdown-item" href="/CreateBlog.aspx">New Post</a>
+                                <%}%>
+                                <a class="dropdown-item" href="/ViewBlog.aspx">View Blogs</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"" href="#">
+                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <span>Complaints</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <% if (currentAccountType == "student" || currentAccountType == "parent" )
+                                    {%>
+                                    <a class="dropdown-item" href="/CreateComplaints.aspx">New Post</a>
+                                <%}%>
+                                <% if (currentAccountType == "lecturer")
+                                    {%>
+                                <a class="dropdown-item" href="/ViewComplain.aspx">View Complaints</a>
+                                <%} %>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"" href="#">
+                            <i class="fas fa-images"></i>
+                            <span>Images</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                <% if (currentAccountType == "lecturer")
+                                    {%>
+                                    <a class="dropdown-item" href="/ManageImageGallery.aspx">Manage Image Gallery</a>
+                                <%}%>
+                                <a class="dropdown-item" href="/ImageGallery.aspx">Image Gallery</a>
+                                <a class="dropdown-item" href="/UploadedImages.aspx">Uploaded Images</a>
+                            </div>
+                        </li>
+                        <% if (currentAccountType == "lecturer")
+                            {%>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-address-card"></i>
+                            <span>Student's Particulars</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                            <a class="dropdown-item" href="/InformationSummary.aspx">Summary</a>
+                            <a class="dropdown-item" href="/StudentParticulars.aspx">Individual Particulars</a>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>    
+                    <!--//Sidebar nav end-->
 
-                    <% if (currentAccountType == "lecturer") {%>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-address-card"></i>
-                        <span>Student's Particulars</span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                        <a class="dropdown-item" href="/InformationSummary.aspx">Summary</a>
-                        <a class="dropdown-item" href="/StudentParticulars.aspx">Individual Particulars</a>
-                        </div>
-                    </li>
-                    <% } %>
-                </ul>    
-                <!--//Sidebar nav end-->
-
-                <div id="content-wrapper">
+                    <div id="content-wrapper">
             
-                    <div class="container-fluid">
+                        <div class="container-fluid">
 
-                        <!--Not sure when we'll use those below but I'm gonna keep it for now-->
+                            <!--Not sure when we'll use those below but I'm gonna keep it for now-->
                 
-                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
-                            </asp:ContentPlaceHolder>
+                                </asp:ContentPlaceHolder>
                     
-                        <!--//donotdeletefirst-->
-                    </div> 
+                            <!--//donotdeletefirst-->
+                        </div> 
 
-                    <!--Footer-->
-                    <footer class="sticky-footer">
-                        <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright&copy; NYP Trip Management <%: DateTime.Now.Year %>, Singapore. All rights Reserved</span>
-                        </div>
-                        </div>
-                    </footer>
-                    <!--//Footer end-->
+                        <!--Footer-->
+                        <footer class="sticky-footer">
+                            <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright&copy; NYP Trip Management <%: DateTime.Now.Year %>, Singapore. All rights Reserved</span>
+                            </div>
+                            </div>
+                        </footer>
+                        <!--//Footer end-->
+                    </div>
                 </div>
             </div>
-        </div>
+        <%}else{
+           Response.Redirect("/login.aspx");
+        }%>
     </form>
 
     <!--Bootstrap core Javascript-->

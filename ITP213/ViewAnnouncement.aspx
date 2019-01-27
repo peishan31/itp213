@@ -3,31 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <link rel='stylesheet' href='Content/mdb.min.css' />
-    <style>
-        .tabs {
-            position: relative;
-            top: 1px;
-            left: 10px;
-        }
+    <link rel='stylesheet' href='Content/mdb1.min.css' />
 
-        .tab {
-            border: solid 1px black;
-            background-color: #F5F6FA;
-            padding: 5px 10px;
-        }
-
-        .selectedTab {
-            background-color: white;
-            border-bottom: solid 1px white;
-        }
-
-        .tabContents {
-            border: solid 1px black;
-            padding: 10px;
-            background-color: white;
-        }
-    </style>
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
 
@@ -50,6 +27,32 @@
             .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
                 color: #D6D6D6;
             }
+
+        /*.ui-tabs .ui-tabs-nav li {
+                width: 49.6%;
+            }*/
+
+        .tablink {
+            background-color: #555;
+            color: white;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-size: 17px;
+            width: 50%;
+        }
+
+            .tablink:hover {
+                background-color: #777;
+            }
+
+        @media only screen and (max-width: 600px) {
+            .tablink {
+                width: 100%;
+            }
+        }
     </style>
     <!-- //Breadcrumbs end-->
 
@@ -67,55 +70,71 @@
         <% String currentAccountType = Session["accountType"].ToString();%>
         <div id="tabs">
             <ul>
-                <li><a href="#tabs-1">Study Trips</a></li>
-                <li><a href="#tabs-2">Immersion Trips</a></li>
-                <li><a href="#tabs-3">Internships</a></li>
+                <button class="tablink" style="background-color: orange;">
+                    <li><a href="#tabs-1">Announcements</a></li>
+                </button>
                 <% if (currentAccountType == "lecturer")
                     {%>
-                <li><a href="#tabs-4">Withdrawal Request</a></li>
+                <button class="tablink" onclick="location.href='/LecturerWithdrawalRequest.aspx';return false;">
+                    <li><a href="#tabs-2" style="text-align:center; color:white">Withdrawal Request</a></li>
+                </button>
+                <%} %>
+                <% if (currentAccountType == "student" || currentAccountType == "parent")
+                    {%>
+                <button class="tablink" onclick="location.href='/StudentWithdrawalResult.aspx';return false;">
+                    <li><a href="#tabs-2" style="text-align:center; color:white">Withdrawal Result</a></li>
+                </button>
                 <%} %>
             </ul>
+            
             <div id="tabs-1">
                 <p>
+                    <br />
+                    Filter:&nbsp &nbsp &nbsp<button id="btnAll" type="button" class="btn btn-primary">All</button>
+                    <button id="btnStudy" type="button" class="btn btn-primary">Study Trip</button>
+                    <button id="btnImmersion" type="button" class="btn btn-primary">Immersion Trip</button>
+                    <button id="btnInternship" type="button" class="btn btn-primary">Internship</button>
+
                     <asp:Repeater ID="RepeaterStudyTrips" runat="server" OnItemCommand="RepeaterStudyTrips_ItemCommand" OnItemDataBound="RepeaterStudyTrips_ItemDataBound">
                         <ItemTemplate>
-                            <div class="row">
+                            <div class='row ' title='<%# Eval("tripType") %>' id="allTrips">
                                 <div class="col-12 col-sm-12">
-                                    <div class="list-group">
-                                        <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <small>Trip Name:
-                                                    <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label>
+                                    <div class='<%# Eval("tripType") %>'>
+                                        <div class="list-group">
+                                            <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <small>Trip Name:
+                                                            <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") + " (" +Eval("tripType") + ")" %>'></asp:Label>
+                                                    </small>
+                                                    <small>
+                                                        <asp:CheckBox ID="cbRead" runat="server" Text='Mark as read' AutoPostBack="True" OnCheckedChanged="cbRead_CheckedChanged1" CommandName='<%# Eval("announcementID") %>' Visible='true' />
+                                                    </small>
+                                                </div>
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h5 class="mb-1">
+
+                                                        <asp:LinkButton ID="LinkButton2" runat="server"
+                                                            Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
+                                                            title='<%#"Stop showing on "+Eval("timeDue") %>'>
+                                                        </asp:LinkButton>
+                                                    </h5>
+                                                    <small>
+                                                        <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Announcement" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" Visible="false" />
+                                                        <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" Visible="false" />
+                                                    </small>
+
+                                                </div>
+                                                <p class="mb-1">
+                                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("announcementMessage") %>'></asp:Label>
+                                                </p>
+                                                <small>By:
+                                                        <asp:Label ID="lblStaffID" runat="server" Text='<%# Eval("staffID")%>'></asp:Label>
                                                 </small>
-                                                <small>
-                                                    <asp:CheckBox ID="cbRead" runat="server" Text='Mark as read' AutoPostBack="True" OnCheckedChanged="cbRead_CheckedChanged1" CommandName='<%# Eval("announcementID") %>' Visible='<%#Eval("announcementVisible") %>' />
+                                                <small class="float-right">Posted on:
+                                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("createdOn") %>'></asp:Label>
                                                 </small>
+
                                             </div>
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-
-                                                    <asp:LinkButton ID="LinkButton2" runat="server"
-                                                        Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
-                                                        title='<%#"Stop showing on "+Eval("timeDue") %>'>
-                                                    </asp:LinkButton>
-                                                </h5>
-                                                <small>
-                                                    <asp:Label ID="lblStaffIDForEditAndDeleteBtn" runat="server" Text='<%# Eval("staffID").ToString()%>' Visible="false"></asp:Label>
-                                                    <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Announcement" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" Visible="false" />
-                                                    <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" Visible="false" />
-                                                </small>
-
-                                            </div>
-                                            <p class="mb-1">
-                                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("announcementMessage") %>'></asp:Label>
-                                            </p>
-                                            <small>By:
-                                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("staffName")%>'></asp:Label>
-                                            </small>
-                                            <small class="float-right">Posted on:
-                                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("createdOn") %>'></asp:Label>
-                                            </small>
-
                                         </div>
                                     </div>
                                 </div>
@@ -132,75 +151,42 @@
                         </div>
                     </asp:Panel>
                     <!--//If repeater is empty-->
+                    <script>
+                        $("#btnAll").click(function () {
+                            $(".Immersion").show();
+                            $(".Internship").show();
+                            $(".Study").show();
+                        })
+                        $("#btnStudy").click(function () {
+                            $(".Immersion").show();
+                            $(".Internship").show();
+                            $(".Study").show();
+
+                            $(".Immersion").toggle();
+                            $(".Internship").toggle();
+                        })
+                        $("#btnImmersion").click(function () {
+                            $(".Immersion").show();
+                            $(".Internship").show();
+                            $(".Study").show();
+
+                            $(".Internship").toggle();
+                            $(".Study").toggle();
+                        })
+                        $("#btnInternship").click(function () {
+                            $(".Immersion").show();
+                            $(".Internship").show();
+                            $(".Study").show();
+
+                            $(".Immersion").toggle();
+                            $(".Study").toggle();
+                        })
+                    </script>
                 </p>
-            </div>
-            <div id="tabs-2">
-                <p>
-                    <asp:Repeater ID="RepeaterImmersionTrips" runat="server" OnItemCommand="RepeaterImmersionTrips_ItemCommand" OnItemDataBound="RepeaterImmersionTrips_ItemDataBound">
-                        <ItemTemplate>
-                            <div class="row">
-                                <div class="col-12 col-sm-12">
-                                    <div class="list-group">
-                                        <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <small>Trip Name:
-                                                <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName") %>'></asp:Label></small>
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    <asp:LinkButton ID="LinkButton1" runat="server" Text='<%#Eval("announcementTitle") %>' data-toggle="tooltip" data-html="true" data-placement="right"
-                                                        title='<%#"Stop showing on "+Eval("timeDue") %>'>
-                                                    </asp:LinkButton>
-                                                </h5>
-                                                <small>
-                                                    <asp:Label ID="lblStaffIDForEditAndDeleteBtn" runat="server" Text='<%# Eval("staffID").ToString()%>' Visible="false"></asp:Label>
-                                                    <asp:Button ID="btnImmersionTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Announcement" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnEditTrip_Command" Visible="false" />
-                                                    <asp:Button ID="btnImmersionTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("announcementID") %>' OnCommand="btnStudyTrips_Command" Visible="false" />
-                                                </small>
-
-                                            </div>
-                                            <p class="mb-1">
-                                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("announcementMessage") %>'></asp:Label>
-                                            </p>
-                                            <small>By:
-                                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("staffName")%>'></asp:Label>
-                                            </small>
-                                            <small class="float-right">Posted on:
-                                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("createdOn") %>'></asp:Label>
-                                            </small>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-
-                    <br />
-
-                    <!--If repeater is empty-->
-                    <asp:Panel ID="PanelImmersionTrips" runat="server" Visible="False">
-                        <div class="jumbotron jumbotron-fluid">
-                            <div class="container">
-                                <h1 class="display-4">You have no announcements.</h1>
-                            </div>
-                        </div>
-                    </asp:Panel>
-                    <!--//If repeater is empty-->
-                </p>
-            </div>
-            <div id="tabs-3">
-                <!--If repeater is empty-->
-                    <asp:Panel ID="Panel1" runat="server" Visible="True">
-                        <div class="jumbotron jumbotron-fluid">
-                            <div class="container">
-                                <h1 class="display-4">You have no announcements.</h1>
-                            </div>
-                        </div>
-                    </asp:Panel>
-                <!--//If repeater is empty-->
             </div>
             <% if (currentAccountType == "lecturer")
                 {%>
-            <div id="tabs-4">
+            <div id="tabs-2">
                 <p>
                     <asp:Repeater ID="RepeaterWithdrawalRequest" runat="server" OnItemCommand="RepeaterWithdrawalRequest_ItemCommand">
                         <ItemTemplate>
@@ -307,6 +293,8 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
+
     </script>
     <style>
         .HiddenText label {

@@ -24,117 +24,130 @@ namespace ITP213
                 {
                     panelAlert.Visible = false;
                 }
-                if (Session["accountType"].ToString() == "student")
+                if (Session["accountType"].ToString() == "student" || Session["accountType"].ToString() == "parent")
                 {
-                    if (TripAllocationDAO.displayStudyTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
+                    // Study Trip
+                    if (TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Study Trip") == null)
                     {
                         PanelStudyTrips.Visible = true;
                     }
                     else
                     {
-                        RepeaterStudyTrips.DataSource = TripAllocationDAO.displayStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        RepeaterStudyTrips.DataSource = TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Study Trip");
                         RepeaterStudyTrips.DataBind();
-                        
-                        if (TripAllocationDAO.displayPastStudyTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
-                        {
-                            lblPastStudyTripMsg.Visible = true;
-                        }
-                        else
-                        {
-                            lblPastStudyTripMsg.Visible = false;
-                            RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
-                            RepeaterPastStudyTrips.DataBind();
-                        }
                     }
-                    if (TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
+                    if (TripAllocationDAO.displayPastTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Study Trip") == null)
                     {
-                        PanelImmersionTrips.Visible = true;
+                        lblPastStudyTripMsg.Visible = true;
                     }
                     else
                     {
-                        RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
-                        RepeaterImmersionTrips.DataBind();
-
-                        if (TripAllocationDAO.displayPastImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
-                        {
-                            lblPastImmersionTripMsg.Visible = true;
-                        }
-                        else
-                        {
-                            lblPastImmersionTripMsg.Visible = false;
-                            RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
-                            RepeaterPastImmersionTrips.DataBind();
-                        }
-                    }
-                }
-                /*else if (Session["accountType"].ToString() == "parent")
-                {
-                    if (TripAllocationDAO.displayStudyTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
-                    {
-                        PanelStudyTrips.Visible = true;
-                    }
-                    else
-                    {
-                        RepeaterStudyTrips.DataSource = TripAllocationDAO.displayStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
-                        RepeaterStudyTrips.DataBind();
-
-                        RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastStudyTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        lblPastStudyTripMsg.Visible = false;
+                        RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Study Trip");
                         RepeaterPastStudyTrips.DataBind();
                     }
-                    if (TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString()) == null)
+                    // Immersion Trip
+                    if (TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Immersion Trip") == null)
                     {
                         PanelImmersionTrips.Visible = true;
                     }
                     else
                     {
-                        RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                        RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Immersion Trip");
                         RepeaterImmersionTrips.DataBind();
-
-                        RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastImmersionTripsBasedOnAdminNo(Session["adminNo"].ToString());
+                    }
+                    if (TripAllocationDAO.displayPastTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Immersion Trip") == null)
+                    {
+                        lblPastImmersionTripMsg.Visible = true;
+                    }
+                    else
+                    {
+                        lblPastImmersionTripMsg.Visible = false;
+                        RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Immersion Trip");
                         RepeaterPastImmersionTrips.DataBind();
                     }
-                }*/
+                    // Internship
+                    if (TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Internship") == null)
+                    {
+                        PanelInternship.Visible = true;
+                    }
+                    else
+                    {   
+                        RepeaterInternship.DataSource = TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Internship");
+                        RepeaterInternship.DataBind();
+                    }
+                    if (TripAllocationDAO.displayPastTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Internship") == null)
+                    {
+                        lblPastInternship.Visible = true;
+                    }
+                    else
+                    {
+                        lblPastInternship.Visible = false;
+                        RepeaterPastInternship.DataSource = TripAllocationDAO.displayPastTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Internship");
+                        RepeaterPastInternship.DataBind();
+                    }
+                }
                 else if (Session["accountType"].ToString() == "lecturer")
                 {
-                    if (TripAllocationDAO.displayStudyTripsBasedOnStaffID(Session["staffID"].ToString()) == null)
+                    // Study Trip
+                    if (TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Study Trip") == null)
                     {
                         PanelStudyTrips.Visible = true;
                     }
                     else
                     {
-                        RepeaterStudyTrips.DataSource = TripAllocationDAO.displayStudyTripsBasedOnStaffID(Session["staffID"].ToString());
+                        RepeaterStudyTrips.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Study Trip");
                         RepeaterStudyTrips.DataBind();
-
-                        if (TripAllocationDAO.displayPastStudyTripsBasedOnStaffID(Session["staffID"].ToString()) == null)
-                        {
-                            lblPastStudyTripMsg.Visible = true;
-                        }
-                        else
-                        {
-                            lblPastStudyTripMsg.Visible = false;
-                            RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastStudyTripsBasedOnStaffID(Session["staffID"].ToString());
-                            RepeaterPastStudyTrips.DataBind();
-                        }
                     }
-                    if (TripAllocationDAO.displayImmersionTripsBasedOnStaffID(Session["staffID"].ToString()) == null)
+                    if (TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Study Trip") == null)
+                    {
+                        lblPastStudyTripMsg.Visible = true;
+                    }
+                    else
+                    {
+                        lblPastStudyTripMsg.Visible = false;
+                        RepeaterPastStudyTrips.DataSource = TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Study Trip");
+                        RepeaterPastStudyTrips.DataBind();
+                    }
+                    // Immersion Trip
+                    if (TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Immersion Trip") == null)
                     {
                         PanelImmersionTrips.Visible = true;
                     }
                     else
                     {
-                        RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayImmersionTripsBasedOnStaffID(Session["staffID"].ToString());
+                        RepeaterImmersionTrips.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Immersion Trip");
                         RepeaterImmersionTrips.DataBind();
-
-                        if (TripAllocationDAO.displayPastImmersionTripsBasedOnStaffID(Session["staffID"].ToString()) == null)
-                        {
-                            lblPastImmersionTripMsg.Visible = true;
-                        }
-                        else
-                        {
-                            lblPastImmersionTripMsg.Visible = false;
-                            RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastImmersionTripsBasedOnStaffID(Session["staffID"].ToString());
-                            RepeaterPastImmersionTrips.DataBind();
-                        }
+                    }
+                    if (TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Immersion Trip") == null)
+                    {
+                        lblPastImmersionTripMsg.Visible = true;
+                    }
+                    else
+                    {
+                        lblPastImmersionTripMsg.Visible = false;
+                        RepeaterPastImmersionTrips.DataSource = TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Immersion Trip");
+                        RepeaterPastImmersionTrips.DataBind();
+                    }
+                    // Internship
+                    if (TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship") == null)
+                    {
+                        PanelInternship.Visible = true;
+                    }
+                    else
+                    {
+                        RepeaterInternship.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Internships");
+                        RepeaterInternship.DataBind();
+                    }
+                    if (TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship") == null)
+                    {
+                        lblPastInternship.Visible = true;
+                    }
+                    else
+                    {
+                        lblPastInternship.Visible = false;
+                        RepeaterPastInternship.DataSource = TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship");
+                        RepeaterPastInternship.DataBind();
                     }
                 }
             }
@@ -228,13 +241,18 @@ namespace ITP213
             Button createB = (Button)item.FindControl("btnCreateTest");
             Button editB = (Button)item.FindControl("btnStudyTripsEdit");
             Button deleteB = (Button)item.FindControl("btnStudyTripsDelete");
+            Label tripStatus = (Label)item.FindControl("lblTripStatus");
 
             if (Session["accountType"].ToString() == "parent" || Session["accountType"].ToString() == "student")
             {
-                withdrawB.Visible = true;
+                withdrawB.Visible = false;
                 createB.Visible = false;
                 editB.Visible = false;
                 deleteB.Visible = false;
+                if (tripStatus.Text == "PENDING")
+                {
+                    withdrawB.Visible = true;
+                }
             }
             else
             {

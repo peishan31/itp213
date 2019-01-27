@@ -94,13 +94,40 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.Repeater RepeaterPastImmersionTrips;
         
         /// <summary>
-        /// Panel1 control.
+        /// RepeaterInternship control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.WebControls.Repeater RepeaterInternship;
+        
+        /// <summary>
+        /// PanelInternship control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelInternship;
+        
+        /// <summary>
+        /// lblPastInternship control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPastInternship;
+        
+        /// <summary>
+        /// RepeaterPastInternship control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterPastInternship;
         
         /// <summary>
         /// lblTesting control.

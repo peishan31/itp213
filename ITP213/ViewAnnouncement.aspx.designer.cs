@@ -31,33 +31,6 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.Panel PanelStudyTrips;
         
         /// <summary>
-        /// RepeaterImmersionTrips control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterImmersionTrips;
-        
-        /// <summary>
-        /// PanelImmersionTrips control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelImmersionTrips;
-        
-        /// <summary>
-        /// Panel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
-        
-        /// <summary>
         /// RepeaterWithdrawalRequest control.
         /// </summary>
         /// <remarks>

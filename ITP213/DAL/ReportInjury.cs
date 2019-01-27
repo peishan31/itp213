@@ -29,5 +29,10 @@ namespace ITP213.DAL
         public string tripType { set; get; }
         public string createdOn { set; get; }
         public int tripID { set; get; }
+        public string image { set; get; }
+        public string injurySeverity { set; get; }
+        public string parentNum { set; get; }
+        public string remark { set; get; }
+        public string sendDate { set; get; }
     }
 }

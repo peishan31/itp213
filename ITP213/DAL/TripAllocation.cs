@@ -24,6 +24,7 @@ namespace ITP213.DAL
         public string country { set; get; }
         public int noOfStudents { set; get; }
         public int noOfLecturers { set; get; }
+        public string tripCost { set; get; }
 
         // View Individual Trip
         //public string studentName { set; get; }

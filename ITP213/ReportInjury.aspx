@@ -74,6 +74,7 @@
                 </button>
             </div>
         </asp:Panel>
+        
         <div id="demo">
             <div class="step-app">
                 <asp:HiddenField ID="tab_index" Value="0" runat="server" />
@@ -89,11 +90,20 @@
                         <fieldset>
                             <legend>Details of injured person:</legend>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
+                                    Injury Severity:
+                                    <asp:DropDownList ID="ddlInjurySeverity" runat="server" class="form-control">
+                                            <asp:ListItem Value="0">--Select--</asp:ListItem>
+                                            <asp:ListItem Value="#FFC9C7">High</asp:ListItem>
+                                            <asp:ListItem Value="#fce8bd">Normal</asp:ListItem>
+                                            <asp:ListItem Value="White">Low</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-4">
                                     Trip:
                                     <asp:DropDownList ID="ddlTrip" class="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlTrip_SelectedIndexChanged"></asp:DropDownList>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <asp:Label ID="lblName" runat="server" Text="Name:" Visible="false"></asp:Label>
                                     <asp:DropDownList ID="ddlName" class="form-control" runat="server" AutoPostBack="True" Visible="false"></asp:DropDownList>
                                 </div>
@@ -138,13 +148,17 @@
                         <fieldset>
                             <legend>Details of injury:</legend>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     Nature of injury(eg burn, cut, sprain):
                                     <asp:TextBox ID="tbNatureOfInjury" class="form-control" runat="server"></asp:TextBox>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     Cause of injury(eg fall, grabbed by person):
                                     <asp:TextBox ID="tbCauseOfInjury" class="form-control" runat="server"></asp:TextBox>
+                                </div>
+                                <div class="col-4">
+                                    Select Image: <asp:Label ID="lblImageValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label>
+                                    <asp:FileUpload ID="FileUploadImage" runat="server" />
                                 </div>
                             </div>
                             <div class="row">

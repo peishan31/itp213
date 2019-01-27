@@ -12,7 +12,7 @@
         </li>
         <li class="breadcrumb-item">
 
-            <a href="/ViewAllocatedTrip.aspx" style="color: #D6D6D6">Assignments</a>
+            <a href="/ViewAllocatedTrip.aspx" style="color: #D6D6D6">View Trips</a>
         </li>
         <li class="breadcrumb-item active">
             <asp:Label ID="lblTripName2" runat="server" Text="Trip Name"></asp:Label></h1></li>
@@ -52,7 +52,7 @@
                                 <div class="card-body-icon">
                                     <!--<i class="fas fa-bell"></i>-->
                                 </div>
-                                <div class="mr-5">26 Unread Announcements!</div>
+                                <div class="mr-5">Announcement</div>
                             </div>
                             <a class="card-footer text-white clearfix small z-1" href="/ViewAnnouncement.aspx">
                                 <span class="float-left">View Details</span>
@@ -68,7 +68,7 @@
                                 <div class="card-body-icon">
                                     <!--<i class="fas fa-scroll"></i>-->
                                 </div>
-                                <div class="mr-5">10 Tests!</div>
+                                <div class="mr-5">Trip Tests</div>
                             </div>
                             <a class="card-footer text-white clearfix small z-1" href="#">
                                 <span class="float-left">View Details</span>
@@ -108,7 +108,7 @@
                                         <asp:Label ID="lblNoOfLecturers" runat="server" Text='<%# Eval("noOfLecturers").ToString() %>'></asp:Label>
                                         <br />
                                     </div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-footer small text-muted"></div>
                                 </div>
                             </div>
                     </ItemTemplate>
@@ -135,7 +135,7 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                         </div>
-                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                        <div class="card-footer small text-muted"></div>
                     </div>
                 </div>
             </div>

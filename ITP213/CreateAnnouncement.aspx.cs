@@ -26,9 +26,9 @@ namespace ITP213
                         lblTitle2.Text = "Update Announcement";
                         btnCreate.Text = "Update";
 
-                        Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
+                        //Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
 
-                        tbTitle.Text = obj.announcementTitle;
+                        /*tbTitle.Text = obj.announcementTitle;
                         tbMessage.Text = obj.announcementMessage;
                         tbTimeDue.Text = obj.timeDue;
                         if (obj.studentView == "True")
@@ -38,7 +38,7 @@ namespace ITP213
                         if (obj.lecturerView == "True")
                         {
                             cbLecturers.Checked = true;
-                        }
+                        }*/
                         //tbTitle.Text = a.announcementTitle;
                         //tbMessage.Text = a.announcementMessage;
                     }
@@ -99,7 +99,7 @@ namespace ITP213
                     {
                         lecturerView = "True";
                     }
-                    AnnouncementDAO.insertAnnouncement(tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), Session["staffID"].ToString(), studentView, lecturerView, tbTimeDue.Text, Session["staffID"].ToString());
+                    AnnouncementDAO.insertAnnouncement(tbTitle.Text, tbMessage.Text, Convert.ToInt32(ddlTripName.SelectedValue.ToString()), studentView, lecturerView, tbTimeDue.Text, Session["staffID"].ToString());
                     panelSuccess.Visible = true;
                     panelAlert.Visible = false;
                     lblSuccess.ForeColor = System.Drawing.Color.Green;

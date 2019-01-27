@@ -28,13 +28,14 @@ namespace ITP213
                     ddlCountry.SelectedValue = ddlCountry.Items.FindByText(obj.country.ToString()).Value;
                     tbDepartureDate.Text = Convert.ToDateTime(obj.departureDate).ToString("MM/dd/yyyy");
                     tbArrivalDate.Text = Convert.ToDateTime(obj.arrivalDate.ToString()).ToString("MM/dd/yyyy");
+                    tbCost.Text = obj.tripCost.ToString();
 
                     lbSelectedStudents.DataSource = TripAllocationDAO.getStudentNameByTripID(Convert.ToInt32(Request.QueryString["tripID"]));
                     lbSelectedStudents.DataTextField = "name";
                     lbSelectedStudents.DataValueField = "adminNo";
                     lbSelectedStudents.DataBind();
 
-                    lbSelectedLecturers.DataSource = TripAllocationDAO.getLecturerNameByTripID(Convert.ToInt32(Request.QueryString["tripID"]));
+                    lbSelectedLecturers.DataSource = TripAllocationDAO.getLecturerNameByTripID(Convert.ToInt32(Request.QueryString["tripID"]), Session["staffID"].ToString());
                     lbSelectedLecturers.DataTextField = "name";
                     lbSelectedLecturers.DataValueField = "staffID";
                     lbSelectedLecturers.DataBind();
@@ -98,12 +99,14 @@ namespace ITP213
                     {
                         TripAllocationDAO.insertEnrolledLecturer(Convert.ToInt32(Request.QueryString["tripID"].ToString()), lecItem.Value.ToString());
                     }
+                    // insert current lecturer who's crxting this trip
+                    TripAllocationDAO.insertEnrolledLecturer(Convert.ToInt32(Request.QueryString["tripID"].ToString()), Session["staffID"].ToString());
                     Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
                 }
                 else // insert new trip
                 {
                     // insert trip --> find tripID --> insert enrolledStudent & enrolledLecturer tables.
-                    TripAllocationDAO.insertTrip(tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
+                    TripAllocationDAO.insertTrip(Convert.ToInt32(tbCost.Text),tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
 
                     DAL.TripAllocation p = TripAllocationDAO.getTripIDByTripNameDepartureDateAndArrivalDate(tbTripName.Text, tbDepartureDate.Text, tbArrivalDate.Text, ddlTripType.SelectedItem.ToString());
 
@@ -118,6 +121,8 @@ namespace ITP213
                     {
                         TripAllocationDAO.insertEnrolledLecturer(p.tripID, lecItem.Value.ToString());
                     }
+                    // insert current lecturer who's crxting this trip
+                    TripAllocationDAO.insertEnrolledLecturer(p.tripID, Session["staffID"].ToString());
                     Response.Redirect("/ViewAllocatedTrip.aspx?CreateTripStatus=success");
                 }
                 
@@ -130,30 +135,6 @@ namespace ITP213
             panelSuccess.Visible = false;
             bool result = false;
             lblError.Text = String.Empty;
-
-            if (lbSelectedStudents.Items.Count < 1)
-            {
-                lblError.Text += "Please select at least one student!" + "<br>";
-                lbSelectedStudents.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
-                lbSelectedStudents.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
-            }
-            else
-            {
-                lbSelectedStudents.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
-                lbSelectedStudents.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
-            }
-
-            if (lbSelectedLecturers.Items.Count < 1)
-            {
-                lblError.Text += "Please select at least one lecturer!" + "<br>";
-                lbSelectedLecturers.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
-                lbSelectedLecturers.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
-            }
-            else
-            {
-                lbSelectedLecturers.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
-                lbSelectedLecturers.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
-            }
 
             if (String.IsNullOrEmpty(tbTripName.Text))
             {
@@ -243,7 +224,43 @@ namespace ITP213
                     tbArrivalDate.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
                 }
             }
-            
+
+            int val;
+            if (!int.TryParse(tbCost.Text, out val))
+            {
+                lblError.Text += "Invalid Trip Cost!" + "<br>";
+                tbCost.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbCost.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbCost.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbCost.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+            if (lbSelectedStudents.Items.Count < 1)
+            {
+                lblError.Text += "Please select at least one student!" + "<br>";
+                lbSelectedStudents.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                lbSelectedStudents.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                lbSelectedStudents.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                lbSelectedStudents.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (lbSelectedLecturers.Items.Count < 1)
+            {
+                lblError.Text += "Please select at least one lecturer!" + "<br>";
+                lbSelectedLecturers.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                lbSelectedLecturers.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                lbSelectedLecturers.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                lbSelectedLecturers.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
             result = String.IsNullOrEmpty(lblError.Text);
 
             return result;
@@ -272,87 +289,7 @@ namespace ITP213
                     ddlCourses.Items.Add(new ListItem("Infocomm & Security", "C80"));
                     ddlCourses.Items.Add(new ListItem("Information Technology", "C85"));
                 }
-                tab_index.Value = "0";
-                /*else if (ddlSchool.SelectedValue.ToString() == "SBM")
-                {
-                    ddlCourses.Items.Clear();
-                    ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
-                    ddlCourses.Items.Add(new ListItem("Accountancy & Finance", "C98"));
-                    ddlCourses.Items.Add(new ListItem("Banking & Finance", "C96"));
-                    ddlCourses.Items.Add(new ListItem("Business Management", "C94"));
-                    ddlCourses.Items.Add(new ListItem("Common Business Programme", "C34"));
-                    ddlCourses.Items.Add(new ListItem("Food & Beverage Business", "C46"));
-                    ddlCourses.Items.Add(new ListItem("Hospitality & Tourism Management", "C67"));
-                    ddlCourses.Items.Add(new ListItem("Marketing", "C99"));
-                    ddlCourses.Items.Add(new ListItem("Mass Media Management", "C93"));
-                    ddlCourses.Items.Add(new ListItem("Sport & Wellness Management", "C81"));
-
-                }
-                else if (ddlSchool.SelectedValue.ToString() == "SCL")
-                {
-                    ddlCourses.Items.Clear();
-                    ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
-                    ddlCourses.Items.Add(new ListItem("Biologics & Process Technology", "C49"));
-                    ddlCourses.Items.Add(new ListItem("Chemical & Green Techology", "C55"));
-                    ddlCourses.Items.Add(new ListItem("Chemical & Pharmaceutical Technology", "C73"));
-                    ddlCourses.Items.Add(new ListItem("Food Science & Nutrition", "C69"));
-                    ddlCourses.Items.Add(new ListItem("Medicinal Chemistry", "C45"));
-                    ddlCourses.Items.Add(new ListItem("Molecular Biotechnology", "C74"));
-                    ddlCourses.Items.Add(new ListItem("Pharmaceutical Science", "C65"));
-                }
-                else if (ddlSchool.SelectedValue.ToString() == "SID") 
-                {
-                    ddlCourses.Items.Clear();
-                    ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
-                    ddlCourses.Items.Add(new ListItem("Architecture", "C38"));
-                    ddlCourses.Items.Add(new ListItem("Industrial Design", "C83"));
-                    ddlCourses.Items.Add(new ListItem("Spatial Design", "C64"));
-                    ddlCourses.Items.Add(new ListItem("Visual Communication", "C63"));
-                }
-                else if (ddlSchool.SelectedValue.ToString() == "SEG")
-                {
-                    ddlCourses.Items.Clear();
-                    ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
-                    ddlCourses.Items.Add(new ListItem("Aerospace/Electrical/Electronics Programme", "C39"));
-                    ddlCourses.Items.Add(new ListItem("Aerospace/Mechatronics Programme", "C40"));
-                    ddlCourses.Items.Add(new ListItem("Aeronautical & Aerospace Technology", "C51"));
-                    ddlCourses.Items.Add(new ListItem("Aerospace System & Management", "C52"));
-                    ddlCourses.Items.Add(new ListItem("Biomedical Engineering", "C71"));
-                    ddlCourses.Items.Add(new ListItem("Common Engineering Programme", "C42"));
-                    ddlCourses.Items.Add(new ListItem("Digital & Precision Engineering", "C62"));
-                    ddlCourses.Items.Add(new ListItem("Electrical Engineering with Eco-Design", "C48"));
-                    ddlCourses.Items.Add(new ListItem("Electronic Systems", "C89"));
-                    ddlCourses.Items.Add(new ListItem("Engineering with Business", "C41"));
-                    ddlCourses.Items.Add(new ListItem("Multimedia & Infocomm Technology", "C75"));
-                    ddlCourses.Items.Add(new ListItem("Nanotechnology & Materials Science", "C50"));
-                    ddlCourses.Items.Add(new ListItem("Robotics & Mechatronics", "C87"));
-                }
-                else if (ddlSchool.SelectedValue.ToString() == "SHSS")
-                {
-                    ddlCourses.Items.Clear();
-                    ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
-                    ddlCourses.Items.Add(new ListItem("Nursing", "C97"));
-                    ddlCourses.Items.Add(new ListItem("Oral Healthy Theraphy", "C72"));
-                    ddlCourses.Items.Add(new ListItem("Social Sciences(Social Work)", "C47"));
-                }
-                else if (ddlSchool.SelectedValue.ToString() == "SIDM")
-                {
-                    ddlCourses.Items.Clear();
-                    ddlCourses.Items.Add(new ListItem("--Select--", "-1"));
-                    ddlCourses.Items.Add(new ListItem("Animation", "C61"));
-                    ddlCourses.Items.Add(new ListItem("Digital Game Art & Design", "C60"));
-                    ddlCourses.Items.Add(new ListItem("Digital Visual Effects", "C57"));
-                    ddlCourses.Items.Add(new ListItem("Game Development Technology", "C70"));
-                    ddlCourses.Items.Add(new ListItem("Interaction Design", "C59"));
-                    ddlCourses.Items.Add(new ListItem("Motion Graphics & Broadcast Design", "C66"));
-                }
-                else if (ddlSchool.SelectedValue.ToString() == "--Please Select--")
-                {
-                    ddlCourses.Items.Clear();
-                    lblCourses.Visible = false;
-                    ddlCourses.Visible = false;
-                }*/
-
+                tab_index.Value = "1";
             }
             
         }
@@ -367,7 +304,7 @@ namespace ITP213
                 lbStudents.DataTextField = "name";
                 lbStudents.DataValueField = "adminNo";
                 lbStudents.DataBind();
-                tab_index.Value = "0";
+                tab_index.Value = "1";
             }
         }
 
@@ -378,7 +315,7 @@ namespace ITP213
                 lbSelectedStudents.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
             lbStudents.Items.Clear();
-            tab_index.Value = "0";
+            tab_index.Value = "1";
         }
 
         protected void lbStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -389,7 +326,7 @@ namespace ITP213
             {
               lbStudents.Items.Remove(lbStudents.SelectedItem);
             }
-            tab_index.Value = "0";
+            tab_index.Value = "1";
         }
 
         protected void lbSelectedStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -400,7 +337,7 @@ namespace ITP213
             {
                 lbSelectedStudents.Items.Remove(lbSelectedStudents.SelectedItem);
             }
-            tab_index.Value = "0";
+            tab_index.Value = "1";
         }
 
         protected void btnMoveAllStudent_Click(object sender, EventArgs e)
@@ -415,7 +352,7 @@ namespace ITP213
                 lbStudents.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
             lbSelectedStudents.Items.Clear();
-            tab_index.Value = "0";
+            tab_index.Value = "1";
         }
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
@@ -429,12 +366,12 @@ namespace ITP213
             {
                 // lblMsg.Text = $"{ddlLecturerDepartment.SelectedValue}";
 
-                lbLecturers.DataSource = TripAllocationDAO.getLecturerName(ddlLecturerDepartment.SelectedValue);
+                lbLecturers.DataSource = TripAllocationDAO.getLecturerName(ddlLecturerDepartment.SelectedValue, Session["staffID"].ToString());
                 lbLecturers.DataTextField = "name";
                 lbLecturers.DataValueField = "staffID";
                 lbLecturers.DataBind();
             }
-            tab_index.Value = "1";
+            tab_index.Value = "2";
         }
 
         protected void btnAddLecturer_Click(object sender, EventArgs e)
@@ -443,7 +380,7 @@ namespace ITP213
             {
                 lbSelectedLecturers.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
-            tab_index.Value = "1";
+            tab_index.Value = "2";
             lbLecturers.Items.Clear();
             
         }
@@ -455,7 +392,7 @@ namespace ITP213
                 lbLecturers.Items.Add(new ListItem(item.Text, item.Value.ToString()));
             }
             lbSelectedLecturers.Items.Clear();
-            tab_index.Value = "1";
+            tab_index.Value = "2";
         }
 
         protected void lbLecturers_SelectedIndexChanged(object sender, EventArgs e)
@@ -476,7 +413,7 @@ namespace ITP213
             {
                 lbSelectedLecturers.Items.Remove(lbSelectedLecturers.SelectedItem);
             }
-            tab_index.Value = "1";
+            tab_index.Value = "2";
         }
 
         protected void Button1_Click(object sender, EventArgs e)

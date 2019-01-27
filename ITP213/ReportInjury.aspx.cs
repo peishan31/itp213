@@ -1,7 +1,11 @@
 ﻿using ITP213.DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,7 +21,7 @@ namespace ITP213
                 if (Session["accountType"].ToString() == "lecturer")
                 {
 
-                    ddlTrip.DataSource = AnnouncementDAO.displayAllocatedTrips(Session["staffID"].ToString());
+                    ddlTrip.DataSource = AnnouncementDAO.displayAllocatedOngoingAndEndedTrips(Session["staffID"].ToString());
                     ddlTrip.Items.Insert(0, new ListItem("--Select Trip--", "0"));
                     ddlTrip.AppendDataBoundItems = true;
                     ddlTrip.DataTextField = "tripNameAndTripType";
@@ -82,15 +86,74 @@ namespace ITP213
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            // ***************** have not validate date time of injury!
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
             if (ValidateReportInjury())
             {
                 if (btnSubmit.Text == "Finish")
                 {
-                    panelSuccess.Visible = true;
-                    panelAlert.Visible = false;
-                    lblSuccess.Text = "You have successfully created your injury report";
-                    ReportInjuryDAO.insert(Convert.ToString(tbDateTimeOfInjury.Text), tbLocation.Text, tbDescription.Text, tbWitnessName.Text, tbWitnessPhone.Text, tbNatureOfInjury.Text, tbCauseOfInjury.Text, tbLocationOfBody.Text, tbAgency.Text, rbFirstAidGiven.Text, tbFirstAiderName.Text, tbTreatment.Text, Session["staffID"].ToString(), ddlName.SelectedValue.ToString(), ddlName.SelectedItem.ToString(), Convert.ToInt32(ddlTrip.SelectedValue.ToString()));
+                    string s = "Images/InjuryPics/" + FileUploadImage.FileName;
+                    
+                    /*ReportInjuryDAO.insert(Convert.ToString(tbDateTimeOfInjury.Text), tbLocation.Text, tbDescription.Text, 
+                     * tbWitnessName.Text, tbWitnessPhone.Text, tbNatureOfInjury.Text, tbCauseOfInjury.Text, tbLocationOfBody.Text, 
+                     * tbAgency.Text, rbFirstAidGiven.Text, tbFirstAiderName.Text, tbTreatment.Text, Session["staffID"].ToString(), 
+                     * ddlName.SelectedValue.ToString(), ddlName.SelectedItem.ToString(), 
+                     * Convert.ToInt32(ddlTrip.SelectedValue.ToString()));*/
+                    // inserting
+
+                    StringBuilder sqlStr = new StringBuilder();
+                    sqlStr.AppendLine("INSERT INTO injuryReport(dateTimeOfInjury, location, description,");
+                    sqlStr.AppendLine("witnessName, witnessPhone, natureOfInjury, causeOfInjury, locationOnBody,");
+                    sqlStr.AppendLine("agency, firstAidGiven, firstAiderName, treatment, staffID, adminNo, studentName,");
+                    sqlStr.AppendLine("tripID, createdOn, image, injurySeverity) ");
+                    sqlStr.AppendLine("VALUES(@dateTimeOfInjury, @location, @description, @witnessName, @witnessPhone, @natureOfInjury,");
+                    sqlStr.AppendLine("@causeOfInjury, @locationOnBody, @agency, @firstAidGiven, @firstAiderName, @treatment, @staffID,");
+                    sqlStr.AppendLine("@adminNo, @studentName, @tripID, GETDATE(), @image, @injurySeverity)");
+
+                    ReportInjury obj = new ReportInjury();   // create a customer instance
+
+                    SqlConnection myConn = new SqlConnection(DBConnect);
+                    myConn.Open();
+                    SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+
+                    cmd.Parameters.AddWithValue("dateTimeOfInjury", Convert.ToDateTime(tbDateTimeOfInjury.Text));
+                    cmd.Parameters.AddWithValue("location", tbLocation.Text);
+                    cmd.Parameters.AddWithValue("description", tbDescription.Text);
+                    cmd.Parameters.AddWithValue("witnessName", tbWitnessName.Text);
+                    cmd.Parameters.AddWithValue("witnessPhone", tbWitnessPhone.Text);
+                    cmd.Parameters.AddWithValue("natureOfInjury", tbNatureOfInjury.Text);
+                    cmd.Parameters.AddWithValue("causeOfInjury", tbCauseOfInjury.Text);
+                    cmd.Parameters.AddWithValue("locationOnBody", tbLocationOfBody.Text);
+                    cmd.Parameters.AddWithValue("agency", tbAgency.Text);
+                    cmd.Parameters.AddWithValue("firstAidGiven", rbFirstAidGiven.Text);
+                    cmd.Parameters.AddWithValue("firstAiderName", tbFirstAiderName.Text);
+                    cmd.Parameters.AddWithValue("treatment", tbTreatment.Text);
+                    cmd.Parameters.AddWithValue("staffID", Session["staffID"].ToString());
+                    cmd.Parameters.AddWithValue("adminNo", ddlName.SelectedValue.ToString());
+                    cmd.Parameters.AddWithValue("studentName", ddlName.SelectedItem.ToString());
+                    cmd.Parameters.AddWithValue("tripID", Convert.ToInt32(ddlTrip.SelectedValue.ToString()));
+                    cmd.Parameters.AddWithValue("image", s);
+                    cmd.Parameters.AddWithValue("injurySeverity", ddlInjurySeverity.SelectedValue.ToString());
+
+                    try
+                    {
+                        int result = cmd.ExecuteNonQuery();
+                        FileUploadImage.SaveAs(Server.MapPath("~/Images/InjuryPics/") + FileUploadImage.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        myConn.Close();
+
+                        panelSuccess.Visible = true;
+                        panelAlert.Visible = false;
+                        lblSuccess.Text = "You have successfully created your injury report";
+                    }
+                    // -- inserting 
+
                 }
                 else if (btnSubmit.Text == "Update")
                 {
@@ -100,7 +163,7 @@ namespace ITP213
                     lblSuccess.Text = "You have successfully update your injury report";
                     ReportInjuryDAO.updateInjuryReport(Convert.ToDateTime(tbDateTimeOfInjury.Text), tbLocation.Text, tbDescription.Text, tbWitnessName.Text, tbWitnessPhone.Text, tbNatureOfInjury.Text, tbCauseOfInjury.Text, tbLocationOfBody.Text, tbAgency.Text, rbFirstAidGiven.Text, tbFirstAiderName.Text, tbTreatment.Text, Session["staffID"].ToString(), ddlName.SelectedValue.ToString(), ddlName.SelectedItem.ToString(), Convert.ToInt32(ddlTrip.SelectedValue.ToString()), Convert.ToInt32(reportInjuryID));
                 }
-                
+
             }
         }
 
@@ -112,6 +175,17 @@ namespace ITP213
             panelSuccess.Visible = false;
             panelAlert.Visible = true;
 
+            if (ddlInjurySeverity.SelectedValue.ToString() == "0")
+            {
+                lblError.Text += "Please select the injury severity!";
+                ddlInjurySeverity.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                ddlInjurySeverity.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                ddlInjurySeverity.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                ddlInjurySeverity.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
             if (ddlTrip.SelectedValue.ToString() == "0")
             {
                 lblError.Text += "Please select a trip!<br>";
@@ -145,6 +219,8 @@ namespace ITP213
                 ddlName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
                 ddlName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
             }
+            
+
             /*if (String.IsNullOrEmpty(tbDateTimeOfInjury.Text))
             {
                 lblError.Text += "DateTime is empty!<br>";
@@ -253,6 +329,49 @@ namespace ITP213
                 tbCauseOfInjury.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
                 tbCauseOfInjury.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
             }
+            //===============================================
+
+            string imgName = FileUploadImage.FileName;
+
+            int imgSize = FileUploadImage.PostedFile.ContentLength;
+
+            string ext = System.IO.Path.GetExtension(this.FileUploadImage.PostedFile.FileName).ToLower();
+
+            if (FileUploadImage.PostedFile != null && FileUploadImage.PostedFile.FileName != "")
+            {
+
+                if (FileUploadImage.PostedFile.ContentLength > 100000000000000000)
+                {
+                    //Page.ClientScript.RegisterClientScriptBlock(typeof(Page), "Alert", "alert('File is too big.')", true);
+                    lblError.Text += "Image file is too big<br>";
+                    lblImageValidation.Visible = true;
+                }
+                /*if (imgSize == 0)
+                {
+                    lblError.Text += "Image cannot be empty!<br>";
+                    lblImageValidation.Visible = true;
+                }*/
+                if (ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".jpeg")
+                {
+                    lblImageValidation.Visible = false;
+                }
+
+                else
+                {
+                    lblError.Text += "Choose only image in .jpg, .png and .gif image types!<br>";
+                    lblImageValidation.Visible = true;
+                    
+                }
+
+            }
+            else
+            {
+                lblError.Text += "Image cannot be empty!<br>";
+                lblImageValidation.Visible = true;
+            }
+
+            //===============================================
+
             if (String.IsNullOrEmpty(tbLocationOfBody.Text))
             {
                 lblError.Text += "Location of body is empty!<br>";

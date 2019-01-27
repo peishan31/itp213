@@ -78,6 +78,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DataVisualization.Design" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -100,14 +102,18 @@
     <Content Include="App_Data\ITP213_log.ldf">
       <DependentUpon>ITP213.mdf</DependentUpon>
     </Content>
-    <Content Include="Scripts\Chart_JS.js" />
+    <Content Include="BlogDetails.aspx" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\imageGallery.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.min.css" />
     <Content Include="Content\mdb.min.css" />
+    <Content Include="Content\mdb1.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="CreateAnnouncement.aspx" />
     <Content Include="CreateBlog.aspx" />
+    <Content Include="CreateComplaints.aspx" />
     <Content Include="CreateFeedback.aspx" />
+    <Content Include="CreateReflection.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultErrorPage.aspx" />
     <Content Include="ImageGallery.aspx" />
@@ -117,6 +123,7 @@
     <Content Include="LecturerWithdrawalRequest.aspx" />
     <Content Include="login.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="ManageImageGallery.aspx" />
     <Content Include="OverseasInternMain.aspx" />
     <Content Include="Format.aspx" />
     <Content Include="Images\favicon.png" />
@@ -163,18 +170,27 @@
     <Content Include="StudentWithdrawalResult.aspx" />
     <Content Include="TripAllocation.aspx" />
     <Content Include="UnauthorizedErrorPage.aspx" />
+    <Content Include="UploadedImages.aspx" />
     <Content Include="ViewAllocatedTrip.aspx" />
     <Content Include="ViewAnnouncement.aspx" />
     <Content Include="ViewBlog.aspx" />
-    <Content Include="ViewIndividualAnnouncement.aspx" />
+    <Content Include="ViewComplain.aspx" />
     <Content Include="ViewIndividualTrip.aspx" />
     <Content Include="ViewInjuryReport.aspx" />
+    <Content Include="ViewReflections.aspx" />
     <Content Include="ViewStatistics.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlogDetails.aspx.cs">
+      <DependentUpon>BlogDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlogDetails.aspx.designer.cs">
+      <DependentUpon>BlogDetails.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreateAnnouncement.aspx.cs">
       <DependentUpon>CreateAnnouncement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -189,12 +205,26 @@
     <Compile Include="CreateBlog.aspx.designer.cs">
       <DependentUpon>CreateBlog.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CreateComplaints.aspx.cs">
+      <DependentUpon>CreateComplaints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateComplaints.aspx.designer.cs">
+      <DependentUpon>CreateComplaints.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreateFeedback.aspx.cs">
       <DependentUpon>CreateFeedback.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CreateFeedback.aspx.designer.cs">
       <DependentUpon>CreateFeedback.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreateReflection.aspx.cs">
+      <DependentUpon>CreateReflection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateReflection.aspx.designer.cs">
+      <DependentUpon>CreateReflection.aspx</DependentUpon>
     </Compile>
     <Compile Include="DAL\AcademicResult.cs" />
     <Compile Include="DAL\AcademicResultDAO.cs" />
@@ -204,6 +234,8 @@
     <Compile Include="DAL\BlogDAO.cs" />
     <Compile Include="DAL\CCARecord.cs" />
     <Compile Include="DAL\CCARecordDAO.cs" />
+    <Compile Include="DAL\Complain.cs" />
+    <Compile Include="DAL\ComplainDAO.cs" />
     <Compile Include="DAL\Feedback.cs" />
     <Compile Include="DAL\FeedbackDAO.cs" />
     <Compile Include="DAL\GeneralRecord.cs" />
@@ -284,6 +316,13 @@
     <Compile Include="Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ManageImageGallery.aspx.cs">
+      <DependentUpon>ManageImageGallery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageImageGallery.aspx.designer.cs">
+      <DependentUpon>ManageImageGallery.aspx</DependentUpon>
+    </Compile>
     <Compile Include="OverseasInternMain.aspx.cs">
       <DependentUpon>OverseasInternMain.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -360,6 +399,13 @@
     <Compile Include="UnauthorizedErrorPage.aspx.designer.cs">
       <DependentUpon>UnauthorizedErrorPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UploadedImages.aspx.cs">
+      <DependentUpon>UploadedImages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UploadedImages.aspx.designer.cs">
+      <DependentUpon>UploadedImages.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewAllocatedTrip.aspx.cs">
       <DependentUpon>ViewAllocatedTrip.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -381,12 +427,12 @@
     <Compile Include="ViewBlog.aspx.designer.cs">
       <DependentUpon>ViewBlog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ViewIndividualAnnouncement.aspx.cs">
-      <DependentUpon>ViewIndividualAnnouncement.aspx</DependentUpon>
+    <Compile Include="ViewComplain.aspx.cs">
+      <DependentUpon>ViewComplain.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ViewIndividualAnnouncement.aspx.designer.cs">
-      <DependentUpon>ViewIndividualAnnouncement.aspx</DependentUpon>
+    <Compile Include="ViewComplain.aspx.designer.cs">
+      <DependentUpon>ViewComplain.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewIndividualTrip.aspx.cs">
       <DependentUpon>ViewIndividualTrip.aspx</DependentUpon>
@@ -401,6 +447,13 @@
     </Compile>
     <Compile Include="ViewInjuryReport.aspx.designer.cs">
       <DependentUpon>ViewInjuryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewReflections.aspx.cs">
+      <DependentUpon>ViewReflections.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewReflections.aspx.designer.cs">
+      <DependentUpon>ViewReflections.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewStatistics.aspx.cs">
       <DependentUpon>ViewStatistics.aspx</DependentUpon>
@@ -418,6 +471,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Images\InjuryPics\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

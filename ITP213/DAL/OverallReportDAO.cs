@@ -39,7 +39,7 @@ namespace ITP213.DAL
             return result;
         }
 
-        public static List<Response> getNoOfResponses()
+       /*public static List<Response> getNoOfResponses()
         {
             List<Response> resultList = new List<Response>();
             // Get connection string from web.config
@@ -70,7 +70,7 @@ namespace ITP213.DAL
                 }
             }
             return resultList;
-        }
+        }*/
 
         public static Announcement getAllAnnouncement1()
         {

@@ -22,15 +22,56 @@ namespace ITP213.DAL
             DataSet ds = new DataSet();
 
             //Create Adapter
-            /*
-            SELECT * FROM overseasTrip INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo='171846z';
-            SELECT overseasTrip.tripID, tripName, CONCAT(tripName,' (', tripType, ') - ', departureDate,' to ', arrivalDate) AS tripNameAndTripType FROM overseasTrip INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo='171846z';
-             */
-            string sqlStr = "SELECT overseasTrip.tripID, tripName, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType FROM overseasTrip INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo=@adminNo;";
-                //"SELECT * FROM overseasTrip INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE adminNo=@adminNo;";
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT overseasTrip.tripID, country, tripName, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType");
+            sqlStr.AppendLine("FROM overseasTrip ");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID");
+            sqlStr.AppendLine("WHERE adminNo=@adminNo;");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
+                {
+                    WithdrawalRequest obj = new WithdrawalRequest();
+                    obj.tripID = Convert.ToInt32(row["tripID"]);
+                    obj.tripName = row["tripName"].ToString();
+                    //obj.tripType = row["tripType"].ToString();
+                    obj.country = row["country"].ToString();
+                    obj.tripNameAndTripType = row["tripNameAndTripType"].ToString();
+                    resultList.Add(obj);
+
+                }
+            }
+
+            return resultList;
+
+        }
+
+        // for studentWithdrawalRequest.aspx
+        public static List<WithdrawalRequest> displayAllocatedPendingTrips(string adminNo)
+        {
+            List<WithdrawalRequest> resultList = new List<WithdrawalRequest>();
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("SELECT overseasTrip.tripID, tripName, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType");
+            sqlStr.AppendLine("FROM overseasTrip ");
+            sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID");
+            sqlStr.AppendLine("WHERE adminNo=@adminNo and overseasTripStatus='PENDING';");
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
             // fill dataset
             da.Fill(ds, "resultTable");

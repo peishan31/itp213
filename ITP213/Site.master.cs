@@ -1,7 +1,10 @@
 ﻿using ITP213.DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -52,6 +55,27 @@ namespace ITP213
                         RepeaterUnreadCount.DataSource = AnnouncementDAO.getUnreadAnnouncementCountByAdminNo(Session["adminNo"].ToString());
                         RepeaterUnreadCount.DataBind();
                     }
+
+                    //Updating Trip Status
+                    //Get connection string from web.config
+                    string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+                    StringBuilder sqlStr = new StringBuilder();
+                    // overseasTripStatus = 'Ongoing'
+                    sqlStr.AppendLine("UPDATE overseasTrip");
+                    sqlStr.AppendLine("SET overseasTripStatus='ONGOING'");
+                    sqlStr.AppendLine("WHERE departureDate<= GETDATE() AND arrivalDate>=GETDATE();");
+                    // overseasTripStatus = 'Ended'
+                    sqlStr.AppendLine("UPDATE overseasTrip");
+                    sqlStr.AppendLine("SET overseasTripStatus='ENDED'");
+                    sqlStr.AppendLine("WHERE departureDate<= GETDATE() AND arrivalDate<=GETDATE();");
+
+                    SqlConnection myConn = new SqlConnection(DBConnect);
+                    myConn.Open();
+                    SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+                    int result = cmd.ExecuteNonQuery();
+                    myConn.Close();
+                    //--Updating Trip Status
                 }
                 else
                 {

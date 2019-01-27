@@ -18,17 +18,11 @@ namespace ITP213
                     ddlTripName.SelectedValue = Request.QueryString["tripID"].ToString();
 
                 }
-                if (Session["accountType"].ToString() == "student")
+                if (Session["accountType"].ToString() == "student" || Session["accountType"].ToString() == "parent")
                 {
                     lblAdminNo.Text += Session["adminNo"].ToString();
-                    /*
-                    lbStudents.DataSource = TripAllocationDAO.getStudentName(ddlCourses.SelectedValue);
-                    lbStudents.DataTextField = "name";
-                    lbStudents.DataValueField = "adminNo";
-                    lbStudents.DataBind();
-                     */
 
-                    ddlTripName.DataSource = WithdrawalRequestDAO.displayAllocatedTrips(Session["adminNo"].ToString());
+                    ddlTripName.DataSource = WithdrawalRequestDAO.displayAllocatedPendingTrips(Session["adminNo"].ToString());
                     ddlTripName.Items.Insert(0, new ListItem("--Select Trip--", "0"));
                     ddlTripName.AppendDataBoundItems = true;
                     ddlTripName.DataTextField = "tripNameAndTripType";

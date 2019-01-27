@@ -12,26 +12,6 @@ namespace ITP213.DAL
     public class ImageDAO
     {
         string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
-        public int insertImage(string title, byte[] image, string user, string location)
-        {
-            int result = 0;
-
-            string strSql = "insert into [image] ([title], [image], [user], [location]) values(@paraTitle, @paraImage, @paraUser, @paraLocation)";
-
-            SqlConnection myConn = new SqlConnection(DBConnect);
-            SqlCommand cmd = new SqlCommand(strSql, myConn);
-
-            cmd.Parameters.AddWithValue("@paraTitle", title);
-            cmd.Parameters.AddWithValue("@paraImage", image);
-            cmd.Parameters.AddWithValue("@paraUser", user);
-            cmd.Parameters.AddWithValue("@paraLocation", location);
-
-            myConn.Open();
-            result = cmd.ExecuteNonQuery();
-            myConn.Close();
-
-            return result;
-        }
         public List<UploadedImage> getImage()
         {
             List<UploadedImage> tdList = new List<UploadedImage>();
@@ -60,7 +40,7 @@ namespace ITP213.DAL
             {
                 foreach (DataRow row in ds.Tables["TableTD"].Rows)
                 {
-                    UploadedImage myImg = new UploadedImage(); 
+                    UploadedImage myImg = new UploadedImage();
 
                     // Step 8 Set attribute of timeDeposit instance for each row of record in TableTD
 
@@ -69,6 +49,7 @@ namespace ITP213.DAL
                     myImg.title = row["title"].ToString();
                     myImg.image = row["image"].ToString();
                     myImg.user = row["user"].ToString();
+                    myImg.tags = row["tags"].ToString();
 
                     //  Step 9: Add each timeDeposit instance to array list
                     tdList.Add(myImg);

@@ -46,14 +46,14 @@ namespace ITP213.DAL
         }
 
         /*INSERT INTO injuryReport(dateTimeOfInjury, location, description, witnessName, witnessPhone, natureOfInjury, causeOfInjury, locationOnBody, agency, firstAidGiven, firstAiderName, treatment, staffID, adminNo, tripID) VALUES('12/26/2018 12:00AM', 'Street', 'a', 'a','8123456','a','a','a','a','a','a','a','johnny_appleseed','171846z',26)*/
-        public static int insert(string dateTimeOfInjury, string location, string description, string witnessName, string witnessPhone, string natureOfInjury, string causeOfInjury, string locationOnBody, string agency, string firstAidGiven, string firstAiderName, string treatment, string staffID, string adminNo, string studentName, int tripID)
+        /*public static int insert(string dateTimeOfInjury, string location, string description, string witnessName, string witnessPhone, string natureOfInjury, string causeOfInjury, string locationOnBody, string agency, string firstAidGiven, string firstAiderName, string treatment, string staffID, string adminNo, string studentName, int tripID, string image)
         {
             //Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
 
             string sqlStr =
-                "INSERT INTO injuryReport(dateTimeOfInjury, location, description, witnessName, witnessPhone, natureOfInjury, causeOfInjury, locationOnBody, agency, firstAidGiven, firstAiderName, treatment, staffID, adminNo, studentName, tripID, createdOn) "+
-                "VALUES(@dateTimeOfInjury, @location, @description, @witnessName, @witnessPhone, @natureOfInjury, @causeOfInjury, @locationOnBody, @agency, @firstAidGiven, @firstAiderName, @treatment, @staffID, @adminNo, @studentName, @tripID, GETDATE())";
+                "INSERT INTO injuryReport(dateTimeOfInjury, location, description, witnessName, witnessPhone, natureOfInjury, causeOfInjury, locationOnBody, agency, firstAidGiven, firstAiderName, treatment, staffID, adminNo, studentName, tripID, createdOn, image) "+
+                "VALUES(@dateTimeOfInjury, @location, @description, @witnessName, @witnessPhone, @natureOfInjury, @causeOfInjury, @locationOnBody, @agency, @firstAidGiven, @firstAiderName, @treatment, @staffID, @adminNo, @studentName, @tripID, GETDATE(), @image)";
 
 
             ReportInjury obj = new ReportInjury();   // create a customer instance
@@ -77,10 +77,11 @@ namespace ITP213.DAL
             cmd.Parameters.AddWithValue("adminNo", adminNo);
             cmd.Parameters.AddWithValue("studentName", studentName);
             cmd.Parameters.AddWithValue("tripID", tripID);
+            cmd.Parameters.AddWithValue("image", image);
 
             int result = cmd.ExecuteNonQuery();
             return result;
-        }
+        }*/
 
         public static List<ReportInjury> getAllReports()
         {
@@ -91,11 +92,21 @@ namespace ITP213.DAL
             SqlDataAdapter da;
             DataSet ds = new DataSet();
 
+            StringBuilder sqlStr = new StringBuilder();
             //Create Adapter
-            string sqlStr = "SELECT * FROM injuryReport INNER JOIN overseasTrip on overseasTrip.tripID = injuryReport.tripID INNER JOIN lecturer on lecturer.staffID = injuryReport.staffID  INNER JOIN account on account.accountID = lecturer.accountID;";
+            sqlStr.AppendLine("SELECT * FROM injuryReport ");
+            sqlStr.AppendLine("INNER JOIN overseasTrip on overseasTrip.tripID = injuryReport.tripID");
+            sqlStr.AppendLine("INNER JOIN lecturer on lecturer.staffID = injuryReport.staffID  ");
+            sqlStr.AppendLine("INNER JOIN account on account.accountID = lecturer.accountID");
+            sqlStr.AppendLine("ORDER BY createdOn DESC;");
+            /*string sqlStr = "SELECT * FROM injuryReport 
+             * INNER JOIN overseasTrip on overseasTrip.tripID = injuryReport.tripID 
+             * INNER JOIN lecturer on lecturer.staffID = injuryReport.staffID  
+             * INNER JOIN account on account.accountID = lecturer.accountID
+             * ORDER BY createdOn DESC;";*/
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             
             // fill dataset
             da.Fill(ds, "resultTable");
@@ -124,6 +135,10 @@ namespace ITP213.DAL
                     obj.name = row["name"].ToString();
                     obj.studentName = row["studentName"].ToString();
                     obj.staffID = row["staffID"].ToString();
+                    obj.image = row["image"].ToString();
+                    obj.injurySeverity = row["injurySeverity"].ToString();
+                    obj.remark = row["remark"].ToString();
+                    obj.sendDate = row["sendDate"].ToString();
                     resultList.Add(obj);
 
                 }
@@ -137,7 +152,52 @@ namespace ITP213.DAL
 
         }
 
-        public static List<ReportInjury> getAllPastReports()
+
+        /*public static int insertInjuryReportSentSms(int injuryReportID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            string sqlStr =
+                "INSERT INTO injuryReportSentSms(injuryReportID, sendDate) VALUES(@injuryReportID, GETDATE())";
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr, myConn);
+            cmd.Parameters.AddWithValue("injuryReportID", injuryReportID);
+
+            int result = cmd.ExecuteNonQuery();
+            return result;
+        }*/
+
+        public static int selectInjuryReportSentSms(int injuryReportID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            StringBuilder sqlStr = new StringBuilder();
+
+            /*
+            select * 
+            from injuryReportSentSms
+            where injuryReportID=30;
+             */
+            sqlStr.AppendLine("select * ");
+            sqlStr.AppendLine("from injuryReportSentSms");
+            sqlStr.AppendLine("where injuryReportID=@injuryReportID;");
+
+            ReportInjury obj = new ReportInjury();   // create a customer instance
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+            cmd.Parameters.AddWithValue("injuryReportID", injuryReportID);
+
+            int result = cmd.ExecuteNonQuery();
+            return result;
+        }
+
+        /*public static List<ReportInjury> getAllPastReports()
         {
             List<ReportInjury> resultList = new List<ReportInjury>();
             //Get connection string from web.config
@@ -185,6 +245,24 @@ namespace ITP213.DAL
 
             return resultList;
 
+        }*/
+
+        public static int updateSendDateById(int injuryReportID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("UPDATE injuryReport SET ");
+            sqlStr.AppendLine("sendDate = GETDATE()");
+            sqlStr.AppendLine("WHERE injuryReportID=@injuryReportID");
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+            cmd.Parameters.AddWithValue("injuryReportID", injuryReportID);
+            int result = cmd.ExecuteNonQuery();
+            return result;
         }
 
         public static int deleteById(int injuryReportID)
@@ -282,7 +360,7 @@ namespace ITP213.DAL
             DataSet ds = new DataSet();
 
             //Create Adapter
-            //WRITE SQL Statement to retrieve all columns from Customer by customer Id using query parameter
+            
             string sqlStr = "SELECT * FROM injuryReport where injuryReportID=@injuryReportID;";
 
             // change custId in where clause to custId1 or 
@@ -319,6 +397,50 @@ namespace ITP213.DAL
                 obj.adminNo = row["adminNo"].ToString();
                 obj.studentName = row["studentName"].ToString();
                 obj.tripID = Convert.ToInt32(row["tripID"]);
+            }
+            else
+            {
+                obj = null;
+            }
+
+            return obj;
+        }
+
+        public static ReportInjury getParentMobileByReportID(int injuryReportID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+             select mobile 
+            from parent 
+            inner join account on account.accountID=parent.accountID
+            where adminNo=(select adminNo from injuryReport
+            WHERE injuryReportID=31);
+             */
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("select mobile ");
+            sqlStr.AppendLine("from parent");
+            sqlStr.AppendLine("inner join account on account.accountID=parent.accountID");
+            sqlStr.AppendLine("where adminNo=(select adminNo from injuryReport");
+            sqlStr.AppendLine("WHERE injuryReportID=@injuryReportID);");
+
+            ReportInjury obj = new ReportInjury();   // create a customer instance
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("injuryReportID", injuryReportID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                DataRow row = ds.Tables["resultTable"].Rows[0];  // Sql command returns only one record
+                obj.parentNum = row["mobile"].ToString();
             }
             else
             {

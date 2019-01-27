@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITP213.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,20 @@ namespace ITP213
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            GridView2.DataSource = BlogDAO.getAllBlog();
+            GridView2.DataBind();
+
         }
+        protected void GridView2_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "View")
+            {
+                int index = Convert.ToInt32(e.CommandArgument.ToString());
+                string id = GridView2.Rows[index].Cells[0].Text;
+                Response.Redirect("BlogDetails.aspx?blogID=" + id);
+            }
+        }
+
     }
 }

@@ -58,6 +58,15 @@ namespace ITP213 {
         protected global::System.Web.UI.WebControls.HiddenField tab_index;
         
         /// <summary>
+        /// ddlInjurySeverity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlInjurySeverity;
+        
+        /// <summary>
         /// ddlTrip control.
         /// </summary>
         /// <remarks>
@@ -146,6 +155,24 @@ namespace ITP213 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbCauseOfInjury;
+        
+        /// <summary>
+        /// lblImageValidation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblImageValidation;
+        
+        /// <summary>
+        /// FileUploadImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadImage;
         
         /// <summary>
         /// tbLocationOfBody control.

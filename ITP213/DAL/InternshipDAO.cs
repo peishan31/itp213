@@ -39,32 +39,34 @@ namespace ITP213.DAL
             return result;
         }
 
-        public static List<Announcement> getAllAnnouncement()
+        public static List<Internship> getAllInternship()
         {
-            List<Announcement> resultList = new List<Announcement>();
-            // Get connection string from web.config
-            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            List<Internship> resultList = new List<Internship>();
 
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            //Create Adapter
             SqlDataAdapter da;
             DataSet ds = new DataSet();
 
-            // Create Adapter
-            string sqlStr = "SELECT announcementID, announcementTitle, announcementMessage FROM announcement";
+            //WRITE SQL Statement
+            string sqlStr = "SELECT adminNo, reflectionContent, country, companyName, reflectionStatus FROM overseasInternship";
 
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr, myConn);
-
-            // Fill dataset
-            da.Fill(ds, "announcementTable");
-            int rec_cnt = ds.Tables["announcementTable"].Rows.Count;
+            // da.SelectCommand.Parameters.AddWithValue("paraCustId", custId);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
             if (rec_cnt > 0)
             {
-                foreach (DataRow row in ds.Tables["announcementTable"].Rows)
+                foreach (DataRow row in ds.Tables["resultTable"].Rows)
                 {
-                    Announcement obj = new Announcement(); // create announcement instance
-                    obj.announcementID = Convert.ToInt32(row["announcementID"]);
-                    obj.announcementTitle = row["announcementTitle"].ToString();
-                    obj.announcementMessage = row["announcementMessage"].ToString();
+                    Internship obj = new Internship();   // create an instance
+                    obj.adminNo = row["adminNo"].ToString();
+                    obj.reflectionContent = row["reflectionContent"].ToString();
+                    obj.country = row["country"].ToString();
+                    obj.companyName = row["companyName"].ToString();
+                    obj.reflectionStatus = row["reflectionStatus"].ToString();
 
                     resultList.Add(obj);
                 }
@@ -72,54 +74,38 @@ namespace ITP213.DAL
             return resultList;
         }
 
-        public static Announcement getAllAnnouncement1()
+        public static int insert(string reflectionContent, string adminNo, string country)
         {
-            Announcement obj = new Announcement();   // create a customer instance
-            // Get connection string from web.config
+            //Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            string sqlStr = "INSERT INTO overseasInternship (reflectionContent, adminNo, country, reflectionStatus) VALUES(@preflectionContent, @adminNo, @country, 'Submitted')"; // idk what kind of status
 
-            SqlDataAdapter da;
-            DataSet ds = new DataSet();
-
-            // Create Adapter
-            string sqlStr = "SELECT announcementID, announcementTitle, announcementMessage FROM announcement";
+            Internship obj = new Internship();   // create an instance
 
             SqlConnection myConn = new SqlConnection(DBConnect);
-            da = new SqlDataAdapter(sqlStr, myConn);
+            myConn.Open();
 
-            // Fill dataset
-            da.Fill(ds, "announcementTable");
-            int rec_cnt = ds.Tables["announcementTable"].Rows.Count;
-            if (rec_cnt > 0)
-            {
-                //Announcement obj = new Announcement(); // create announcement instance
-                DataRow row = ds.Tables["announcementTable"].Rows[0];
-                obj.announcementID = Convert.ToInt32(row["announcementID"]);
-                obj.announcementTitle = row["announcementTitle"].ToString();
-                obj.announcementMessage = row["announcementMessage"].ToString();
-            }
-            else
-            {
-                obj = null;
-            }
-            return obj;
+            SqlCommand cmd = new SqlCommand(sqlStr, myConn);
+            cmd.Parameters.AddWithValue("preflectionContent", reflectionContent);
+            cmd.Parameters.AddWithValue("adminNo", adminNo);
+            cmd.Parameters.AddWithValue("country", country);
+
+            int result = cmd.ExecuteNonQuery();
+            return result;
         }
+
         public static Announcement getAnnouncementByAdminNo(int announcementID)
         {
             // Get connection string from web.config
             /*string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
-
             SqlDataAdapter da;
             DataSet ds = new DataSet();
-
             // Create Adapter
             string sqlStr = "SELECT * FROM announcement where adminNo = @aAdminNo";
-
             Announcement obj = new Announcement(); // create announcement instance
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr, myConn);
             da.SelectCommand.Parameters.AddWithValue("aAdminNo", adminNo);
-
             // fill dataset
             da.Fill(ds, "announcementTable");
             int rec_cnt = ds.Tables["announcementTable"].Rows.Count;

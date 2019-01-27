@@ -93,11 +93,10 @@
                                             <small>
                                                 <!--(Convert.ToDateTime(Eval("soDateTo"))).ToShortDateString()-->
                                                 <asp:Button ID="btnStudyTripsWithdraw" runat="server" Text="Withdraw" Class="btn btn-warning btn-sm" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' OnClick="btnStudyTripsWithdraw_Click" OnCommand="btnStudyTrips_Command" />
-                                                <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success btn-sm" Text="Create Test" OnCommand="CreateTest_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
+                                                <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success btn-sm" Text="View Complaints" OnCommand="CreateTest_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
                                                 <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Trip" OnCommand="EditTrip_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
                                                 <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" OnCommand="delete_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
                                             </small>
-
                                         </div>
                                         <!--<p class="mb-1">
                                             
@@ -106,8 +105,8 @@
                                             <asp:Label ID="Label1" runat="server" Text='<%# Convert.ToDateTime(Eval("departureDate")).ToShortDateString() %>'></asp:Label>
                                             to
                                             <asp:Label ID="Label2" runat="server" Text='<%# Convert.ToDateTime(Eval("arrivalDate")).ToShortDateString() %>'></asp:Label>
+                                            (<asp:Label ID="lblTripStatus" runat="server" Text='<%# Eval("overseasTripStatus") %>'></asp:Label>)
                                         </small>
-
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +176,7 @@
                     </div>
                 </div>
                 <!--//Central Modal Large Warning-->
-                
+
             </div>
             <div id="tabs-2">
                 <asp:Repeater ID="RepeaterImmersionTrips" runat="server" OnItemCommand="Repeater1_ItemCommand" OnItemDataBound="RepeaterImmersionTrip_ItemDataBound">
@@ -193,16 +192,18 @@
                                             </h5>
                                             <small>
                                                 <asp:Button ID="btnImmersionTripsWithdraw" runat="server" Text="Withdraw" Class="btn btn-warning btn-sm" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' OnClick="btnStudyTripsWithdraw_Click" OnCommand="btnStudyTrips_Command" />
-                                                <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success btn-sm" Text="Create Test" OnCommand="CreateTest_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
+                                                <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success btn-sm" Text="View Complaints" OnCommand="CreateTest_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
                                                 <asp:Button ID="btnImmersionTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Trip" OnCommand="EditTrip_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
                                                 <asp:Button ID="btnImmersionTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" OnCommand="delete_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
                                             </small>
                                         </div>
-                                        <small>From
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <small>From
                                             <asp:Label ID="Label3" runat="server" Text='<%# Convert.ToDateTime(Eval("departureDate")).ToShortDateString() %>'></asp:Label>
-                                            to
+                                                to
                                             <asp:Label ID="Label4" runat="server" Text='<%# Convert.ToDateTime(Eval("arrivalDate")).ToShortDateString() %>'></asp:Label>
-                                        </small>
+                                            </small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -273,11 +274,43 @@
                     </div>
                 </div>
                 <!--//Central Modal Large Warning-->
-                
+
             </div>
             <div id="tabs-3">
+                <asp:Repeater ID="RepeaterInternship" runat="server" OnItemCommand="Repeater1_ItemCommand" OnItemDataBound="RepeaterImmersionTrip_ItemDataBound">
+                    <ItemTemplate>
+                        <div class="row">
+                            <div class="col-12 col-sm-12">
+                                <div class="list-group">
+                                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">
+                                                <asp:LinkButton ID="LinkButton2" runat="server" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' Text='<%#Eval("tripName") %>'>
+                                                </asp:LinkButton>
+                                            </h5>
+                                            <small>
+                                                <asp:Button ID="btnImmersionTripsWithdraw" runat="server" Text="Withdraw" Class="btn btn-warning btn-sm" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' OnClick="btnStudyTripsWithdraw_Click" OnCommand="btnStudyTrips_Command" />
+                                                <asp:Button ID="btnCreateTest" runat="server" Class="btn btn-success btn-sm" Text="View Complaints" OnCommand="CreateTest_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
+                                                <asp:Button ID="btnImmersionTripsEdit" runat="server" Class="btn btn-warning btn-sm" Text="Edit Trip" OnCommand="EditTrip_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
+                                                <asp:Button ID="btnImmersionTripsDelete" runat="server" Class="btn btn-danger btn-sm" Text="Delete" OnCommand="delete_Command" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' />
+                                            </small>
+                                        </div>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <small>From
+                                            <asp:Label ID="Label3" runat="server" Text='<%# Convert.ToDateTime(Eval("departureDate")).ToShortDateString() %>'></asp:Label>
+                                                to
+                                            <asp:Label ID="Label4" runat="server" Text='<%# Convert.ToDateTime(Eval("arrivalDate")).ToShortDateString() %>'></asp:Label>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+                <br />
                 <!--If repeater is empty-->
-                <asp:Panel ID="Panel1" runat="server" Visible="True">
+                <asp:Panel ID="PanelInternship" runat="server" Visible="False">
                     <div class="jumbotron jumbotron-fluid">
                         <div class="container">
                             <h1 class="display-4">You are currently not enrolled in any Internship programme.</h1>
@@ -287,9 +320,58 @@
                 </asp:Panel>
                 <!--//If repeater is empty-->
                 <center>
-                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#PastImmersionTrip">
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#PastInternshipTrip">
                         View Past Trips</button>
                 </center>
+                <!--Central Modal Large Warning-->
+                <div class="modal fade" id="PastInternshipTrip" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-notify modal-warning" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="heading lead">Past Internship Trips</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="white-text">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <asp:Label ID="lblPastInternship" runat="server" Text="Currently, there are no past Internship Trips yet!"></asp:Label>
+                                <!-- Display a list of announcements-->
+                                <asp:Repeater ID="RepeaterPastInternship" runat="server">
+                                    <ItemTemplate>
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12">
+                                                <div class="list-group">
+                                                    <div href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                        <div class="d-flex w-100 justify-content-between">
+                                                            <h5 class="mb-1">
+                                                                <asp:LinkButton ID="LinkButton1" runat="server" CommandName="trips_Click" CommandArgument='<%# Eval("tripID") %>' Text='<%#Eval("tripName") %>'>
+                                                                </asp:LinkButton>
+                                                            </h5>
+
+                                                        </div>
+                                                        <small>From
+                                                        <asp:Label ID="Label1" runat="server" Text='<%# Convert.ToDateTime(Eval("departureDate")).ToShortDateString() %>'></asp:Label>
+                                                            to
+                                                        <asp:Label ID="Label2" runat="server" Text='<%# Convert.ToDateTime(Eval("arrivalDate")).ToShortDateString() %>'></asp:Label>
+                                                        </small>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                <!--//Display a list of announcements-->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary-modal waves-effect btn-sm" data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--//Central Modal Large Warning-->
             </div>
         </div>
 

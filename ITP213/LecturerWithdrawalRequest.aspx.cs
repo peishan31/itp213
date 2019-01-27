@@ -12,18 +12,24 @@ namespace ITP213
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["accountType"].ToString() == "lecturer")
+            if (!Page.IsPostBack)
             {
-                if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
+                if (Session["accountType"].ToString() == "lecturer")
                 {
-                    PanelEmptyWithdrawalRequest.Visible = true;
-                }
-                else
-                {
-                    RepeaterWithdrawalRequest.DataSource = WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString());
-                    RepeaterWithdrawalRequest.DataBind();
+                    // for withdrawal request
+                    if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
+                    {
+                        PanelEmptyWithdrawalRequest.Visible = true;
+                    }
+                    else
+                    {
+                        PanelEmptyWithdrawalRequest.Visible = false;
+                        RepeaterWithdrawalRequest.DataSource = WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString());
+                        RepeaterWithdrawalRequest.DataBind();
 
+                    }
                 }
+
             }
         }
 
@@ -37,6 +43,37 @@ namespace ITP213
                     lblTesting.Text = name;
                 }
             }
+        }
+
+        protected void btnApproved_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnApproved_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                WithdrawalRequestDAO.approveTripRequestByWithdrawTripRequestID(Convert.ToInt32(name));
+            }
+        }
+
+        protected void btnRejected_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnRejected_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "trips_Click")
+            {
+                string name = e.CommandArgument.ToString();
+                lblTesting.Text = name;
+                WithdrawalRequestDAO.rejectTripRequestByWithdrawTripRequestID(Convert.ToInt32(name));
+            }
+
         }
     }
 }

@@ -18,30 +18,19 @@ namespace ITP213
                 {
                     if (Session["accountType"].ToString() == "lecturer")
                     {
-                        if (AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
+                        // get all announcements by staffID
+                        if (AnnouncementDAO.getAnnouncementsByStaffID(Session["staffID"].ToString()) == null)
                         {
                             PanelStudyTrips.Visible = true;
                         }
                         else
                         {
-                            RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByStaffID(Session["staffID"].ToString());
+                            RepeaterStudyTrips.DataSource = AnnouncementDAO.getAnnouncementsByStaffID(Session["staffID"].ToString());
                             RepeaterStudyTrips.DataBind();
-                        }
-
-                        if (AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString()) == null)
-                        {
-                            PanelImmersionTrips.Visible = true;
-                        }
-                        else
-                        {
-                            RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByStaffID(Session["staffID"].ToString());
-                            RepeaterImmersionTrips.DataBind();
-
 
                         }
-
                         // for withdrawal request
-                        if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
+                        /*if (WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString()) == null)
                         {
                             PanelEmptyWithdrawalRequest.Visible = true;
                         }
@@ -50,31 +39,32 @@ namespace ITP213
                             RepeaterWithdrawalRequest.DataSource = WithdrawalRequestDAO.displayWithdrawalRequest(Session["staffID"].ToString());
                             RepeaterWithdrawalRequest.DataBind();
 
-                        }
+                        }*/
 
                     }
-                    else if (Session["accountType"].ToString() == "student")
+                    else if (Session["accountType"].ToString() == "student" || Session["accountType"].ToString() == "parent")
                     {
-                        if (AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
+                        // get all announcements by adminNo
+                        if (AnnouncementDAO.getAnnouncementsByAdminNo(Session["adminNo"].ToString()) == null)
                         {
                             PanelStudyTrips.Visible = true;
                         }
                         else
                         {
-                            RepeaterStudyTrips.DataSource = AnnouncementDAO.getStudyTripAnnouncementByAdminNo(Session["adminNo"].ToString());
+                            RepeaterStudyTrips.DataSource = AnnouncementDAO.getAnnouncementsByAdminNo(Session["adminNo"].ToString());
                             RepeaterStudyTrips.DataBind();
 
 
                         }
-                        if (AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
+                        /*if (AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString()) == null)
                         {
-                            PanelImmersionTrips.Visible = true;
+                            //PanelImmersionTrips.Visible = true;
                         }
                         else
                         {
-                            RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
-                            RepeaterImmersionTrips.DataBind();
-                        }
+                            //RepeaterImmersionTrips.DataSource = AnnouncementDAO.getImmersionTripAnnouncementByAdminNo(Session["adminNo"].ToString());
+                            //RepeaterImmersionTrips.DataBind();
+                        }*/
 
                     }
                 }else
@@ -184,7 +174,7 @@ namespace ITP213
 
         protected void RepeaterStudyTrips_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-
+            // check if lecturer has the right to edit the ennouncement
             if (Session["accountType"].ToString() == "lecturer")
             {
                 RepeaterItem item = e.Item;
@@ -208,32 +198,11 @@ namespace ITP213
                     deleteB.Visible = false;
                 }
             }
-            /*
-             RepeaterItem item = e.Item;
-            Label tempL = (Label)item.FindControl("Label20");
-            string createdBy = tempL.Text;
-            string currentID = Session["staffID"].ToString();
-
-            Button editB = (Button)item.FindControl("btnStudyTripsEdit");
-            Button deleteB = (Button)item.FindControl("btnStudyTripsDelete");
-
-            int i = 0;
-
-            if (createdBy == currentID)
-            {
-                editB.Visible = true;
-                deleteB.Visible = true;
-            }
-            else
-            {
-                editB.Visible = false;
-                deleteB.Visible = false;
-            }
-             */
         }
 
         protected void RepeaterImmersionTrips_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            // check if lecturer has the right to edit the ennouncement
             if (Session["accountType"].ToString() == "lecturer")
             {
                 RepeaterItem item = e.Item;
@@ -261,12 +230,22 @@ namespace ITP213
 
         protected void cbRead_CheckedChanged1(object sender, EventArgs e)
         {
+
             var chk = (CheckBox)sender;
             var announcementID = chk.Attributes["CommandName"];
             lblTesting.Text = announcementID.ToString();
-            AnnouncementDAO.updateAnnouncementVisibleByAnnouncementID(Convert.ToInt32(announcementID));
-            //chk.Visible = false;
-            Response.Redirect("/ViewAnnouncement.aspx");
+            if (Session["accountType"].ToString() == "lecturer")
+            {
+                AnnouncementDAO.insertLecturerAnnReadWithAnnouncementIDAndStaffID(Convert.ToInt32(announcementID), Session["staffID"].ToString());
+                // AnnouncementDAO.updateAnnouncementVisibleByAnnouncementIDAndStaffID(Convert.ToInt32(announcementID), Session["staffID"].ToString());
+            }
+            else if (Session["accountType"].ToString() == "student" || Session["accountType"].ToString() == "parent")
+            {
+                //chk.Visible = false;
+                AnnouncementDAO.insertStudentAnnReadWithAnnouncementIDAndStudentID(Convert.ToInt32(announcementID), Session["adminNo"].ToString());
+                lblTesting.Text = "This has been executed";
+            }
+            //Response.Redirect("/ViewAnnouncement.aspx");
         }
     }
 }

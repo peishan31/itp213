@@ -86,36 +86,11 @@ namespace ITP213
                 editB.Visible = false;
                 deleteB.Visible = false;
             }
-
-            // Delete if it fails
-            /*Button informB = (Button)item.FindControl("btnSendReportViaSMS");
-            lblStudentName = ((Label)item.FindControl("lblStudentName")).Text.Trim();
-            lblDateTimeInjury = ((Label)item.FindControl("lblDateTimeInjury")).Text.Trim();
-            lblLocation = ((Label)item.FindControl("lblLocation")).Text.Trim();
-            lblTrip = ((Label)item.FindControl("lblTrip")).Text.Trim();
-            lblNatureOfInjury = ((Label)item.FindControl("lblNatureOfInjury")).Text.Trim();
-            lblCauseOfInjury = ((Label)item.FindControl("lblCauseOfInjury")).Text.Trim();
-            lblLocationOnBody = ((Label)item.FindControl("lblLocationOnBody")).Text.Trim();
-            lblAgency = ((Label)item.FindControl("lblAgency")).Text.Trim();
-            lblFirstAidGiven = ((Label)item.FindControl("lblFirstAidGiven")).Text.Trim();
-            lblFirstAiderName = ((Label)item.FindControl("lblFirstAiderName")).Text.Trim();
-            lblTreatment = ((Label)item.FindControl("lblTreatment")).Text.Trim();*/
-
-
-            //informB.OnClientClick = $"return confirm('Dear Parents,<br>{lblStudentName} has been injured on {lblDateTimeInjury}. Below are the details:<br>Location: {lblLocation}<br>Nature of injury: {lblNatureOfInjury}<br>Cause of injury: {lblNatureOfInjury}<br>Location: {lblLocationOnBody}');";
         }
 
         protected void btnSendReportViaSMS_Click(object sender, EventArgs e)
         {
-            /*lblTesting.Text = $"Dear Parents,<br>"+
-                $" has been injured on 31/12/2018 3:29:00AM in 2019-China Trip (Immersion Trip)." +
-                "Below are the details:<br>Location: Space"
-                +"<br>Nature of injury: Burn"
-                +"<br>Cause of injury: Pouring hot drinks"
-                +"<br>Location: Forearm<br>Agency: Hot water"
-                +"<br>First Aid Given: No"
-                + "<br>First Aider name: Lin Peishan"
-                +"<br>Treatment: null";*/
+
         }
 
         protected void btnSendReport_command(object sender, CommandEventArgs e)
@@ -158,10 +133,14 @@ namespace ITP213
                         + $"Treatment: {treatment}";
                 //=================================================================================
                 // ***************************** DO NOT DELETE 
+                DAL.ReportInjury mobileObj = ReportInjuryDAO.getParentMobileByReportID(Convert.ToInt32(injuryReportID));
+                string mobile = mobileObj.parentNum;
+
+                int result = ReportInjuryDAO.updateSendDateById(Convert.ToInt32(injuryReportID));
                 /*SMSSvrRef.SMSSoapClient S = new SMSSvrRef.SMSSoapClient();
                 try
                 {
-                    string display = S.sendMessage("EADPJ47", "061785", "96940248", msg);
+                    string display = S.sendMessage("EADPJ47", "061785", mobileObj, msg);
                     lblTesting.Text = display;
                 }
                 catch (Exception error)
@@ -169,7 +148,7 @@ namespace ITP213
                     lblTesting.Text = error.Message;
                 }*/
                 //=================================================================================
-
+                Response.Redirect("/ViewInjuryReport.aspx");
             }
 
         }

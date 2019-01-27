@@ -12,5 +12,6 @@ namespace ITP213.DAL
         public string image { get; set; }
         public string user { get; set; }
         public string location { get; set; }
+        public string tags { get; set; }
     }
 }

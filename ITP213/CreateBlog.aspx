@@ -32,49 +32,41 @@
     <h1>New Post</h1>
     <!--2. Change the title!-->
     <hr />
-    <p>
-        <asp:Panel ID="panelError" runat="server" Visible="false">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </asp:Panel>
-        <asp:Panel ID="panelSuccess" runat="server" Visible="false">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <asp:Label ID="lblMsg" runat="server" Text="Label" Visible="False"></asp:Label>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </asp:Panel>
-        <div class="row">
-            <div class="col-6 col-sm-12">
-                Title:
-            <asp:TextBox ID="txtBoxTitle" runat="server" class="form-control"></asp:TextBox>
-            </div>
-            <div class="col-6 col-sm-12">
-                Trip Name:
-            <asp:DropDownList ID="ddlTripName" runat="server" class="form-control">
-            </asp:DropDownList>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                Content:
-            <asp:TextBox ID="txtBoxContent" runat="server" Rows="8" Columns="10" TextMode="MultiLine" class="form-control" Height="186px" Width="1002px" Style="resize: none"></asp:TextBox>
-            </div>
-        </div>
-        <!--//Page Content-->
-        <br />
-        <div class="row">
-            <div class="col-12">
-                <asp:Button ID="btnPublish" runat="server" Text="Publish" OnClick="btnPublish_Click" class="btn btn-success" />
-            </div>
-        </div>
-        <br />
-        
-        <br />
-    </p>
+    <table>
+        <tr>
+            <td>Title: </td>
+            <td>
+                <asp:TextBox ID="txtBoxTitle" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter title" ControlToValidate="txtBoxTitle" ForeColor="#996600"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>Trip Name:</td>
+            <td>
+                <asp:DropDownList ID="ddlTripName" runat="server">
+                    <asp:ListItem Value="0">Select Trip</asp:ListItem>
+                </asp:DropDownList>
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <asp:TextBox ID="txtBoxContent" runat="server" Rows="8" Columns="10" TextMode="MultiLine" class="form-control" Height="186px" Width="1002px" Style="resize: none"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter information" ControlToValidate="txtBoxContent" ForeColor="#CC3300"></asp:RequiredFieldValidator></td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="Button1" runat="server" Text="Publish" OnClick="btnPublish_Click" class="btn btn-success"/></td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="lblMsg" runat="server" Text="Label" Visible="False"></asp:Label></td>
+        </tr>
+        <tr>
+            <td>
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="#996600" />
+            </td>
+        </tr>
+    </table>
 </asp:Content>

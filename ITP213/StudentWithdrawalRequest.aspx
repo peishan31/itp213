@@ -56,7 +56,7 @@
         <div class="form-row">
             <div class="form-group col-6">
                 Reasons: 
-                <asp:TextBox ID="tbReasons" runat="server" Columns="30" Rows="8" TextMode="MultiLine" class="form-control"></asp:TextBox>   
+                <asp:TextBox ID="tbReasons" runat="server" Columns="30" Rows="8" TextMode="MultiLine" class="form-control" Style="resize: none"></asp:TextBox>   
             </div>
         </div>
         <div class="form-row">

@@ -15,11 +15,16 @@ namespace ITP213
         string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-            ImageDAO imgDAO = new ImageDAO();
-            List<UploadedImage> imgList = new List<UploadedImage>();
-            imgList = imgDAO.getImage();
-            GridView1.DataSource = imgList;
-            GridView1.DataBind();
+            if (!IsPostBack)
+            {
+                if (Session["adminNo"] != null)
+                {
+                    DropDownListLocation.DataSource = WithdrawalRequestDAO.displayAllocatedTrips(Session["adminNo"].ToString());
+                    DropDownListLocation.DataTextField = "country";
+                    DropDownListLocation.DataValueField = "tripID";
+                    DropDownListLocation.DataBind();
+                }
+            }
         }
         protected void ButtonUpload_Click(object sender, EventArgs e)
         {
@@ -29,34 +34,20 @@ namespace ITP213
             }
             else
             {
-                /*
-                string title = TextBoxTitle.Text;
-                int length = FileUploadImage.PostedFile.ContentLength;
-                byte[] pic = new byte[length];
-                string user = TextBoxUser.Text;
-                string location = TextBoxLocation.Text;
-
-                FileUploadImage.PostedFile.InputStream.Read(pic, 0, length);
-
-                ImageDAO imgDAO = new ImageDAO();
-                int insCnt = imgDAO.insertImage(title, pic, user, location);
-                if (insCnt == 1)
-                {
-                    Label1.Text = "Uploaded";
-                }
-                else
-                {
-                    Label1.Text = "Unable to upload";
-                }
-                ButtonUpload.Enabled = false;*/
                 SqlConnection myConn = new SqlConnection(DBConnect);
                 string s = "Images/" + FileUploadImage.FileName;
-                string strSql = "insert into [image] ([title],[image],[user],[location]) values(@paraTitle,@paraImage,@paraUser,@paraLocation)";
+                string strSql = "insert into [image] ([title],[image],[user],[location],[tags]) values(@paraTitle,@paraImage,@paraUser,@paraLocation,@paraTags)";
                 SqlCommand cmd = new SqlCommand(strSql, myConn);
                 cmd.Parameters.AddWithValue("@paraTitle", TextBoxTitle.Text);
                 cmd.Parameters.AddWithValue("@paraImage", s);
                 cmd.Parameters.AddWithValue("@paraUser", Session["name"].ToString());
-                cmd.Parameters.AddWithValue("@paraLocation", TextBoxLocation.Text);
+                cmd.Parameters.AddWithValue("@paraLocation", DropDownListLocation.SelectedItem.ToString());
+                List<string> selectedValues = CheckBoxListTags.Items.Cast<ListItem>()
+                    .Where(li => li.Selected)
+                    .Select(li => li.Value)
+                    .ToList();
+                string combinedTags = String.Join("", selectedValues.ToArray());
+                cmd.Parameters.AddWithValue("@paraTags", combinedTags);
                 myConn.Open();
                 try
                 {
@@ -71,7 +62,6 @@ namespace ITP213
                 {
                     myConn.Close();
                     TextBoxTitle.Text = "";
-                    TextBoxLocation.Text = "";
                     Response.Redirect("ImageGallery.aspx");
                 }
             }

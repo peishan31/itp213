@@ -25,6 +25,17 @@ namespace ITP213
                     DAL.TripAllocation obj = TripAllocationDAO.getTripByTripID(Convert.ToInt32(Request.QueryString["tripID"]));
                     tbTripName.Text = obj.tripName.ToString();
                     ddlTripType.SelectedValue = ddlTripType.Items.FindByText(obj.tripType.ToString()).Value;
+                    if (obj.tripType.ToString() == "Internship")
+                    {
+                        lblCompanyName.Visible = true;
+                        tbCompanyName.Visible = true;
+                        tbCompanyName.Text = obj.companyName.ToString();
+                    }
+                    else
+                    {
+                        lblCompanyName.Visible = false;
+                        tbCompanyName.Visible = false;
+                    }
                     ddlCountry.SelectedValue = ddlCountry.Items.FindByText(obj.country.ToString()).Value;
                     tbDepartureDate.Text = Convert.ToDateTime(obj.departureDate).ToString("MM/dd/yyyy");
                     tbArrivalDate.Text = Convert.ToDateTime(obj.arrivalDate.ToString()).ToString("MM/dd/yyyy");
@@ -106,7 +117,14 @@ namespace ITP213
                 else // insert new trip
                 {
                     // insert trip --> find tripID --> insert enrolledStudent & enrolledLecturer tables.
-                    TripAllocationDAO.insertTrip(Convert.ToInt32(tbCost.Text),tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString());
+                    if (ddlTripType.SelectedItem.ToString() == "Internship")
+                    {
+                        TripAllocationDAO.insertTrip(Convert.ToInt32(tbCost.Text), tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString(), tbCompanyName.Text);
+                    }
+                    else
+                    {
+                        TripAllocationDAO.insertTrip(Convert.ToInt32(tbCost.Text), tbArrivalDate.Text, tbDepartureDate.Text, lbSelectedStudents.Items.Count, lbSelectedLecturers.Items.Count, ddlTripType.SelectedItem.ToString(), tbTripName.Text, ddlCountry.SelectedItem.ToString(), "");
+                    }    
 
                     DAL.TripAllocation p = TripAllocationDAO.getTripIDByTripNameDepartureDateAndArrivalDate(tbTripName.Text, tbDepartureDate.Text, tbArrivalDate.Text, ddlTripType.SelectedItem.ToString());
 
@@ -179,6 +197,39 @@ namespace ITP213
                        DateTimeStyles.None, 
                        out dt);
              */
+            int val;
+            if (!int.TryParse(tbCost.Text, out val))
+            {
+                lblError.Text += "Invalid Trip Cost!" + "<br>";
+                tbCost.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                tbCost.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+            }
+            else
+            {
+                tbCost.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                tbCost.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+            }
+
+            if (ddlTripType.SelectedItem.ToString() == "Internship")
+            {
+                if (String.IsNullOrEmpty(tbCompanyName.Text))
+                {
+                    lblError.Text += "Company Name cannot be empty! <br/>";
+                    tbCompanyName.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
+                    tbCompanyName.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
+                }
+                else
+                {
+                    tbCompanyName.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                    tbCompanyName   .BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
+                }
+            }
+            else
+            {
+                lblCompanyName.Visible = false;
+                tbCompanyName.Visible = false;
+            }
+
             DateTime temp;
             if (!DateTime.TryParseExact(tbDepartureDate.Text, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out temp))
             {
@@ -225,18 +276,7 @@ namespace ITP213
                 }
             }
 
-            int val;
-            if (!int.TryParse(tbCost.Text, out val))
-            {
-                lblError.Text += "Invalid Trip Cost!" + "<br>";
-                tbCost.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
-                tbCost.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
-            }
-            else
-            {
-                tbCost.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
-                tbCost.BorderColor = System.Drawing.ColorTranslator.FromHtml("#CED4DA");
-            }
+            
             if (lbSelectedStudents.Items.Count < 1)
             {
                 lblError.Text += "Please select at least one student!" + "<br>";
@@ -429,6 +469,20 @@ namespace ITP213
         protected void Button3_Click(object sender, EventArgs e)
         {
             tab_index.Value = "2";
+        }
+
+        protected void ddlTripType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlTripType.SelectedItem.ToString() == "Internship")
+            {
+                lblCompanyName.Visible = true;
+                tbCompanyName.Visible = true;
+            }
+            else
+            {
+                lblCompanyName.Visible = false;
+                tbCompanyName.Visible = false;
+            }
         }
     }
 }

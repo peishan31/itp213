@@ -54,12 +54,14 @@
                                 </div>
                                 <div class="mr-5">Announcement</div>
                             </div>
-                            <a class="card-footer text-white clearfix small z-1" href="/ViewAnnouncement.aspx">
+                            <asp:Button ID="Button2" runat="server" Text="View Details" class="card-footer text-white clearfix small z-1" style="padding-left: 80px;padding-right: 30px;" OnClick="Button2_Click">
+                            </asp:Button>
+                            <!--<a class="card-footer text-white clearfix small z-1" href="/ViewAnnouncement.aspx">
                                 <span class="float-left">View Details</span>
                                 <span class="float-right">
                                     <i class="fas fa-angle-right"></i>
                                 </span>
-                            </a>
+                            </a>-->
                         </div>
                     </div>
                     <div class="col-xl-6 col-sm-12 mb-3">
@@ -70,12 +72,12 @@
                                 </div>
                                 <div class="mr-5">Trip Tests</div>
                             </div>
-                            <a class="card-footer text-white clearfix small z-1" href="#">
-                                <span class="float-left">View Details</span>
-                                <span class="float-right">
-                                    <i class="fas fa-angle-right"></i>
+                            <asp:Button ID="Button1" runat="server" Text="View Details" class="card-footer text-white clearfix small z-1 float-left" style="padding-left: 80px;padding-right: 30px;" OnClick="btnClick">
+                            </asp:Button>
+                            <!--<a class="card-footer text-white clearfix small z-1" href="#">
+                                
                                 </span>
-                            </a>
+                            </a>-->
                         </div>
                     </div>
                 </div>

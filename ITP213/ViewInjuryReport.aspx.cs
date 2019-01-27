@@ -124,23 +124,23 @@ namespace ITP213
                         + $"<br>Treatment: {treatment}";
                 string msg = $"Dear Parents," +
                         $"{studentName} has been injured on {dateTimeInjury}." +
-                        $"Below are the details:Location: {location}"
-                        + $"Nature of injury: {natureOfInjury}"
-                        + $"Cause of injury: {causeOfInjury}"
-                        + $"Location: {locationOnBody}" + $"Agency: {agency}"
-                        + $"First Aid Given: {firstAidGiven}"
-                        + $"First Aider name: {firstAiderName}"
+                        $"Below are the details:Location: {location}, "
+                        + $"Nature of injury: {natureOfInjury}, "
+                        + $"Cause of injury: {causeOfInjury}, "
+                        + $"Location: {locationOnBody}, " + $"Agency: {agency}, "
+                        + $"First Aid Given: {firstAidGiven}, "
+                        + $"First Aider name: {firstAiderName}, "
                         + $"Treatment: {treatment}";
                 //=================================================================================
                 // ***************************** DO NOT DELETE 
-                DAL.ReportInjury mobileObj = ReportInjuryDAO.getParentMobileByReportID(Convert.ToInt32(injuryReportID));
+                /*DAL.ReportInjury mobileObj = ReportInjuryDAO.getParentMobileByReportID(Convert.ToInt32(injuryReportID));
                 string mobile = mobileObj.parentNum;
 
                 int result = ReportInjuryDAO.updateSendDateById(Convert.ToInt32(injuryReportID));
-                /*SMSSvrRef.SMSSoapClient S = new SMSSvrRef.SMSSoapClient();
+                SMSSvrRef.SMSSoapClient S = new SMSSvrRef.SMSSoapClient();
                 try
                 {
-                    string display = S.sendMessage("EADPJ47", "061785", mobileObj, msg);
+                    string display = S.sendMessage("EADPJ47", "061785", mobile, msg);
                     lblTesting.Text = display;
                 }
                 catch (Exception error)
@@ -151,6 +151,18 @@ namespace ITP213
                 Response.Redirect("/ViewInjuryReport.aspx");
             }
 
+        }
+
+        protected void btnAddRemarks_Command(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "AddRemarks")
+            {
+                string injuryReportID = e.CommandArgument.ToString();
+
+                Response.Redirect("/CreateRemarks.aspx?injuryReportID=" + injuryReportID);
+
+                //int result = ReportInjuryDAO.updateRemarksByInjuryReportID(Convert.ToInt32(injuryReportID), tbRe)
+            }
         }
     }
 }

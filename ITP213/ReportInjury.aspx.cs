@@ -105,10 +105,10 @@ namespace ITP213
                     sqlStr.AppendLine("INSERT INTO injuryReport(dateTimeOfInjury, location, description,");
                     sqlStr.AppendLine("witnessName, witnessPhone, natureOfInjury, causeOfInjury, locationOnBody,");
                     sqlStr.AppendLine("agency, firstAidGiven, firstAiderName, treatment, staffID, adminNo, studentName,");
-                    sqlStr.AppendLine("tripID, createdOn, image, injurySeverity) ");
+                    sqlStr.AppendLine("tripID, createdOn, image, injurySeverity, remark) ");
                     sqlStr.AppendLine("VALUES(@dateTimeOfInjury, @location, @description, @witnessName, @witnessPhone, @natureOfInjury,");
                     sqlStr.AppendLine("@causeOfInjury, @locationOnBody, @agency, @firstAidGiven, @firstAiderName, @treatment, @staffID,");
-                    sqlStr.AppendLine("@adminNo, @studentName, @tripID, GETDATE(), @image, @injurySeverity)");
+                    sqlStr.AppendLine("@adminNo, @studentName, @tripID, GETDATE(), @image, @injurySeverity, '')");
 
                     ReportInjury obj = new ReportInjury();   // create a customer instance
 
@@ -177,7 +177,7 @@ namespace ITP213
 
             if (ddlInjurySeverity.SelectedValue.ToString() == "0")
             {
-                lblError.Text += "Please select the injury severity!";
+                lblError.Text += "Please select the injury severity!<br>";
                 ddlInjurySeverity.BackColor = System.Drawing.ColorTranslator.FromHtml("#F8D7DA");
                 ddlInjurySeverity.BorderColor = System.Drawing.ColorTranslator.FromHtml("#E6707B");
             }

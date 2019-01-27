@@ -23,31 +23,39 @@
             .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
                 color: #D6D6D6;
             }
+        .table-borderless td,
+        .table-borderless th {
+            border: 0;
+        }
     </style>
     <!-- Page Content -->
     <h1>Uploaded Images</h1>
     <!--2. Change the title!-->
-    <asp:DataList ID="DataList1" CssClass="table" runat="server" DataKeyField="imageID" DataSourceID="SqlDataSource1" RepeatColumns="3" RepeatDirection="Horizontal">
-        <ItemTemplate>
-            <li style="list-style-type: none;" class="picture">
-                <asp:Label ID="LabelUsername" runat="server"><%# Eval("user") %></asp:Label>
-                <asp:Label ID="AT" runat="server">✈</asp:Label>
-                <asp:Label ID="LabelLocation" runat="server"><%# Eval("location") %></asp:Label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <asp:Button ID="ButtonDelete" CssClass="btn btn-light"  runat="server" Text="X" OnCommand="delete_Click" CommandArgument='<%#Eval("imageID") %>' CommandName="delete_Click2"/>
-                <br />
-                <a alt='<%# Eval("location") %>' runat="server">
-                    <asp:Image class="myImg" alt='<%# String.Format("{0} <br /> {1}", Eval("title"), Eval("tags")) %>' ID="Image1" ImageUrl='<%# Bind("image") %>' runat="server" Width="350px" Height="200px" />
-                </a>
-                <br />
-            </li>
-        </ItemTemplate>
-    </asp:DataList>
+    <hr />
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [image] where [user]= @name">
         <SelectParameters>
             <asp:SessionParameter Name="Name" SessionField="name" Type="String" />
         </SelectParameters>
     </asp:SqlDataSource>
+    <div class="container">
+        <div style="overflow-x: auto;" class="row">
+            <asp:Repeater ID="myRepeater" runat="server" DataSourceID="SqlDataSource1">
+                <ItemTemplate>
+                    <div class="table col-lg-4">
+                        <asp:Label ID="LabelUsername" runat="server"><%# Eval("user") %></asp:Label>
+                        <asp:Label ID="AT" runat="server">✈</asp:Label>
+                        <asp:Label ID="LabelLocation" runat="server"><%# Eval("location") %></asp:Label>
+                        <asp:Button ID="ButtonDelete" CssClass="btn btn-light float-right"  runat="server" Text="X" OnCommand="delete_Click" CommandArgument='<%#Eval("imageID") %>' CommandName="delete_Click2"/>
+                        <br />
+                        <a alt='<%# Eval("location") %>' runat="server">
+                            <asp:Image class="myImg" alt='<%# String.Format("{0} <br /> {1}", Eval("title"), Eval("tags")) %>' ID="Image1" ImageUrl='<%# Bind("image") %>' runat="server" Width="350px" Height="200px" />
+                        </a>
+                        <br />
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+    </div>
     <br />
     <!-- The Modal -->
     <div style="overflow: auto;" id="myModal2" class="modal">

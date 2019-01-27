@@ -12,14 +12,16 @@ namespace ITP213
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["accountType"].ToString() == "student")
+            if (!IsPostBack)
             {
-                ddlTripName.DataSource = WithdrawalRequestDAO.displayAllocatedTrips(Session["adminNo"].ToString());
-                ddlTripName.Items.Insert(0, new ListItem("--Select Trip--", "0"));
-                ddlTripName.AppendDataBoundItems = true;
-                ddlTripName.DataTextField = "tripNameAndTripType";
-                ddlTripName.DataValueField = "tripID";
-                ddlTripName.DataBind();
+                if (Session["accountType"].ToString() == "student")
+                {
+                    ddlTripName.DataSource = WithdrawalRequestDAO.displayAllocatedTrips(Session["adminNo"].ToString());
+                    ddlTripName.AppendDataBoundItems = true;
+                    ddlTripName.DataTextField = "tripNameAndTripType";
+                    ddlTripName.DataValueField = "tripID";
+                    ddlTripName.DataBind();
+                }
             }
         }
 
@@ -27,14 +29,13 @@ namespace ITP213
         {
             if (Session["accountType"].ToString() == "student")
             {
-                //lblTitle.Text = $"adminNo:{}";
                 
                 BlogDAO.insertBlog(txtBoxTitle.Text, txtBoxContent.Text, Session["name"].ToString(), Session["adminNo"].ToString(), ddlTripName.SelectedItem.ToString());
                 lblMsg.Text = "Blog Published".ToString();
                 lblMsg.Visible = true;
                 txtBoxContent.Text = "";
                 txtBoxTitle.Text = "";
-
+                ddlTripName.Items.Clear();
             }
             
 

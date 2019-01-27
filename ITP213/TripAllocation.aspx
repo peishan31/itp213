@@ -77,6 +77,7 @@
     </style>
     <!-- //Breadcrumbs end-->
 
+
     <!-- Page Content -->
     <h1>Create Trip</h1>
     <hr />
@@ -113,7 +114,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <p>
-                                Trip Type:<asp:DropDownList ID="ddlTripType" runat="server" class="form-control">
+                                Trip Type:<asp:DropDownList ID="ddlTripType" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlTripType_SelectedIndexChanged">
                                     <asp:ListItem>--Please Select--</asp:ListItem>
                                     <asp:ListItem>Study Trip</asp:ListItem>
                                     <asp:ListItem>Immersion Trip</asp:ListItem>
@@ -138,14 +139,6 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <p>
-                                Departure Date:<asp:TextBox ID="tbDepartureDate" runat="server" class="form-control" TextMode="DateTime" ClientIDMode="Static"></asp:TextBox>
-                            </p>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <p>Arrival Date:<asp:TextBox ID="tbArrivalDate" runat="server" class="form-control" TextMode="DateTime" ClientIDMode="Static"></asp:TextBox></p>
-                        </div>
-                        <div class="form-group col-md-4">
                             Cost:
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -153,6 +146,22 @@
                                 </div>
                                 <asp:TextBox ID="tbCost" runat="server" class="form-control"></asp:TextBox>
                             </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <asp:Label ID="lblCompanyName" runat="server" Text="Company Name:" Visible="false"></asp:Label>
+                            <div class="input-group">
+                                <asp:TextBox ID="tbCompanyName" runat="server" class="form-control" Visible="false"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <p>
+                                Departure Date:<asp:TextBox ID="tbDepartureDate" runat="server" class="form-control" TextMode="DateTime" ClientIDMode="Static"></asp:TextBox>
+                            </p>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <p>Arrival Date:<asp:TextBox ID="tbArrivalDate" runat="server" class="form-control" TextMode="DateTime" ClientIDMode="Static"></asp:TextBox></p>
                         </div>
                     </div>
                     <!--//Trip Details-->

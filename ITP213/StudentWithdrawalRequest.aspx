@@ -42,12 +42,12 @@
             </div>
         </asp:Panel>
         <div class="form-row">
-            <div class="form-group col-6">
-                Admin No: <asp:Label ID="lblAdminNo" runat="server"></asp:Label>
+            <div class="form-group col-6 col-sm-12">
+               <asp:Label ID="lblAdminNo" runat="server" Visible="false"></asp:Label>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-6">
+            <div class="form-group col-6 col-sm-12">
                 Trip Name:
                 <asp:DropDownList ID="ddlTripName" runat="server" class="form-control">
                 </asp:DropDownList>

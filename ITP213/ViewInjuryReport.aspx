@@ -4,6 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
     <link rel='stylesheet' href='Content/mdb1.min.css' />
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
@@ -41,24 +43,29 @@
                 <button id="btnStudy" type="button" class="btn btn-primary">Study Trip</button>
                 <button id="btnImmersion" type="button" class="btn btn-primary">Immersion Trip</button>
                 <button id="btnInternship" type="button" class="btn btn-primary">Internship</button>-->
-                <button class="btn btn-primary dropdown-toggle float-right" type="button" id="trips" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Trips:
-                </button>
-                <div class="dropdown-menu dropdown-inverse-trip" aria-labelledby="trips">
-                    <a class="dropdown-item" href="#">All</a>
-                    <a class="dropdown-item" href="#">Study Trip</a>
-                    <a class="dropdown-item" href="#">Immersion Trip</a>
-                    <a class="dropdown-item" href="#">Internship</a>
+                <div class="btn-group float-right">
+                    <button class="btn btn-primary dropdown-toggle float-right" type="button" id="trips" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Trips:
+                    </button>
+                    <div class="dropdown-menu dropdown-inverse-trip" aria-labelledby="trips">
+                        <a class="dropdown-item" href="#">All</a>
+                        <a class="dropdown-item" href="#">Study Trip</a>
+                        <a class="dropdown-item" href="#">Immersion Trip</a>
+                        <a class="dropdown-item" href="#">Internship</a>
+                    </div>
                 </div>
-                <button class="btn btn-danger dropdown-toggle float-right" type="button" id="severity" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Severity:
-                </button>
-                <div class="dropdown-menu dropdown-inverse-severity" aria-labelledby="severity">
-                    <a class="dropdown-item" href="#">All</a>
-                    <a class="dropdown-item" href="#">High</a>
-                    <a class="dropdown-item" href="#">Normal</a>
-                    <a class="dropdown-item" href="#">Low</a>
+                <div class="btn-group float-right">
+                    <button class="btn btn-danger dropdown-toggle float-right" type="button" id="severity" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Severity:
+                    </button>
+                    <div class="dropdown-menu dropdown-inverse-severity" aria-labelledby="severity">
+                        <a class="dropdown-item" href="#">All</a>
+                        <a class="dropdown-item" href="#" style="background-color: #FFC9C7">High</a>
+                        <a class="dropdown-item" href="#" style="background-color: #d6ffda">Normal</a>
+                        <a class="dropdown-item" href="#" style="background-color: #c8d7fa">Low</a>
+                    </div>
                 </div>
+
             </div>
         </div>
         <!--3. This is where you code all your features-->
@@ -74,9 +81,9 @@
             <ItemTemplate>
                 <div class="row">
                     <div class="col-12 col-sm-12">
-                        <div class='<%# Eval("tripType") %>'>
+                        <div class='<%# Eval("tripType") %> <%# Eval("injurySeverity")%>'>
                             <div class="list-group">
-                                <div class='list-group-item list-group-item-action flex-column align-items-start <%# Eval("injurySeverity")%>' style='background-color: <%# Eval("injurySeverity")%>;'>
+                                <div class='list-group-item list-group-item-action flex-column align-items-start' style='background-color: <%# Eval("injurySeverity")%>;'>
                                     <small>
                                         <asp:Label ID="Label4" runat="server" Text='<%# Eval("tripName")+ " ("+Eval("tripType")+")" %>'></asp:Label>
                                     </small>
@@ -91,6 +98,7 @@
                                         <small class="pb-1 mb-1">
                                             <a data-toggle="modal" data-target="#centralModalLGInfoDemo<%# Eval("injuryReportID") %>" class="btn btn-success btn-sm mx-auto text-white">View Report
                                             </a>
+                                            <asp:Button ID="btnAddRemarks" runat="server" Text="Edit Remark" class="btn btn-secondary btn-sm mx-auto text-white" OnCommand="btnAddRemarks_Command" CommandName="AddRemarks" CommandArgument='<%# Eval("injuryReportID") %>' />
                                             <asp:Button ID="btnStudyTripsEdit" runat="server" Class="btn btn-warning btn-sm mx-auto text-white" Text="Edit Trip" CommandName="trips_Click" CommandArgument='<%# Eval("injuryReportID") %>' OnCommand="btnEdit_Command" Style="z-index: 1;" />
                                             <asp:Button ID="btnStudyTripsDelete" runat="server" Class="btn btn-danger btn-sm mx-auto" Text="Delete" CommandName="trips_Click" CommandArgument='<%# Eval("injuryReportID") %>' OnCommand="btnDelete_command" Style="z-index: 1" />
                                         </small>
@@ -273,8 +281,15 @@
                                                             </table>
                                                         </fieldset>
                                                         <hr />
-                                                        Send injury report to parents at <asp:Label ID="Label2" runat="server" Text='<%# Eval("sendDate") %>'></asp:Label>
-                                                        <asp:Image class="myImg img-fluid" ID="Image1" ImageUrl='<%# Bind("image") %>' runat="server" alt="Injury" />
+                                                        <asp:Label ID="Label2" runat="server" Text='<%# "Send injury report to parents at " + Eval("sendDate") %>'></asp:Label>
+                                                        <br />
+                                                        Remark:
+                                                        <asp:Label ID="Label5" runat="server" Text='<%# Eval("remark") %>'></asp:Label>
+                                                        <br />
+                                                        <hr />
+                                                        <asp:Image class="myImg img-fluid" ID="Image1" ImageUrl='<%# Bind("image") %>' runat="server" alt="Injury" Style="height: 200px; width: 350px" />
+                                                        <br />
+
                                                     </p>
                                                 </div>
                                             </div>
@@ -297,7 +312,7 @@
         </asp:Repeater>
         <asp:Label ID="lblTesting" runat="server" Text="Label"></asp:Label>
 
-
+        
     </p>
     <script>
         /*$("#btnAll").click(function () {
@@ -369,36 +384,43 @@
             console.log(this.innerHTML);
             var selectedVal = this.innerHTML;
 
-            var orange = document.getElementsByClassName("#fce8bd");
-            var red = document.getElementsByClassName("#FFC9C7");
+            var low = document.getElementsByClassName("#c8d7fa"); //blue
+            var normal = document.getElementsByClassName("#d6ffda"); // green
+            var high = document.getElementsByClassName("#FFC9C7"); //red
 
-            $(orange).show(); // orange
-            $(".white").show();
-            $(red).show(); // red
-            if (selectedVal == "High")
-            {
-                
-                $(orange).toggle(); // orange
-                $(".white").toggle();
-                $(red).show(); // red
+
+            if (selectedVal == "High") {
+                $(high).show();
+                $(normal).show();
+                $(low).show();
+
+                $(high).show(); // red
+                $(normal).hide(); // orange
+                $(low).hide();
+
             }
-            else if (selectedVal == "Normal")
-            {
-                $(orange).show(); // orange
-                $(".white").toggle();
-                $(red).toggle(); // red
+            else if (selectedVal == "Normal") {
+                $(normal).show();
+                $(low).show();
+                $(high).show();
+
+                $(normal).show(); // orange
+                $(low).hide();
+                $(high).hide();
             }
-            else if (selectedVal == "Low")
-            {
-                $(orange).toggle(); // orange
-                $(".white").show();
-                $(red).toggle(); // red
+            else if (selectedVal == "Low") {
+                $(low).show();
+                $(normal).show();
+                $(high).show();
+
+                $(low).show();
+                $(normal).hide();
+                $(high).hide();
             }
-            else if (selectedVal == "All")
-            {
-                $(orange).show(); // orange
-                $(".white").show();
-                $(red).show(); // red
+            else if (selectedVal == "All") {
+                $(normal).show();
+                $(low).show();
+                $(high).show();
             }
         });
 

@@ -131,7 +131,7 @@ namespace ITP213.DAL
             /*
             Select overseasTrip.tripID, withdrawTripRequestID, adminNo, departureDate, arrivalDate ,withdrawalReason, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType  FROM withdrawTripRequest INNER JOIN overseasEnrolledLecturer ON withdrawTripRequest.tripID = overseasEnrolledLecturer.tripID INNER JOIN overseasTrip ON withdrawTripRequest.tripID = overseasTrip.tripID WHERE staffID='susie_waters';
              */
-            string sqlStr = "Select createdOn, overseasTrip.tripID, withdrawTripRequestID, adminNo, departureDate, arrivalDate ,withdrawalReason, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType  FROM withdrawTripRequest INNER JOIN overseasEnrolledLecturer ON withdrawTripRequest.tripID = overseasEnrolledLecturer.tripID INNER JOIN overseasTrip ON withdrawTripRequest.tripID = overseasTrip.tripID WHERE staffID=@staffID;";
+            string sqlStr = "Select createdOn, overseasTrip.tripID, withdrawTripRequestID, adminNo, departureDate, arrivalDate ,withdrawalReason, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType  FROM withdrawTripRequest INNER JOIN overseasEnrolledLecturer ON withdrawTripRequest.tripID = overseasEnrolledLecturer.tripID INNER JOIN overseasTrip ON withdrawTripRequest.tripID = overseasTrip.tripID WHERE staffID=@staffID ORDER BY createdOn DESC;";
 
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr, myConn);
@@ -186,7 +186,7 @@ namespace ITP213.DAL
             sqlStr.AppendLine("Select createdOn, withdrawTripRequest.tripID, withdrawTripRequestID, withdrawalTripRequestStatus, departureDate, arrivalDate ,withdrawalReason, CONCAT(tripName,' (', tripType, ')') AS tripNameAndTripType");
             sqlStr.AppendLine("FROM withdrawTripRequest");
             sqlStr.AppendLine("INNER JOIN overseasTrip ON withdrawTripRequest.tripID = overseasTrip.tripID ");
-            sqlStr.AppendLine("WHERE adminNo=@adminNo;");
+            sqlStr.AppendLine("WHERE adminNo=@adminNo ORDER BY createdOn DESC;");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr.ToString(), myConn);

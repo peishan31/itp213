@@ -45,8 +45,9 @@
             <tr>
                 <td>Trip Name:</td>
                 <td><asp:DropDownList ID="ddlTripName" runat="server">
+                    <asp:ListItem>--Select--</asp:ListItem>
                     </asp:DropDownList>
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="ddlTripName" ErrorMessage="Select a course" ForeColor="#CC3300" InitialValue="&quot;--Select--&quot;"></asp:RequiredFieldValidator>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="ddlTripName" ErrorMessage="Select a trip" ForeColor="#CC3300" InitialValue="--Select--"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -59,7 +60,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><asp:TextBox ID="txtBoxComments"  runat="server" Rows="8" Columns="10" TextMode="MultiLine" class="form-control" Height="186px" Width="1002px" style="resize:none" OnTextChanged="txtBoxComments_TextChanged"></asp:TextBox>
+                <td><asp:TextBox ID="txtBoxComments"  runat="server" Rows="8" Columns="10" TextMode="MultiLine" class="form-control" Height="186px" Width="1002px" style="resize:none"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtBoxComments" ErrorMessage="Please fill in information" ForeColor="#996600"></asp:RequiredFieldValidator>
                 </td>
             </tr>
@@ -97,6 +98,6 @@
     </div>
     <asp:Label ID="Label2" runat="server" Text="Label" Visible="False"></asp:Label>
     <br />
-    <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
+    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="#CC3300" />
     <br />
 </asp:Content>

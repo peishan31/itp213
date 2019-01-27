@@ -136,7 +136,7 @@ namespace ITP213
                     }
                     else
                     {
-                        RepeaterInternship.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Internships");
+                        RepeaterInternship.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship");
                         RepeaterInternship.DataBind();
                     }
                     if (TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship") == null)
@@ -246,7 +246,7 @@ namespace ITP213
             if (Session["accountType"].ToString() == "parent" || Session["accountType"].ToString() == "student")
             {
                 withdrawB.Visible = false;
-                createB.Visible = false;
+                createB.Visible = true;
                 editB.Visible = false;
                 deleteB.Visible = false;
                 if (tripStatus.Text == "PENDING")
@@ -257,7 +257,7 @@ namespace ITP213
             else
             {
                 withdrawB.Visible = false;
-                createB.Visible = true;
+                createB.Visible = false;
                 editB.Visible = true;
                 deleteB.Visible = true;
             }

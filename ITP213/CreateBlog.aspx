@@ -46,6 +46,7 @@
                 <asp:DropDownList ID="ddlTripName" runat="server">
                     <asp:ListItem Value="0">Select Trip</asp:ListItem>
                 </asp:DropDownList>
+                 <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="ddlTripName" ErrorMessage="Select a trip" ForeColor="#CC3300" InitialValue="0"></asp:RequiredFieldValidator>
             </td>
 
         </tr>

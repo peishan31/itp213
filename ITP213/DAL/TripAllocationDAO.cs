@@ -90,7 +90,7 @@ namespace ITP213.DAL
 
         }
 
-        public static int insertTrip(int tripCost,string arrivalDate, string departureDate, int noOfStudents, int noOfLecturers, string tripType, string tripName, string country)
+        public static int insertTrip(int tripCost,string arrivalDate, string departureDate, int noOfStudents, int noOfLecturers, string tripType, string tripName, string country, string companyName)
           {
             //Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
@@ -101,8 +101,8 @@ namespace ITP213.DAL
              */
 
             string sqlStr =
-                "INSERT INTO overseasTrip (overseasTripStatus,tripCost, arrivalDate, departureDate, noOfStudents, noOfLecturers, tripType, tripName, country) " +
-                "VALUES('PENDING',@tripCost, @oArrivalDate, @oDepartureDate, @oNoOfStudents, @oNoOfLecturers, @oTripType, @oTripName, @oCountry)";
+                "INSERT INTO overseasTrip (overseasTripStatus,tripCost, arrivalDate, departureDate, noOfStudents, noOfLecturers, tripType, tripName, country, companyName) " +
+                "VALUES('PENDING',@tripCost, @oArrivalDate, @oDepartureDate, @oNoOfStudents, @oNoOfLecturers, @oTripType, @oTripName, @oCountry, @companyName)";
 
 
             TripAllocation obj = new TripAllocation();   // create a tripAllocation instance
@@ -119,6 +119,7 @@ namespace ITP213.DAL
             cmd.Parameters.AddWithValue("oTripType", tripType);
             cmd.Parameters.AddWithValue("oTripName", tripName);
             cmd.Parameters.AddWithValue("oCountry", country);
+            cmd.Parameters.AddWithValue("companyName", companyName);
 
             int result = cmd.ExecuteNonQuery();
             return result;
@@ -236,6 +237,7 @@ namespace ITP213.DAL
                 obj.tripName = row["tripName"].ToString();
                 obj.country = row["country"].ToString();
                 obj.tripCost = row["tripCost"].ToString();
+                obj.companyName = row["companyName"].ToString();
             }
             else
             {

@@ -33,5 +33,19 @@ namespace ITP213
                 }
             }
         }
+
+        protected void btnClick(object sender, EventArgs e)
+        {
+            if (Request.QueryString["tripID"] != null)
+            {
+                int tripID = Convert.ToInt32(Request.QueryString["tripID"]);
+                Response.Redirect("/CreateTest.aspx?tripID=" + tripID);
+            }
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/ViewAnnouncement.aspx");
+        }
     }
 }

@@ -15,12 +15,11 @@ namespace ITP213
             if (Session["accountType"].ToString() == "student" || Session["accountType"].ToString() == "parent")
             {
                 ddlTripName.DataSource = WithdrawalRequestDAO.displayAllocatedTrips(Session["adminNo"].ToString());
-                ddlTripName.Items.Insert(0, new ListItem("--Select Trip--", "0"));
                 ddlTripName.AppendDataBoundItems = true;
                 ddlTripName.DataTextField = "tripNameAndTripType";
                 ddlTripName.DataValueField = "tripID";
                 ddlTripName.DataBind();
-                ddlTripName.SelectedIndex = 0;
+
             }
         }
 
@@ -34,16 +33,10 @@ namespace ITP213
                 txtBoxSubject.Text = "";
                 txtBoxComments.Text = "";
                 txtBoxComplainType.Text = "";
-                Label2.Text = "Complaint sucessfully uploaded";
+                Label2.Text = "Complaint submitted";
                 Label2.Visible = true;
+                ddlTripName.Items.Clear();
             }
-
-
-
-        }
-
-        protected void txtBoxComments_TextChanged(object sender, EventArgs e)
-        {
 
         }
     }

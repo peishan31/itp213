@@ -178,12 +178,13 @@ namespace ITP213
             if (Session["accountType"].ToString() == "lecturer")
             {
                 RepeaterItem item = e.Item;
-                Label lblStaffID = (Label)item.FindControl("lblStaffIDForEditAndDeleteBtn");
+                Label lblStaffID = (Label)item.FindControl("lblStaffID");
                 string createdBy = lblStaffID.Text;
                 string currentID = Session["staffID"].ToString();
 
                 Button editB = (Button)item.FindControl("btnStudyTripsEdit");
                 Button deleteB = (Button)item.FindControl("btnStudyTripsDelete");
+                CheckBox cb = (CheckBox)item.FindControl("cbRead");
 
                 int i = 0;
 
@@ -191,11 +192,13 @@ namespace ITP213
                 {
                     editB.Visible = true;
                     deleteB.Visible = true;
+                    cb.Visible = false;
                 }
                 else
                 {
                     editB.Visible = false;
                     deleteB.Visible = false;
+                    cb.Visible = true;
                 }
             }
         }
@@ -206,12 +209,13 @@ namespace ITP213
             if (Session["accountType"].ToString() == "lecturer")
             {
                 RepeaterItem item = e.Item;
-                Label lblStaffID = (Label)item.FindControl("lblStaffIDForEditAndDeleteBtn");
+                Label lblStaffID = (Label)item.FindControl("lblStaffID");
                 string createdBy = lblStaffID.Text;
                 string currentID = Session["staffID"].ToString();
 
                 Button editB = (Button)item.FindControl("btnImmersionTripsEdit");
                 Button deleteB = (Button)item.FindControl("btnImmersionTripsDelete");
+                CheckBox cb = (CheckBox)item.FindControl("cbRead");
 
                 int i = 0;
 
@@ -219,11 +223,13 @@ namespace ITP213
                 {
                     editB.Visible = true;
                     deleteB.Visible = true;
+                    cb.Visible = false;
                 }
                 else
                 {
                     editB.Visible = false;
                     deleteB.Visible = false;
+                    cb.Visible = true;
                 }
             }
         }
@@ -245,7 +251,7 @@ namespace ITP213
                 AnnouncementDAO.insertStudentAnnReadWithAnnouncementIDAndStudentID(Convert.ToInt32(announcementID), Session["adminNo"].ToString());
                 lblTesting.Text = "This has been executed";
             }
-            //Response.Redirect("/ViewAnnouncement.aspx");
+            Response.Redirect("/ViewAnnouncement.aspx");
         }
     }
 }

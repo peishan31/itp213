@@ -1,6 +1,7 @@
 ﻿using ITP213.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -25,6 +26,18 @@ namespace ITP213
             if (e.CommandName == "delete_Click")
             {
                 string ID = e.CommandArgument.ToString();
+                lblTitle.Text = ID;
+                ComplainDAO.updateByComplainID(Convert.ToInt32(ID));
+                Response.Redirect("ViewComplain.aspx");
+            }
+        }
+
+        protected void deleteCommand1(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "delete_Click")
+            {
+                string ID = e.CommandArgument.ToString();
+                lblTitle.Text = ID;
                 ComplainDAO.updateByComplainID(Convert.ToInt32(ID));
                 Response.Redirect("ViewComplain.aspx");
             }

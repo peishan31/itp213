@@ -78,7 +78,7 @@
             </div>
             <div id="tabs-2">
                 <p>
-                    <div class="container">
+                    <div class="container" style="overflow-x:auto;">
                         <div class="row">
                             <table id="example" class="table table-striped table-bordered" style="width: 100%">
                                 <thead>

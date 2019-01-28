@@ -29,10 +29,6 @@ namespace ITP213
             CCARecordDAO studDaoCCA = new CCARecordDAO();
             studObjCCA = studDaoCCA.getStudentByAdminNo(tbAdminNo.Text);
 
-            MedicalRecord studObjMed = new MedicalRecord();
-            MedicalRecordDAO studDaoMed = new MedicalRecordDAO();
-            studObjMed = studDaoMed.getStudentByAdminNo(tbAdminNo.Text);
-
             if (studObjGen == null)
             {
                 PanelErrorResult.Visible = true;
@@ -71,15 +67,6 @@ namespace ITP213
                 Lbl_AchievementTitle.Text = studObjCCA.achievementTitle;
                 Lbl_Date.Text = studObjCCA.date.Substring(0,9);
                 Lbl_Points.Text = studObjCCA.ccaPoints;
-
-                PanelMedicalRecord.Visible = true;
-                Lbl_StudNameMed.Text = studObjGen.studentName;
-                Lbl_AdminNoMed.Text = studObjMed.adminNo;
-                Lbl_BloodType.Text = studObjMed.bloodType;
-                Lbl_Allergies.Text = studObjMed.allergies;
-                Lbl_Height.Text = studObjMed.height + "m";
-                Lbl_Weight.Text = studObjMed.weight + "kg";
-                Lbl_Insurances.Text = studObjMed.insurances;
             }
         }
     }

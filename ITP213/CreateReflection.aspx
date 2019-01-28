@@ -23,40 +23,37 @@
         .breadcrumb .breadcrumb-item+.breadcrumb-item::before{
             color: #D6D6D6;
         }
+        .table-borderless td,
+        .table-borderless th {
+            border: 0;
+        }
     </style>
     <!-- //Breadcrumbs end-->
 
     <!-- Page Content -->
     <h1>Create Reflection</h1>
     <hr/>
-    
-    <div class="container mt-5 mb-4">
-        <div class="card pl-3 pr-3">
-            <div class="pb-5 text-left m-md-3">
-            <table>
-                <tr>
-                    <td>Please enter your reflection for the week below</td>
-                </tr>
-                <tr>
-                    <td>
-                        Trip Name: <!--Displaying trips tht are internship, and are ongoing-->
-                        <asp:DropDownList ID="ddlTripName" runat="server"></asp:DropDownList>
-                    </td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="tbReflection" runat="server" Rows="9" Columns="12" TextMode="MultiLine" class="form-control" Height="200px" Width="1050px" style="resize:none"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>
-                        <asp:Button ID="btnSubmitReflecction" runat="server" Text="Submit Reflection" OnClick="btnSubmitReflecction_Click" class="btn btn-success"/>
-                    </td>
-                </tr>
-            </table>
-            </div>
-        </div>
-    </div>
+    <table class="table table-borderless">
+        <tr>
+            <td>Please enter your reflection for your 12 / 24 weeks internship below</td>
+        </tr>
+        <tr>
+            <td>
+                Trip Name: <!--Displaying trips tht are internship, and are ongoing-->
+                <asp:DropDownList ID="ddlTripName" runat="server"></asp:DropDownList>
+            </td>
+        </tr>
+        <tr>
+            <td><asp:TextBox ID="tbReflection" runat="server" Rows="9" Columns="12" TextMode="MultiLine" class="form-control" Height="200px" Width="850px" style="resize:none"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Button ID="btnSubmitReflecction" runat="server" Text="Submit Reflection" OnClick="btnSubmitReflecction_Click" class="btn btn-success"/>
+            </td>
+        </tr>
+    </table>
     <!--//Page Content-->
 </asp:Content>

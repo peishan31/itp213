@@ -98,6 +98,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddRemarks.aspx" />
     <Content Include="App_Data\ITP213.mdf" />
     <Content Include="App_Data\ITP213_log.ldf">
       <DependentUpon>ITP213.mdf</DependentUpon>
@@ -114,6 +115,8 @@
     <Content Include="CreateComplaints.aspx" />
     <Content Include="CreateFeedback.aspx" />
     <Content Include="CreateReflection.aspx" />
+    <Content Include="CreateRemarks.aspx" />
+    <Content Include="CreateTest.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultErrorPage.aspx" />
     <Content Include="ImageGallery.aspx" />
@@ -168,22 +171,35 @@
     <Content Include="StudentParticulars.aspx" />
     <Content Include="StudentWithdrawalRequest.aspx" />
     <Content Include="StudentWithdrawalResult.aspx" />
+    <Content Include="SubmitFeedback.aspx" />
+    <Content Include="TestDetails.aspx" />
     <Content Include="TripAllocation.aspx" />
     <Content Include="UnauthorizedErrorPage.aspx" />
     <Content Include="UploadedImages.aspx" />
+    <Content Include="UploadReport.aspx" />
     <Content Include="ViewAllocatedTrip.aspx" />
     <Content Include="ViewAnnouncement.aspx" />
     <Content Include="ViewBlog.aspx" />
     <Content Include="ViewComplain.aspx" />
+    <Content Include="ViewFeedback.aspx" />
     <Content Include="ViewIndividualTrip.aspx" />
     <Content Include="ViewInjuryReport.aspx" />
     <Content Include="ViewReflections.aspx" />
+    <Content Include="ViewReports.aspx" />
     <Content Include="ViewStatistics.aspx" />
+    <Content Include="ViewTestAnswers.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddRemarks.aspx.cs">
+      <DependentUpon>AddRemarks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddRemarks.aspx.designer.cs">
+      <DependentUpon>AddRemarks.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BlogDetails.aspx.cs">
       <DependentUpon>BlogDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -226,6 +242,20 @@
     <Compile Include="CreateReflection.aspx.designer.cs">
       <DependentUpon>CreateReflection.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CreateRemarks.aspx.cs">
+      <DependentUpon>CreateRemarks.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateRemarks.aspx.designer.cs">
+      <DependentUpon>CreateRemarks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreateTest.aspx.cs">
+      <DependentUpon>CreateTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateTest.aspx.designer.cs">
+      <DependentUpon>CreateTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DAL\AcademicResult.cs" />
     <Compile Include="DAL\AcademicResultDAO.cs" />
     <Compile Include="DAL\Announcement.cs" />
@@ -255,6 +285,8 @@
     <Compile Include="DAL\LoginDAO.cs" />
     <Compile Include="DAL\ReportInjury.cs" />
     <Compile Include="DAL\ReportInjuryDAO.cs" />
+    <Compile Include="DAL\Test.cs" />
+    <Compile Include="DAL\TestDAO.cs" />
     <Compile Include="DAL\TripAllocation.cs" />
     <Compile Include="DAL\TripAllocationDAO.cs" />
     <Compile Include="DAL\UploadedImage.cs" />
@@ -385,6 +417,20 @@
     <Compile Include="StudentWithdrawalResult.aspx.designer.cs">
       <DependentUpon>StudentWithdrawalResult.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SubmitFeedback.aspx.cs">
+      <DependentUpon>SubmitFeedback.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubmitFeedback.aspx.designer.cs">
+      <DependentUpon>SubmitFeedback.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestDetails.aspx.cs">
+      <DependentUpon>TestDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestDetails.aspx.designer.cs">
+      <DependentUpon>TestDetails.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TripAllocation.aspx.cs">
       <DependentUpon>TripAllocation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -405,6 +451,13 @@
     </Compile>
     <Compile Include="UploadedImages.aspx.designer.cs">
       <DependentUpon>UploadedImages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UploadReport.aspx.cs">
+      <DependentUpon>UploadReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UploadReport.aspx.designer.cs">
+      <DependentUpon>UploadReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewAllocatedTrip.aspx.cs">
       <DependentUpon>ViewAllocatedTrip.aspx</DependentUpon>
@@ -434,6 +487,13 @@
     <Compile Include="ViewComplain.aspx.designer.cs">
       <DependentUpon>ViewComplain.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ViewFeedback.aspx.cs">
+      <DependentUpon>ViewFeedback.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewFeedback.aspx.designer.cs">
+      <DependentUpon>ViewFeedback.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewIndividualTrip.aspx.cs">
       <DependentUpon>ViewIndividualTrip.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -455,12 +515,26 @@
     <Compile Include="ViewReflections.aspx.designer.cs">
       <DependentUpon>ViewReflections.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ViewReports.aspx.cs">
+      <DependentUpon>ViewReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewReports.aspx.designer.cs">
+      <DependentUpon>ViewReports.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewStatistics.aspx.cs">
       <DependentUpon>ViewStatistics.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewStatistics.aspx.designer.cs">
       <DependentUpon>ViewStatistics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewTestAnswers.aspx.cs">
+      <DependentUpon>ViewTestAnswers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewTestAnswers.aspx.designer.cs">
+      <DependentUpon>ViewTestAnswers.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +546,7 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Images\InjuryPics\" />
+    <Folder Include="Report\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

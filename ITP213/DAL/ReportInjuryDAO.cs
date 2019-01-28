@@ -449,5 +449,70 @@ namespace ITP213.DAL
 
             return obj;
         }
+
+        // updating remarks
+        public static int updateRemarksByInjuryReportID(int injuryReporyID, string remark)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            /*
+            UPDATE injuryReport
+            SET remark = 'Sth'
+            WHERE injuryReportID='30';
+             */
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.AppendLine("UPDATE injuryReport SET ");
+            sqlStr.AppendLine("remark = @remark");
+            sqlStr.AppendLine("WHERE injuryReportID=@injuryReportID;");
+
+
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            myConn.Open();
+            SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+            cmd.Parameters.AddWithValue("remark", remark);
+            cmd.Parameters.AddWithValue("injuryReportID", injuryReporyID);
+            int result = cmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
+
+        public static ReportInjury getRemarkByinjuryReportID(int injuryReportID)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            /*
+            SELECT * FROM overseasTrip INNER JOIN overseasEnrolledStudent on overseasTrip.tripID = overseasEnrolledStudent.tripID WHERE overseasTrip.tripID = @tripID; SELECT staffID FROM overseasTrip INNER JOIN overseasEnrolledLecturer on overseasTrip.tripID = overseasEnrolledLecturer.tripID WHERE overseasTrip.tripID = @tripID;
+             */
+            string sqlStr = "select remark from injuryReport where injuryReportID=@injuryReportID";
+
+
+            ReportInjury obj = new ReportInjury();
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlStr, myConn);
+            da.SelectCommand.Parameters.AddWithValue("injuryReportID", injuryReportID);
+            // fill dataset
+            da.Fill(ds, "resultTable");
+            int rec_cnt = ds.Tables["resultTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                DataRow row = ds.Tables["resultTable"].Rows[0];  // Sql command returns only one record
+                obj.remark = row["remark"].ToString();
+            }
+            else
+            {
+                obj = null;
+            }
+
+            return obj;
+        }
     }
 }

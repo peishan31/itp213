@@ -15,22 +15,11 @@ namespace ITP213
         string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                if (Session["adminNo"] != null)
-                {
-                    DropDownListLocation.DataSource = WithdrawalRequestDAO.displayAllocatedTrips(Session["adminNo"].ToString());
-                    DropDownListLocation.DataTextField = "country";
-                    DropDownListLocation.DataValueField = "tripID";
-                    DropDownListLocation.DataBind();
-                }
-            }
         }
         protected void ButtonUpload_Click(object sender, EventArgs e)
         {
             if (FileUploadImage.FileName == null)
             {
-                Label1.Text = "Please insert image";
             }
             else
             {

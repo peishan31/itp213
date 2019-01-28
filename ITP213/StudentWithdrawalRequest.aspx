@@ -42,19 +42,19 @@
             </div>
         </asp:Panel>
         <div class="form-row">
-            <div class="form-group col-6">
-                Admin No: <asp:Label ID="lblAdminNo" runat="server"></asp:Label>
+            <div class="form-group col-6 col-sm-12">
+               <asp:Label ID="lblAdminNo" runat="server" Visible="false"></asp:Label>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-6">
+            <div class="form-group col-6 col-sm-12">
                 Trip Name:
                 <asp:DropDownList ID="ddlTripName" runat="server" class="form-control">
                 </asp:DropDownList>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-6">
+            <div class="form-group col-6 col-sm-12">
                 Reasons: 
                 <asp:TextBox ID="tbReasons" runat="server" Columns="30" Rows="8" TextMode="MultiLine" class="form-control" Style="resize: none"></asp:TextBox>   
             </div>

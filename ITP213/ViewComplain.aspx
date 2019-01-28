@@ -29,7 +29,9 @@
     <asp:DataList ID="DataList1" runat="server" DataKeyField="complainID" DataSourceID="SqlDataSource1" RepeatColumns="3" BorderStyle="None" Height="181px" Width="426px" CellPadding="5" CellSpacing="5" RepeatDirection="Horizontal">
         <ItemTemplate>
             <asp:Panel ID="Panel1" runat="server" Height="200px" Width="300px" Visible='<%#Convert.ToBoolean(Eval("complainStatus")) %>'>
-                <div class="card-header card bg-primary text-white" style="background-color:#5A95F5 !important">Category : <%# Eval("subject") %></div>
+                <div class="card-header card bg-primary text-white" style="background-color: #5A95F5 !important">Trip : <%# Eval("trip") %>
+                    <br />
+                    Category : <%# Eval("subject") %></div>
                 <div class="card-body card bg-light text-dark"><%# Eval("comments") %></div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target='#myModal<%# Eval("complainID") %>'>View Image</button>

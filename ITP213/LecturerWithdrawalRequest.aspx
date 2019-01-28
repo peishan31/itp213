@@ -176,7 +176,7 @@
                 </p>
             </div>
         </div>  
-        <asp:Label ID="lblTesting" runat="server" Text="Label"></asp:Label>
+        <asp:Label ID="lblTesting" runat="server" Text="Label" Visible="false"></asp:Label>
 
         
     </p>

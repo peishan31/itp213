@@ -74,7 +74,7 @@
                 </button>
             </div>
         </asp:Panel>
-        
+
         <div id="demo">
             <div class="step-app">
                 <asp:HiddenField ID="tab_index" Value="0" runat="server" />
@@ -93,10 +93,10 @@
                                 <div class="col-4">
                                     Injury Severity:
                                     <asp:DropDownList ID="ddlInjurySeverity" runat="server" class="form-control">
-                                            <asp:ListItem Value="0">--Select--</asp:ListItem>
-                                            <asp:ListItem Value="#FFC9C7">High</asp:ListItem>
-                                            <asp:ListItem Value="#fce8bd">Normal</asp:ListItem>
-                                            <asp:ListItem Value="White">Low</asp:ListItem>
+                                        <asp:ListItem Value="0">--Select--</asp:ListItem>
+                                        <asp:ListItem Value="#FFC9C7">High</asp:ListItem>
+                                        <asp:ListItem Value="#d6ffda">Normal</asp:ListItem>
+                                        <asp:ListItem Value="#c8d7fa">Low</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-4">
@@ -157,7 +157,8 @@
                                     <asp:TextBox ID="tbCauseOfInjury" class="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <div class="col-4">
-                                    Select Image: <asp:Label ID="lblImageValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label>
+                                    Select Image:
+                                    <asp:Label ID="lblImageValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label>
                                     <asp:FileUpload ID="FileUploadImage" runat="server" />
                                 </div>
                             </div>
@@ -178,7 +179,8 @@
                             <legend>Treatment Administered:</legend>
                             <div class="row">
                                 <div class="col">
-                                    First Aid given <asp:Label ID="lblRbValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label>
+                                    First Aid given
+                                    <asp:Label ID="lblRbValidation" runat="server" Text="*" ForeColor="Red" Visible="false"></asp:Label>
                                     <asp:RadioButtonList ID="rbFirstAidGiven" runat="server">
                                         <asp:ListItem>Yes</asp:ListItem>
                                         <asp:ListItem>No</asp:ListItem>
@@ -271,27 +273,27 @@
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script src="Scripts/jquery-steps.js"></script>
         <script>
-        //*************** how do I ensure PART A runs first before PART B?
-        var iSelectedTab2;
-        var steps = new Promise(function (resolve, reject) {
-            $(document).ready(function hi () { // PART A
-                var iSelectedTab = $(this).find("input[id*='tab_index']").val();
-                if (iSelectedTab == null)
-                    iSelectedTab = 0;
+            //*************** how do I ensure PART A runs first before PART B?
+            var iSelectedTab2;
+            var steps = new Promise(function (resolve, reject) {
+                $(document).ready(function hi() { // PART A
+                    var iSelectedTab = $(this).find("input[id*='tab_index']").val();
+                    if (iSelectedTab == null)
+                        iSelectedTab = 0;
 
-                iSelectedTab2= iSelectedTab;
-                resolve(iSelectedTab2);
-                /*$('.step-app').tabs({
-                    //collapsible: true,
-                    active: iSelectedTab
-                });*/
-            
-                console.log("Selected tab isss: " + iSelectedTab)
-            
-            
-            })
-        });
-        
+                    iSelectedTab2 = iSelectedTab;
+                    resolve(iSelectedTab2);
+                    /*$('.step-app').tabs({
+                        //collapsible: true,
+                        active: iSelectedTab
+                    });*/
+
+                    console.log("Selected tab isss: " + iSelectedTab)
+
+
+                })
+            });
+
             /*$('#demo').steps({ // PART B
                 onInit: function () {
                     iSelectedTab2 = $(this).find("input[id*='tab_index']").val();
@@ -302,18 +304,20 @@
                 },
                 startAt: iSelectedTab2
             });*/
-        
-        
-        steps.then(function (value) {
-            console.log("Promise val: " + value);
-            $('#demo').steps({ // PART B
-                startAt: value
-            });
-        });
 
-    </script>
+
+            steps.then(function (value) {
+                console.log("Promise val: " + value);
+                $('#demo').steps({ // PART B
+                    startAt: value
+                });
+            });
+
+        </script>
 
         <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+
+    
 
     </p>
     <!--//Page Content-->

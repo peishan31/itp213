@@ -1,7 +1,10 @@
 ﻿using ITP213.DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,6 +17,29 @@ namespace ITP213
         {
             if (!IsPostBack) // first load of the page
             {
+                // upload trip status
+                //Updating Trip Status
+                //Get connection string from web.config
+                string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+                StringBuilder sqlStr = new StringBuilder();
+                // overseasTripStatus = 'Ongoing'
+                sqlStr.AppendLine("UPDATE overseasTrip");
+                sqlStr.AppendLine("SET overseasTripStatus='ONGOING'");
+                sqlStr.AppendLine("WHERE departureDate<= GETDATE() AND arrivalDate>=GETDATE();");
+                // overseasTripStatus = 'Ended'
+                sqlStr.AppendLine("UPDATE overseasTrip");
+                sqlStr.AppendLine("SET overseasTripStatus='ENDED'");
+                sqlStr.AppendLine("WHERE departureDate<= GETDATE() AND arrivalDate<=GETDATE();");
+
+                SqlConnection myConn = new SqlConnection(DBConnect);
+                myConn.Open();
+                SqlCommand cmd = new SqlCommand(sqlStr.ToString(), myConn);
+                int result = cmd.ExecuteNonQuery();
+                myConn.Close();
+                //--Updating Trip Status
+
+                // ==== upload trip status
                 string CreateTripStatus = Request.QueryString["CreateTripStatus"];
 
                 if (CreateTripStatus != null)
@@ -136,7 +162,7 @@ namespace ITP213
                     }
                     else
                     {
-                        RepeaterInternship.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Internships");
+                        RepeaterInternship.DataSource = TripAllocationDAO.displayTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship");
                         RepeaterInternship.DataBind();
                     }
                     if (TripAllocationDAO.displayPastTripsBasedOnStaffID(Session["staffID"].ToString(), "Internship") == null)
@@ -246,7 +272,7 @@ namespace ITP213
             if (Session["accountType"].ToString() == "parent" || Session["accountType"].ToString() == "student")
             {
                 withdrawB.Visible = false;
-                createB.Visible = false;
+                createB.Visible = true;
                 editB.Visible = false;
                 deleteB.Visible = false;
                 if (tripStatus.Text == "PENDING")
@@ -257,9 +283,9 @@ namespace ITP213
             else
             {
                 withdrawB.Visible = false;
-                createB.Visible = true;
+                createB.Visible = false;
                 editB.Visible = true;
-                deleteB.Visible = true;
+                deleteB.Visible = false; //make it false for now
             }
         }
 

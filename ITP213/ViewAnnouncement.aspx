@@ -90,10 +90,10 @@
             <div id="tabs-1">
                 <p>
                     <br />
-                    Filter:&nbsp &nbsp &nbsp<button id="btnAll" type="button" class="btn btn-primary">All</button>
-                    <button id="btnStudy" type="button" class="btn btn-primary">Study Trip</button>
-                    <button id="btnImmersion" type="button" class="btn btn-primary">Immersion Trip</button>
-                    <button id="btnInternship" type="button" class="btn btn-primary">Internship</button>
+                    Filter:&nbsp &nbsp &nbsp<button id="btnAll" type="button" class="btn btn-primary btn-sm">All</button>
+                    <button id="btnStudy" type="button" class="btn btn-primary btn-sm">Study Trip</button>
+                    <button id="btnImmersion" type="button" class="btn btn-primary btn-sm">Immersion Trip</button>
+                    <button id="btnInternship" type="button" class="btn btn-primary btn-sm">Internship</button>
 
                     <asp:Repeater ID="RepeaterStudyTrips" runat="server" OnItemCommand="RepeaterStudyTrips_ItemCommand" OnItemDataBound="RepeaterStudyTrips_ItemDataBound">
                         <ItemTemplate>

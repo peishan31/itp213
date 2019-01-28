@@ -17,31 +17,6 @@ namespace ITP213
             {
                 if (Session["accountType"] != null)
                 {
-                
-                    string id = Request.QueryString["AnnouncementID"];
-
-                    if (id != null)
-                    {
-                        lblTitle.Text = "Update Announcement";
-                        lblTitle2.Text = "Update Announcement";
-                        btnCreate.Text = "Update";
-
-                        //Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
-
-                        /*tbTitle.Text = obj.announcementTitle;
-                        tbMessage.Text = obj.announcementMessage;
-                        tbTimeDue.Text = obj.timeDue;
-                        if (obj.studentView == "True")
-                        {
-                            cbStudents.Checked = true;
-                        }
-                        if (obj.lecturerView == "True")
-                        {
-                            cbLecturers.Checked = true;
-                        }*/
-                        //tbTitle.Text = a.announcementTitle;
-                        //tbMessage.Text = a.announcementMessage;
-                    }
 
                     if (Session["accountType"].ToString() == "lecturer")
                     {
@@ -53,6 +28,36 @@ namespace ITP213
                         ddlTripName.DataValueField = "tripID";
                         ddlTripName.DataBind();
                     }
+                    string id = Request.QueryString["AnnouncementID"];
+
+                    if (id != null)
+                    {
+                        lblTitle.Text = "Update Announcement";
+                        lblTitle2.Text = "Update Announcement";
+                        btnCreate.Text = "Update";
+
+                        Announcement obj = DAL.AnnouncementDAO.getAnnouncementByAnnouncementID(Convert.ToInt32(id));
+
+                        tbTitle.Text = obj.announcementTitle;
+                        tbMessage.Text = obj.announcementMessage;
+                        tbTimeDue.Text = obj.timeDue;
+                        if (obj.studentView == "True")
+                        {
+                            cbStudents.Checked = true;
+                        }
+                        if (obj.lecturerView == "True")
+                        {
+                            cbLecturers.Checked = true;
+                        }
+
+                        ddlTripName.Items.FindByValue(obj.tripID.ToString()).Selected = true;
+                        //ddlTripName.Items.FindByValue(obj.tripID.ToString()).Selected = true;
+                        //DropDownList1.Items.FindByValue("SOMECREDITPROBLEMS").Selected = true;
+                        //tbTitle.Text = a.announcementTitle;
+                        //tbMessage.Text = a.announcementMessage;
+                    }
+
+                    
 
                 }
                 else

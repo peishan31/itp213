@@ -26,6 +26,8 @@ namespace ITP213.DAL
         public int noOfLecturers { set; get; }
         public string tripCost { set; get; }
 
+        public string companyName { set; get; }
+
         // View Individual Trip
         //public string studentName { set; get; }
         //public string staffName { set; get; }

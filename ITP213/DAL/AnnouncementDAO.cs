@@ -93,7 +93,7 @@ namespace ITP213.DAL
             sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("where");
-            sqlStr.AppendLine("STR(announcementID)+'.'+@staffID not in (select STR(announcementID)+'.'+staffID from lecturerAnnRead) and overseasEnrolledLecturer.staffID=@staffID;");
+            sqlStr.AppendLine("STR(announcementID)+'.'+@staffID not in (select STR(announcementID)+'.'+staffID from lecturerAnnRead) and overseasEnrolledLecturer.staffID=@staffID ORDER BY createdOn DESC;");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr.ToString(), myConn);
@@ -143,7 +143,7 @@ namespace ITP213.DAL
             sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("where");
-            sqlStr.AppendLine("STR(announcementID)+'.'+@adminNo not in (select STR(aID)+'.'+sID from studentAnnRead) and overseasEnrolledStudent.adminNo=@adminNo;");
+            sqlStr.AppendLine("STR(announcementID)+'.'+@adminNo not in (select STR(aID)+'.'+sID from studentAnnRead) and overseasEnrolledStudent.adminNo=@adminNo ORDER BY createdOn DESC;");
 
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr.ToString(), myConn);
@@ -177,7 +177,7 @@ namespace ITP213.DAL
         }
         //=============================================================================================================
 
-        /*public static Announcement getAnnouncementByAnnouncementID(int announcementID)
+        public static Announcement getAnnouncementByAnnouncementID(int announcementID)
         {
             //Get connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
@@ -209,6 +209,7 @@ namespace ITP213.DAL
                 obj.timeDue = row["timeDue"].ToString();
                 obj.studentView = row["studentView"].ToString();
                 obj.lecturerView = row["lecturerView"].ToString();
+                obj.tripID = Convert.ToInt32(row["tripID"]);
             }
             else
             {
@@ -216,7 +217,7 @@ namespace ITP213.DAL
             }
 
             return obj;
-        }*/
+        }
 
         public static int deleteById(int announcementID)
         {
@@ -367,7 +368,7 @@ namespace ITP213.DAL
             sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("INNER JOIN overseasEnrolledLecturer on overseasEnrolledLecturer.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("where");
-            sqlStr.AppendLine("STR(announcementID)+'.'+'johnny_appleseed' not in (select STR(announcementID)+'.'+staffID from lecturerAnnRead) and overseasEnrolledLecturer.staffID='johnny_appleseed';");
+            sqlStr.AppendLine("STR(announcementID)+'.'+@staffID not in (select STR(announcementID)+'.'+staffID from lecturerAnnRead) and overseasEnrolledLecturer.staffID=@staffID and createdBy!=@staffID;");
             //sqlStr.AppendLine("HAVING COUNT(*)>0;");
 
             /*SELECT COUNT(*) AS unreadCount FROM Announcement
@@ -415,11 +416,11 @@ namespace ITP213.DAL
             //Create Adapter
 
             StringBuilder sqlStr = new StringBuilder();
-            sqlStr.AppendLine("select * from  Announcement");
+            sqlStr.AppendLine("select count(*) AS unreadCount from  Announcement");
             sqlStr.AppendLine("INNER JOIN overseasTrip on announcement.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("INNER JOIN overseasEnrolledStudent on overseasEnrolledStudent.tripID = overseasTrip.tripID");
             sqlStr.AppendLine("where");
-            sqlStr.AppendLine("STR(announcementID)+'.'+'171846Z' not in (select STR(aID)+'.'+sID from studentAnnRead) and overseasEnrolledStudent.adminNo='171846z';");
+            sqlStr.AppendLine("STR(announcementID)+'.'+@adminNo not in (select STR(aID)+'.'+sID from studentAnnRead) and overseasEnrolledStudent.adminNo=@adminNo;");
             //sqlStr.AppendLine("HAVING COUNT(*)>0;");
             /*
             select * from  Announcement
@@ -432,6 +433,7 @@ namespace ITP213.DAL
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlStr.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("adminNo", adminNo);
+            Announcement obj = new Announcement();
             // fill dataset
             da.Fill(ds, "resultTable");
             int rec_cnt = ds.Tables["resultTable"].Rows.Count;
@@ -439,13 +441,17 @@ namespace ITP213.DAL
             {
                 foreach (DataRow row in ds.Tables["resultTable"].Rows)
                 {
-                    Announcement obj = new Announcement();
+                    
                     obj.unreadCount = row["unreadCount"].ToString();
                     resultList.Add(obj);
 
                 }
             }
             else
+            {
+                resultList = null;
+            }
+            if (Convert.ToInt32(obj.unreadCount) == 0)
             {
                 resultList = null;
             }

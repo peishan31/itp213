@@ -31,14 +31,24 @@
         .auto-style2 {
             width: 37%;
         }
+
+        .table-borderless td,
+        .table-borderless th {
+            border: 0;
+        }
+        #inner {
+            width: 50%;
+            margin: 0 auto;
+        }
     </style>
     <!-- Page Content -->
     <h1>Image Gallery</h1>
     <!--2. Change the title!-->
     <hr />
     <!--//Page Content-->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="color:white !important;">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="color: white !important;">
         Upload Picture
+   
     </button>
     <!-- The Modal -->
     <div class="modal fade" id="myModal">
@@ -47,11 +57,11 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title text-white">Upload Picture</h4>
-                    <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <table style="margin-left: auto; margin-right: auto;" class="auto-style2">
+                    <table style="margin-left: auto; margin-right: auto;" class="auto-style2 table table-borderless">
                         <tr>
                             <td class="auto-style1">Title</td>
                             <td>
@@ -73,7 +83,14 @@
                         <tr>
                             <td class="auto-style1">Location</td>
                             <td>
-                                <asp:DropDownList CssClass="btn btn-outline-secondary-modal waves-effect" ID="DropDownListLocation" runat="server"></asp:DropDownList>
+                                <asp:DropDownList CssClass="btn btn-outline-secondary-modal waves-effect" ID="DropDownListLocation" runat="server">
+                                    <asp:ListItem>Thailand</asp:ListItem>
+                                    <asp:ListItem>Korea</asp:ListItem>
+                                    <asp:ListItem>Vietnam</asp:ListItem>
+                                    <asp:ListItem>Japan</asp:ListItem>
+                                    <asp:ListItem>China</asp:ListItem>
+                                    <asp:ListItem>Indonesia</asp:ListItem>
+                                </asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -83,17 +100,11 @@
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="FileUploadImage" Font-Size="Smaller" ForeColor="Red" runat="server" ErrorMessage="Please upload an image">*required</asp:RequiredFieldValidator>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="auto-style1">&nbsp;</td>
-                            <td>
-                                <asp:Label ID="Label1" runat="server"></asp:Label>
-                            </td>
-                        </tr>
                     </table>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <asp:Button ID="ButtonUpload" class="btn btn-primary-modal text-white" runat="server" OnClick="ButtonUpload_Click" Text="Upload" />      
+                    <asp:Button ID="ButtonUpload" class="btn btn-primary-modal text-white" runat="server" OnClick="ButtonUpload_Click" Text="Upload" />
                     <button type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -101,6 +112,7 @@
     </div>
     &nbsp;&nbsp;&nbsp;<br />
     &nbsp;
+   
     <div class="row">
         <div class="col-lg-7">
             <button id="btnAll" type="button" class="btn btn-primary">All</button>
@@ -116,21 +128,24 @@
         </div>
     </div>
     <br />
-    <asp:DataList ID="DataList1" runat="server" CssClass="table" DataKeyField="imageID" DataSourceID="SqlDataSource1" RepeatColumns="3" RepeatDirection="Horizontal">
-        <ItemTemplate>
-            <li style="list-style-type: none;" class="picture">
-                <asp:Label ID="LabelUsername" runat="server"><%# Eval("user") %></asp:Label>
-                <asp:Label ID="AT" runat="server">✈</asp:Label>
-                <asp:Label ID="LabelLocation" runat="server"><%# Eval("location") %></asp:Label>
-                <br />
-                <a alt='<%# Eval("location") %>' runat="server">
-                    <asp:Image class="myImg" alt='<%# String.Format("{0} <br /> {1}", Eval("title"), Eval("tags")) %>' ID="Image1" ImageUrl='<%# Bind("image") %>' runat="server" Width="350px" Height="200px" />
-                </a>
-                <br />
-            </li>
-        </ItemTemplate>
-    </asp:DataList>
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [image]"></asp:SqlDataSource>
+    <div class="container">
+        <div style="overflow-x: auto;" class="row">
+            <asp:Repeater ID="myRepeater" runat="server" DataSourceID="SqlDataSource1">
+                <ItemTemplate>
+                    <div class="table col-lg-4 picture">
+                        <asp:Label ID="LabelUsername" runat="server"><%# Eval("user") %></asp:Label>
+                        <asp:Label ID="AT" runat="server">✈</asp:Label>
+                        <asp:Label ID="LabelLocation" runat="server"><%# Eval("location") %></asp:Label>
+                        <br />
+                        <a alt='<%# Eval("location") %>' runat="server">
+                            <asp:Image class="myImg" alt='<%# String.Format("{0} <br /> {1}", Eval("title"), Eval("tags")) %>' ID="Image1" ImageUrl='<%# Bind("image") %>' runat="server" Width="350px" Height="200px" />
+                        </a>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+    </div>
     <br />
     <!-- The Modal -->
     <div style="overflow: auto;" id="myModal2" class="modal">

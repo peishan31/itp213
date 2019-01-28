@@ -160,7 +160,7 @@ namespace ITP213
                         + $"Treatment: {treatment}";
                 //=================================================================================
                 // ***************************** DO NOT DELETE 
-                DAL.ReportInjury mobileObj = ReportInjuryDAO.getParentMobileByReportID(Convert.ToInt32(injuryReportID));
+                /*DAL.ReportInjury mobileObj = ReportInjuryDAO.getParentMobileByReportID(Convert.ToInt32(injuryReportID));
                 string mobile = mobileObj.parentNum;
 
                 int result = ReportInjuryDAO.updateSendDateById(Convert.ToInt32(injuryReportID));

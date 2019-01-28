@@ -17,7 +17,7 @@ namespace ITP213
                 ddlTripName.DataSource = TripAllocationDAO.displayTripsBasedOnAdminNo(Session["adminNo"].ToString(), "Internship");
                 ddlTripName.Items.Insert(0, new ListItem("--Select Trip", "0"));
                 ddlTripName.AppendDataBoundItems = true;
-                ddlTripName.DataTextField = "tripNameAndTripType";
+                ddlTripName.DataTextField = "tripName";
                 ddlTripName.DataValueField = "tripID";
                 ddlTripName.DataBind();
             }

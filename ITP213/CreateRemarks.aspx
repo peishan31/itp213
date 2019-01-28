@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <asp:Label ID="Label1" runat="server" Text="Label" Visible="false"></asp:Label>
+        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
     </p>
     <!--//Page Content-->
 
